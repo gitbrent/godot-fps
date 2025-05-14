@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://be1f87uawj1s"]
+
+[ext_resource type="PackedScene" uid="uid://cbfgswj741ukr" path="res://player_gun/gun_model/vss_vintorez____lowpoly_gameready.glb" id="1_hs5f1"]
+
+[node name="GunModel" instance=ExtResource("1_hs5f1")]
+
+[node name="wRing_040" parent="Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode" index="56"]
+visible = false
+
+[node name="wRing_040_3x39_cartridge_0" parent="Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_040" index="0"]
+visible = false
+
+[node name="wRing_041" parent="Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode" index="57"]
+visible = false
+
+[node name="wRing_041_3x39_cartridge_0" parent="Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_041" index="0"]
+visible = false

@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgql1wewcoddg"]
+
+[ext_resource type="Script" uid="uid://bq3gv6qoll6k" path="res://player_gun/ejector/gun_bullet_ejector.gd" id="1_8ucd4"]
+[ext_resource type="PackedScene" uid="uid://bawt0mcnhlykd" path="res://player_gun/ejector/shell_casing.tscn" id="2_gyosf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gyosf"]
+size = Vector3(0.05, 0.05, 0.05)
+
+[node name="GunBulletEjector" type="Node3D"]
+script = ExtResource("1_8ucd4")
+shell_scene = ExtResource("2_gyosf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_gyosf")

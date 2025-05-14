@@ -1,0 +1,177 @@
+[gd_scene load_steps=18 format=3 uid="uid://dj028bfrwe8p3"]
+
+[ext_resource type="Script" uid="uid://v0ksvjuofo61" path="res://player_gun/gun.gd" id="1_2xxsy"]
+[ext_resource type="PackedScene" uid="uid://7f8yov8g563i" path="res://player_gun/projectiles/bullet_projectile.tscn" id="2_6oi81"]
+[ext_resource type="PackedScene" uid="uid://c7ue34nr8eqlp" path="res://player_gun/gun180.tscn" id="2_og67c"]
+[ext_resource type="Texture2D" uid="uid://bug8csdyy0l5b" path="res://player_gun/textures/spiral_12.png" id="3_gp1hk"]
+[ext_resource type="AudioStream" uid="uid://cyi2xbcxajxio" path="res://player_gun/audio/556 Single Isolated MP3.mp3" id="4_qd4js"]
+[ext_resource type="PackedScene" uid="uid://cgql1wewcoddg" path="res://player_gun/ejector/gun_bullet_ejector.tscn" id="5_haq8l"]
+[ext_resource type="Texture2D" uid="uid://dysd6rv0xpsaw" path="res://player_gun/sights/lynx-scope-overlay-awesome.png" id="9_5lyo6"]
+[ext_resource type="Texture2D" uid="uid://88qnqnvatlg5" path="res://player_gun/sights/crosshair_gun.png" id="10_lu2bp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_og67c"]
+shading_mode = 0
+albedo_color = Color(1, 0.858824, 0.72549, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gp1hk"]
+material = SubResource("StandardMaterial3D_og67c")
+size = Vector2(0.2, 0.2)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gp1hk"]
+direction = Vector3(0, 0, -1)
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gp1hk"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+specular_mode = 2
+albedo_color = Color(1, 0.823529, 0.541176, 0.666667)
+albedo_texture = ExtResource("3_gp1hk")
+
+[sub_resource type="QuadMesh" id="QuadMesh_qd4js"]
+material = SubResource("StandardMaterial3D_gp1hk")
+size = Vector2(0.1, 0.1)
+
+[sub_resource type="Animation" id="Animation_gp1hk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node3D/Gun180:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hk3hk"]
+resource_name = "fire_ads"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node3D/Gun180:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.04, -0.12), Vector3(0, 0.01, -0.03), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_b8q7q"]
+resource_name = "fire_normal"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node3D/Gun180:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.04, -0.12), Vector3(0, 0.02, -0.06), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qd4js"]
+_data = {
+&"RESET": SubResource("Animation_gp1hk"),
+&"fire_ads": SubResource("Animation_hk3hk"),
+&"fire_normal": SubResource("Animation_b8q7q")
+}
+
+[node name="Gun_VSS" type="Node3D"]
+script = ExtResource("1_2xxsy")
+bullet_scene = ExtResource("2_6oi81")
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Gun180" parent="Node3D" instance=ExtResource("2_og67c")]
+
+[node name="MuzzlePoint" type="Node3D" parent="Node3D"]
+
+[node name="MuzzleFlash" type="MeshInstance3D" parent="Node3D/MuzzlePoint"]
+transform = Transform3D(1, 0, 0, 0, 5.21541e-08, 1, 0, -1, 5.21541e-08, 0, 0, 0)
+visible = false
+mesh = SubResource("PlaneMesh_gp1hk")
+
+[node name="MuzzleParticles" type="GPUParticles3D" parent="Node3D/MuzzlePoint"]
+transform = Transform3D(-0.999241, -0.00271794, 0.0388684, 0.00271794, 0.990272, 0.13912, -0.0388683, 0.13912, -0.989512, 0, -0.000300959, 0.00430378)
+emitting = false
+lifetime = 0.05
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_gp1hk")
+draw_pass_1 = SubResource("QuadMesh_qd4js")
+
+[node name="GunBulletEjector" parent="Node3D" instance=ExtResource("5_haq8l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0208979, 0, -0.379812)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_qd4js")
+}
+
+[node name="AudioGunshot" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, -7.45058e-09, 0, 7.45058e-09, 1, 0, 0, 0)
+stream = ExtResource("4_qd4js")
+
+[node name="ScopeOverlay" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="ScopeOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_5lyo6")
+stretch_mode = 4
+
+[node name="Crosshair" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -32.0
+offset_right = 288.0
+offset_bottom = 286.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_lu2bp")
+expand_mode = 1
+
+[node name="Crosshair2" type="TextureRect" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 318.0
+offset_bottom = 318.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_lu2bp")
+expand_mode = 1

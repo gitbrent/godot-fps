@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://7f8yov8g563i"]
+
+[ext_resource type="Script" uid="uid://ccycqti6r0fak" path="res://player_gun/projectiles/bullet_projectile.gd" id="1_ojvds"]
+[ext_resource type="PackedScene" uid="uid://d8hpw0xro6xg" path="res://player_gun/fx/hit_spark.tscn" id="2_wpa0b"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_64nip"]
+radius = 0.025
+height = 0.05
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_64nip"]
+radius = 0.025
+height = 0.05
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wpa0b"]
+size = Vector3(0.0463715, 0.0506515, 0.0485687)
+
+[node name="BulletProjectile" type="RigidBody3D"]
+collision_layer = 2
+collision_mask = 21
+mass = 0.1
+gravity_scale = 0.0
+continuous_cd = true
+script = ExtResource("1_ojvds")
+impact_scene = ExtResource("2_wpa0b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_64nip")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_64nip")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 21
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00181293, 0.00105256, 0.000679035)
+shape = SubResource("BoxShape3D_wpa0b")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
