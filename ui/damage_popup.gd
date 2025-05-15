@@ -1,8 +1,12 @@
-extends Node
+# Update your damage popup script to extend Node3D
+extends Node3D
 
-@export var horizontal_jitter:int = 20
-
-# Variables to store the data passed from the enemy
+@onready var label_3d: Label3D = $Label3D
+#
+@export var horizontal_jitter: float = 0.5
+@export var float_speed: float = 2.0 # Speed at which the popup floats up
+@export var fade_speed: float = 2.0 # Speed at which the popup fades out
+#
 var damage_amount_data: int
 var world_position_data: Vector3
 
@@ -10,34 +14,44 @@ var world_position_data: Vector3
 func set_popup_data(amount: int, world_position: Vector3) -> void:
 	damage_amount_data = amount
 	world_position_data = world_position
-	# Note: We don't do anything with the data yet, just store it.
-
-# @onready variables are initialized here, after the node is added to the tree
-@onready var label: Label = $CanvasLayer/Label
+	# We set the initial global position in _ready()
 
 # The _ready function is called when the node and its children are ready
 func _ready() -> void:
-	# Now that the label is ready, we can use the stored data
-	label.text = str(damage_amount_data)
-	
-	# Convert 3D world position to 2D screen position
-	var camera = get_viewport().get_camera_3d()
-	# Ensure the camera is valid before using it
-	if camera:
-		var screen_pos = camera.unproject_position(world_position_data)
-		label.position = screen_pos
-		label.position.x += randf_range(-horizontal_jitter, horizontal_jitter) # Random X jitter
+	# --- Set Initial Position in 3D ---
+	global_position = world_position_data
+	global_position.x += randf_range(-horizontal_jitter, horizontal_jitter)
+	global_position.z += randf_range(-horizontal_jitter, horizontal_jitter)
+
+	# --- Set Label3D Text ---
+	if label_3d:
+		label_3d.text = str(damage_amount_data)
+		label_3d.modulate.a = 1.0 # Ensure it starts fully visible
 	else:
-		# Handle case where camera is not found (e.g., print an error)
-		print("Error: Camera3D not found for damage popup.")
-		queue_free() # Or handle this case differently
-		return # Exit the function if no camera
-	
-	# Animate float up and fade out
+		print("Error: Label3D node not found in damage popup scene!")
+		queue_free() # Cannot display text without Label3D
+		return
+
+	# --- Animate Float Up and Fade Out ---
 	var tween = create_tween()
-	# Animate the y position relative to its current position
-	tween.tween_property(label, "position:y", label.position.y - 30, 0.6).set_trans(Tween.TRANS_CUBIC)
-	# Animate the alpha (modulate.a) property
-	tween.parallel().tween_property(label, "modulate:a", 0.0, 0.6).set_trans(Tween.TRANS_LINEAR)
+
+	# Animate the Y position to float upwards
+	# We tween the 'position:y' property of *this* Node3D (the root)
+	tween.tween_property(self, "position:y", position.y + 1.5, float_speed).set_trans(Tween.TRANS_CUBIC) # Float up by 1.5 units over 'float_speed' seconds
+	
+	# Tween the 'modulate:a' property directly on the label_3d node
+	tween.parallel().tween_property(label_3d, "modulate:a", 0.0, fade_speed).set_trans(Tween.TRANS_LINEAR)
+	
 	# Queue free the node after the tween finishes
 	tween.tween_callback(func(): queue_free())
+
+
+func _process(delta: float) -> void:
+	# --- Make Label3D Face Camera ---
+	# This makes the text always readable by rotating it towards the camera
+	var camera = get_viewport().get_camera_3d()
+	if camera and label_3d:
+		label_3d.look_at(camera.global_transform.origin, Vector3.UP)
+		# Adjust rotation if needed (Label3D might be initially oriented differently)
+		label_3d.rotation_degrees.y += 180 # Example: if text is facing away
+	
