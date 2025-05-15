@@ -12,7 +12,8 @@ func _ready() -> void:
 		return
 	# STEP 2:
 	spawn_enemy()
-	#await get_tree().create_timer(3).timeout
+	# DEBUG: (below) (works!)
+	#await get_tree().create_timer(5).timeout
 	#spawned_enemy.state_machine.request_state_change("follow")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

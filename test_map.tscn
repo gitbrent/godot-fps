@@ -158,6 +158,6 @@ transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -7, 0, 3)
 [node name="Barrel2" parent="Barrels" groups=["damageable"] instance=ExtResource("3_s02eq")]
 transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -7, 0, -3)
 
-[node name="BlenderTest03" parent="." instance=ExtResource("10_5354r")]
+[node name="DBG_Enemy" parent="." instance=ExtResource("10_5354r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
 visible = false
