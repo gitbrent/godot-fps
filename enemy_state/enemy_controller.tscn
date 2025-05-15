@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://d4bx7rm4wb2ax"]
+[gd_scene load_steps=21 format=4 uid="uid://d4bx7rm4wb2ax"]
 
 [ext_resource type="Script" uid="uid://bfgdoh0wqbpwu" path="res://enemy_state/enemy_controller.gd" id="1_wilww"]
 [ext_resource type="Texture2D" uid="uid://dvcivjkfrehtp" path="res://enemy_state/test3/Test03_vanguard_diffuse1.png" id="2_0jppv"]
@@ -3288,6 +3288,14 @@ _data = {
 &"WALKING": SubResource("Animation_2ykhu")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gvooo"]
+transparency = 1
+albedo_color = Color(0, 0, 1, 0.2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7q1mn"]
+material = SubResource("StandardMaterial3D_gvooo")
+height = 0.01
+
 [node name="EnemyController" type="CharacterBody3D" groups=["damageable", "enemies"]]
 script = ExtResource("1_wilww")
 
@@ -3786,6 +3794,12 @@ metadata/_custom_type_script = "uid://cwed87lihuouf"
 script = ExtResource("7_gvooo")
 metadata/_custom_type_script = "uid://bk4bnnvg75snr"
 
-[node name="DBG_StateDisplay" type="Label3D" parent="."]
+[node name="DEBUG" type="Node3D" parent="."]
+
+[node name="StateDisplay" type="Label3D" parent="DEBUG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 text = "STATE"
+
+[node name="DetectionAreaMesh" type="MeshInstance3D" parent="DEBUG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("CylinderMesh_7q1mn")

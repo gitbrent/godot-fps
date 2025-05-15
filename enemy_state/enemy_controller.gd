@@ -2,55 +2,74 @@ extends CharacterBody3D
 class_name EnemyController
 #
 @onready var state_machine = $StateMachine
-@onready var state_display_label = $DBG_StateDisplay
+@onready var idle_state_node: EnemyState = null # Get a reference to the Idle state node so we can access its detection_range. Initialize to null
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var debug_state_label = $DEBUG/StateDisplay
+@onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
 #
 @export var health: int = 100
 @export var rotation_speed := 10.0
 @export var show_state_debug: bool = true:
 	set(value):
 		show_state_debug = value
-		if state_display_label:
-			state_display_label.visible = show_state_debug
+		if debug_state_label:
+			debug_state_label.visible = show_state_debug
+@export var show_detection_area_debug: bool = true:
+	set(value):
+		show_detection_area_debug = value
+		# Update the mesh visibility immediately
+		if debug_area_mesh:
+			debug_area_mesh.visible = value
 #
 var is_dead := false
 var is_initialized = false # Keep the initialization flag
 
 func _ready() -> void:
-	# Connect the StateMachine's 'transitioned' signal to a function in this script
+	# Connect the StateMachine's 'state_changed' signal
 	state_machine.state_changed.connect(_on_state_transitioned)
-	# Set the initial visibility of the label based on the export variable
-	if state_display_label:
-		state_display_label.visible = show_state_debug
+	
+	# Find the Idle state node by name from the state machine's children
+	if state_machine.has_node("Idle"):
+		idle_state_node = state_machine.get_node("Idle") as EnemyState
+		if not idle_state_node:
+			print("Error: Could not find the 'Idle' state node as an EnemyState child of StateMachine.")
 	
 	# Trigger the initial state transition to set the label text and run enter()
 	if state_machine.current_state:
-		# Manually call the transition function for the initial state
 		_on_state_transitioned(state_machine.current_state, state_machine.current_state.name)
 	
-	# --- Keep Initialization Delay ---
-	await get_tree().physics_frame
-	is_initialized = true
-	# --- End Initialization Delay ---
+	# Set initial visibility for both labels
+	if debug_state_label:
+		debug_state_label.visible = show_state_debug
+	if debug_area_mesh:
+		debug_area_mesh.visible = show_detection_area_debug
+		# Set the initial scale of the mesh based on the detection range
+		update_detection_area_mesh_scale()
+	
+	if not Engine.is_editor_hint():
+		await get_tree().physics_frame
+		is_initialized = true
+	else:
+		is_initialized = true
 
 func _physics_process(delta: float) -> void:
-	# STEP 1: Add the gravity.
+	# STEP 1: Only run physics logic if not in editor hint mode
+	if Engine.is_editor_hint():
+		return
+	
+	# STEP 2: Add the gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# --- Get Desired Horizontal Velocity from State ---
+	# STEP 3:
 	var desired_horizontal_velocity = Vector3.ZERO
-	# Ensure the state machine is initialized and has a current state before asking for movement
 	if is_initialized and state_machine.current_state:
-		# Call the current state's physics_update to get the desired horizontal movement
 		desired_horizontal_velocity = state_machine.current_state.physics_update(delta)
-
-	# --- Apply Horizontal Velocity ---
-	# Set the horizontal components of the CharacterBody3D's velocity
+	
 	velocity.x = desired_horizontal_velocity.x
 	velocity.z = desired_horizontal_velocity.z
 
-	# --- Handle Rotation (if you added this) ---
+	# STEP 4: Handle Rotation
 	# Check if there is significant horizontal movement
 	if Vector3(velocity.x, 0, velocity.z).length_squared() > 0.01:
 		var target_look_direction = Vector3(velocity.x, 0, velocity.z).normalized()
@@ -62,11 +81,24 @@ func _physics_process(delta: float) -> void:
 	# LAST: Perform the final move and slide calculation once
 	move_and_slide()
 
+# New function to update the scale of the detection area mesh
+func update_detection_area_mesh_scale() -> void:
+	if debug_area_mesh and idle_state_node:
+		var detection_range = idle_state_node.detection_range
+		# The CylinderMesh by default has a radius of 1.0 and height of 1.0.
+		# We need to scale it by the desired radius on the X and Z axes.
+		debug_area_mesh.scale.x = detection_range
+		debug_area_mesh.scale.z = detection_range
+		# The Y scale controls the height, which we set to a small value in the mesh settings.
+		# We usually don't need to change the Y scale here.
+
+# ============================================
+
 # Function called when the state machine transitions to a new state
 func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
 	# Update the text of the Label3D node to show the new state name
-	if state_display_label and show_state_debug:
-		state_display_label.text = new_state_name
+	if debug_state_label and show_state_debug:
+		debug_state_label.text = new_state_name
 
 func take_damage(amount:int) -> void:
 	if is_dead:
