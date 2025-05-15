@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://brdt8fje6jpt1"]
+[gd_scene load_steps=29 format=4 uid="uid://brdt8fje6jpt1"]
 
 [ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://KENNEY_PNG/Dark/texture_01.png" id="1_4qc02"]
 [ext_resource type="Script" uid="uid://cte556yo33bge" path="res://test_map.gd" id="1_bu3ac"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cixjdw6cgqfjs" path="res://KENNEY_PNG/Green/texture_01.png" id="5_qgarv"]
 [ext_resource type="Texture2D" uid="uid://g6xe6hv6boxr" path="res://KENNEY_PNG/Orange/texture_01.png" id="6_r0pc2"]
 [ext_resource type="Texture2D" uid="uid://cfyw3xb6oxvm1" path="res://KENNEY_PNG/Red/texture_09.png" id="7_ssfg1"]
+[ext_resource type="Texture2D" uid="uid://vvwacwnqdav2" path="res://KENNEY_PNG/Dark/texture_04.png" id="9_5354r"]
 [ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy_state/enemy_controller.tscn" id="10_5354r"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4wuf8"]
@@ -25,7 +26,7 @@ glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qgarv"]
 albedo_texture = ExtResource("1_4qc02")
-uv1_scale = Vector3(6, 6, 6)
+uv1_triplanar = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_r0pc2"]
 material = SubResource("StandardMaterial3D_qgarv")
@@ -33,26 +34,6 @@ size = Vector2(100, 100)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ssfg1"]
 size = Vector3(100, 0.1, 100)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r0pc2"]
-albedo_texture = ExtResource("4_t8dge")
-uv1_triplanar = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_ssfg1"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gqtbx"]
-albedo_texture = ExtResource("6_r0pc2")
-uv1_triplanar = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_bu3ac"]
-size = Vector3(2, 1, 2)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ssfg1"]
-albedo_texture = ExtResource("5_qgarv")
-uv1_triplanar = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_t8dge"]
-size = Vector3(5, 1, 5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bu3ac"]
 albedo_texture = ExtResource("7_ssfg1")
@@ -98,6 +79,33 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_gufkr")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r0pc2"]
+albedo_texture = ExtResource("4_t8dge")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_ssfg1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gqtbx"]
+albedo_texture = ExtResource("6_r0pc2")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_bu3ac"]
+size = Vector3(2, 1, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ssfg1"]
+albedo_texture = ExtResource("5_qgarv")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_t8dge"]
+size = Vector3(5, 1, 5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5354r"]
+size = Vector3(10, 10, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yobqo"]
+albedo_texture = ExtResource("9_5354r")
+uv1_triplanar = true
+
 [node name="TestMap" type="Node3D" node_paths=PackedStringArray("player")]
 script = ExtResource("1_bu3ac")
 player = NodePath("PlayerController")
@@ -122,7 +130,17 @@ shape = SubResource("BoxShape3D_ssfg1")
 [node name="PlayerController" parent="." instance=ExtResource("2_4wuf8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
-[node name="Meshes" type="Node" parent="."]
+[node name="Meshes" type="Node3D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Icosphere_001_13" type="Node3D" parent="Meshes"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5, 2.3, -18)
+metadata/_edit_lock_ = true
+
+[node name="Object_30" type="MeshInstance3D" parent="Meshes/Icosphere_001_13"]
+material_override = SubResource("StandardMaterial3D_bu3ac")
+mesh = SubResource("ArrayMesh_r0pc2")
+skeleton = NodePath("")
 
 [node name="Mesh3D_1x1" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, -17)
@@ -145,14 +163,11 @@ mesh = SubResource("BoxMesh_t8dge")
 skeleton = NodePath("../..")
 metadata/_edit_lock_ = true
 
-[node name="Icosphere_001_13" type="Node3D" parent="Meshes"]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5, 2.3, -18)
+[node name="Mesh3D_10x10x1" type="MeshInstance3D" parent="Meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -22)
+mesh = SubResource("BoxMesh_5354r")
+surface_material_override/0 = SubResource("StandardMaterial3D_yobqo")
 metadata/_edit_lock_ = true
-
-[node name="Object_30" type="MeshInstance3D" parent="Meshes/Icosphere_001_13"]
-material_override = SubResource("StandardMaterial3D_bu3ac")
-mesh = SubResource("ArrayMesh_r0pc2")
-skeleton = NodePath("")
 
 [node name="Barrels" type="Node" parent="."]
 

@@ -3,7 +3,7 @@ extends EnemyState
 class_name EnemyIdle
 
 @export var move_speed := 2.5
-@export var follow_area := 10.0
+#@export var follow_area := 10.0
 @export var detection_range := 10.0
 
 ## The current random direction the enemy is moving in
@@ -44,8 +44,13 @@ func physics_update(delta: float) -> Vector3:
 				nearest_player_distance = distance
 				nearest_player = player
 
+	#var dist = nearest_player_distance.round()
+	$"../../DEBUG/LabelDist".text = "Dist\n"+str(snapped(nearest_player_distance, 0.01))
+
 	# If a player is found within the detection range, transition to follow
 	if nearest_player and nearest_player_distance <= detection_range:
+		print("IDLE->FOLLOW: ", nearest_player_distance, detection_range)
+		$"../../DEBUG/LabelDist".text = ""
 		transitioned.emit(self, "follow")
 		# You might also want to pass the detected player reference to the follow state
 		# This requires modifying the state machine and follow state to accept it.

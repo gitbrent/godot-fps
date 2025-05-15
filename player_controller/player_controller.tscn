@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbid026m80sb"]
+[gd_scene load_steps=7 format=3 uid="uid://dbid026m80sb"]
 
 [ext_resource type="Script" uid="uid://ch1ft8by16a4u" path="res://player_controller/player_controller.gd" id="1_f0yg5"]
 [ext_resource type="PackedScene" uid="uid://dj028bfrwe8p3" path="res://player_gun/gun.tscn" id="2_5s87f"]
@@ -14,9 +14,6 @@ height = 1.8
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iof21"]
 radius = 0.446797
 height = 1.8
-
-[sub_resource type="BoxMesh" id="BoxMesh_f0yg5"]
-size = Vector3(0.25, 0.25, 2)
 
 [node name="PlayerController" type="CharacterBody3D" groups=["damageable", "player"]]
 collision_layer = 16
@@ -87,8 +84,3 @@ theme_override_font_sizes/font_size = 128
 text = "YOU DIED"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="TEMP_GUN" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, -6.0983e-09, -8.72098e-08, 0, 0.997564, -0.0697565, 8.74228e-08, -0.0697565, -0.997564, 0.15, 1.37748, -0.8)
-visible = false
-mesh = SubResource("BoxMesh_f0yg5")

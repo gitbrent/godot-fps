@@ -9,8 +9,8 @@ func setup(direction: Vector3) -> void:
 	await get_tree().create_timer(lifetime).timeout
 	queue_free()
 
-func spawn_impact(position: Vector3, normal: Vector3) -> void:
-	print("Spawning impact at:", position, "Normal:", normal)
+func spawn_impact(pos: Vector3, normal: Vector3) -> void:
+	print("Spawning impact at:", pos, "Normal:", normal)
 	
 	if not impact_scene:
 		print("Impact scene not set!")
