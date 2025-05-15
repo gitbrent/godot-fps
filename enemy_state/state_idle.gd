@@ -32,7 +32,7 @@ func physics_update(delta: float) -> Vector3:
 	# ... (calculate move_direction and wander_time)
 	# --- End Wander Logic ---
 
-	# --- Player Detection Logic (Example) ---
+	# --- Player Detection Logic (WIP) ---
 	var players = get_tree().get_nodes_in_group("player")
 	var nearest_player_distance = INF
 	var nearest_player: CharacterBody3D = null
