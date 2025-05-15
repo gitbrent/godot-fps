@@ -1,18 +1,22 @@
-## SRC: https://www.youtube.com/watch?v=ow_Lum-Agbs
-## DATE: 2025-05-08
+# state_class.md
 extends Node
 class_name EnemyState
 
 signal transitioned(state: EnemyState, new_state_name: String)
 
-func enter() -> void:
-	pass # Override in child states
+var enemy_controller: CharacterBody3D = null
 
-func exit() -> void:
+func enter() -> void:
 	pass # Override in child states
 
 func update(delta: float) -> void:
 	pass # Override in child states
 
-func physics_update(delta: float) -> void:
+## Returns velocity so controller can implement from central location
+func physics_update(delta: float) -> Vector3:
+	# This is the base implementation. Child classes should override this.
+	# By default, return zero velocity if not overridden or if the base function is called.
+	return Vector3.ZERO
+
+func exit() -> void:
 	pass # Override in child states

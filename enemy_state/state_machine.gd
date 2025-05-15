@@ -1,3 +1,5 @@
+## state_machine.gd
+## - The StateMachine's parent is the `EnemyController`.
 extends Node
 
 signal state_changed(state:EnemyState, new_state_name: String)
@@ -5,16 +7,24 @@ signal state_changed(state:EnemyState, new_state_name: String)
 @export var initial_state: EnemyState
 var current_state: EnemyState
 var states: Dictionary = {}
+var enemy_controller_ref: CharacterBody3D = null
 
 func _ready() -> void:
+	# 1: get ref to parent enemy controller
+	# doing this porgramatilcally is superior to using Properties
+	if get_parent() is CharacterBody3D:
+		enemy_controller_ref = get_parent()
+	
 	for child in get_children():
 		if child is EnemyState:
 			states[child.name.to_lower()] = child
+			child.enemy_controller = enemy_controller_ref
 			child.transitioned.connect(on_child_transitioned)
 	
 	if initial_state:
 		initial_state.enter()
 		current_state = initial_state
+		state_changed.emit(current_state, current_state.name)
 
 func _process(delta: float) -> void:
 	if current_state:
