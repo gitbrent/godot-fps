@@ -125,25 +125,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 [node name="Meshes" type="Node" parent="."]
 
 [node name="Mesh3D_1x1" type="MeshInstance3D" parent="Meshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, -17)
 material_override = SubResource("StandardMaterial3D_r0pc2")
 mesh = SubResource("BoxMesh_ssfg1")
 skeleton = NodePath("../..")
+metadata/_edit_lock_ = true
 
 [node name="Mesh3D_2x1" type="MeshInstance3D" parent="Meshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, -8.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, -17.5)
 material_override = SubResource("StandardMaterial3D_gqtbx")
 mesh = SubResource("BoxMesh_bu3ac")
 skeleton = NodePath("../..")
+metadata/_edit_lock_ = true
 
 [node name="Mesh3D_5x1" type="MeshInstance3D" parent="Meshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -19)
 material_override = SubResource("StandardMaterial3D_ssfg1")
 mesh = SubResource("BoxMesh_t8dge")
 skeleton = NodePath("../..")
+metadata/_edit_lock_ = true
 
 [node name="Icosphere_001_13" type="Node3D" parent="Meshes"]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5, 2.30031, -8)
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -6.5, 2.3, -18)
+metadata/_edit_lock_ = true
 
 [node name="Object_30" type="MeshInstance3D" parent="Meshes/Icosphere_001_13"]
 material_override = SubResource("StandardMaterial3D_bu3ac")
@@ -153,11 +157,7 @@ skeleton = NodePath("")
 [node name="Barrels" type="Node" parent="."]
 
 [node name="Barrel1" parent="Barrels" groups=["damageable"] instance=ExtResource("3_s02eq")]
-transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -7, 0, 3)
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -7, 0, -5.30145)
 
 [node name="Barrel2" parent="Barrels" groups=["damageable"] instance=ExtResource("3_s02eq")]
-transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -7, 0, -3)
-
-[node name="DBG_Enemy" parent="." instance=ExtResource("10_5354r")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
-visible = false
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -7, 0, -11.3015)

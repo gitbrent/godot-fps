@@ -25,4 +25,4 @@ func spawn_enemy() -> void:
 		print("[test_map] spawning enemy...")
 		spawned_enemy = enemy_scene.instantiate()
 		get_tree().current_scene.add_child(spawned_enemy)
-		#spawned_enemy.global_position = Vector3(-2.0, 0.0, -4.0)
+		spawned_enemy.global_position = Vector3(0.0, 0.0, -12.0)
