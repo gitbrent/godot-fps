@@ -1,6 +1,7 @@
-# Brent Player Controller
-extends CharacterBody3D
 class_name PlayerController
+extends CharacterBody3D
+## player_controller.gd
+## Brent Prototype Player Controller
 
 #region variables
 # PROPERTIES
@@ -62,24 +63,24 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	# 1: die if player fell off the map
 	if global_transform.origin.y < 0.0:
-		die()
+		take_damage(HEALTH)
 	
-	# Add the gravity.
+	# 2: apply gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	# Handle jump.
+	# 3: handle jump
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 	
-	# Modify speed based on sprinting
+	# 4: modify speed based on sprinting
 	if SPRINT_SPEED > 0 and Input.is_action_pressed("ui_sprint"):
 		move_speed = SPRINT_SPEED
 	else:
 		move_speed = BASE_SPEED
 	
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
+	# 5: get the input direction and handle the movement/deceleration.
+	# .: As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
@@ -88,11 +89,21 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, move_speed)
 		velocity.z = move_toward(velocity.z, 0, move_speed)
-	
+
+	# 6: handle look
 	if joy_look != Vector2.ZERO:
-		# Multiply by bde_joy_look_speed and delta to get a smooth rotation
+		# NOTE: Multiply by joy_look_speed and delta to get a smooth rotation
 		rotate_look(joy_look * joy_look_speed * delta)
 	
+	# 7: Handle Shoot Input - Tell the gun to fire
+	if Input.is_action_pressed("ui_shoot"):
+		if gun_instance: # Ensure the gun reference is valid
+			var shot_fired = gun_instance.request_fire()
+			# You could optionally check 'shot_fired' if you need to know here
+			# if shot_fired:
+			#     print("Player fired!")
+
+	# LAST:
 	move_and_slide()
 
 func capture_mouse():

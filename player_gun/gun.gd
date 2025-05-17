@@ -1,5 +1,6 @@
 extends Node3D
 
+#region vars
 @export_group("Scene Children")
 @export var bullet_scene: PackedScene
 @export_group("Camera & ADS")
@@ -17,7 +18,7 @@ extends Node3D
 @onready var gun_bullet_ejector: Node3D = $Node3D/GunBulletEjector
 @onready var gun = $Node3D
 #
-# TODO: make these ARGS
+# TODO: make these ARGS - These are physics layers, keep them for collision setup
 const LAYER_WORLD = 1 << 0    # Layer 1
 const LAYER_BULLETS = 1 << 1  # Layer 2
 const LAYER_ENEMIES = 1 << 2  # Layer 3
@@ -26,6 +27,7 @@ var fire_cooldown: float = 0.0 # Cooldown starts at 0, ready to fire immediately
 var is_ads: bool = false # aim-down-sights
 var recoil_offset := Vector3.ZERO
 var recoil_rot := Vector3.ZERO
+#endregion
 
 func _ready() -> void:
 	# 1: scene defaults
@@ -35,12 +37,11 @@ func _ready() -> void:
 	gun.transform.origin = normal_position
 	gun.rotation_degrees = normal_rotation
 
-# TODO: we needd ot have the CONTROLLER do when to fire!
-
+## _process handles visual updates and cooldown, but not input
 func _process(delta):
 	# -------
-	# STEP 1: adjust view
-	# ......: gun my lerping back from firing and/or have ADS
+	# STEP 1: Visual Updates
+	# -------
 	# STEP 1-1: Calculate ADS position and rotation targets
 	var base_pos = ads_position if is_ads else normal_position
 	var base_rot = ads_rotation if is_ads else normal_rotation
@@ -50,23 +51,16 @@ func _process(delta):
 	# STEP 1-3: Lerp toward that final pose
 	gun.transform.origin = gun.transform.origin.lerp(final_pos, delta * 10.0)
 	gun.rotation_degrees = gun.rotation_degrees.lerp(final_rot, delta * 10.0)
-	# STEP 1-4: set FOV
+	# STEP 1-4: FOV Update
 	var camera: Camera3D = get_viewport().get_camera_3d()
 	var target_fov = ads_fov if is_ads else normal_fov
 	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)  # Smooth zoom
+
 	# -------
 	# STEP 2: full-auto firing
 	# -------
-	# Decrease cooldown over time
-	fire_cooldown -= delta
-	## Check if the fire action is currently pressed AND the cooldown is ready (<= 0.0)
-	## This single check handles both the initial press (since _fire_cooldown starts at 0)
-	## and subsequent shots in full-auto as the cooldown expires.
-	if Input.is_action_pressed("ui_shoot") and fire_cooldown <= 0.0:
-		if camera:
-			shoot_proj()
-		# Reset cooldown for the next shot
-		fire_cooldown = 1.0 / fire_rate
+	fire_cooldown -= delta # decrease cooldown over time
+
 	# -------
 	# STEP 3: aim-down-sights (ADS)
 	# -------
@@ -117,3 +111,13 @@ func shoot_bullet_proj():
 	bullet.global_transform.origin = muzzle_point.global_transform.origin + shoot_direction * spawn_offset
 	bullet.setup(shoot_direction) # Pass the camera's forward direction
 	#print("SHOOT DIRECTION: ", shoot_direction)
+
+# PUBLIC METHODS ==========================================
+
+func request_fire() -> bool:
+	# Check if the gun is ready to fire based on cooldown
+	if fire_cooldown <= 0.0:
+		shoot_proj() # Perform the firing mechanics
+		fire_cooldown = 1.0 / fire_rate # Reset cooldown
+		return true # Indicate that a shot was fired
+	return false # Indicate that the gun was not ready to fire
