@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=4 uid="uid://pk7wih3ragvf"]
 
-[ext_resource type="Texture2D" uid="uid://bk8wmdsvss4ih" path="res://enemy_state/export6/VanguardAnimations06_vanguard_diffuse1.png" id="1_ne4tu"]
-[ext_resource type="Texture2D" uid="uid://df7fwt83bqkig" path="res://enemy_state/export6/VanguardAnimations06_vanguard_normal.png" id="2_56kg6"]
+[ext_resource type="Texture2D" uid="uid://bk8wmdsvss4ih" path="res://enemy_controller/export6/VanguardAnimations06_vanguard_diffuse1.png" id="1_ne4tu"]
+[ext_resource type="Texture2D" uid="uid://df7fwt83bqkig" path="res://enemy_controller/export6/VanguardAnimations06_vanguard_normal.png" id="2_56kg6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hjyw8"]
 resource_name = "VanguardBodyMat"

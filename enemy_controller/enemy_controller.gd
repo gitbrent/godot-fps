@@ -2,11 +2,12 @@ extends CharacterBody3D
 class_name EnemyController
 #
 @onready var state_machine = $StateMachine
-@onready var idle_state_node: EnemyState = null # Get a reference to the Idle state node so we can access its detection_range. Initialize to null
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var debug_label_state: Label3D = $DEBUG/LabelState
 @onready var debug_label_dist: Label3D = $DEBUG/LabelDist
 @onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
+@onready var state_node_idle: EnemyState = null # Get a reference to the Idle state node so we can access its detection_range. Initialize to null
+@onready var state_node_follow: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 #
 @export var health: int = 100
 @export var rotation_speed := 10.0
@@ -31,10 +32,10 @@ func _ready() -> void:
 	
 	# Find the Idle state node by name from the state machine's children
 	if state_machine.has_node("Idle"):
-		idle_state_node = state_machine.get_node("Idle") as EnemyState
-		if not idle_state_node:
-			print("Error: Could not find the 'Idle' state node as an EnemyState child of StateMachine.")
-	
+		state_node_idle = state_machine.get_node("Idle") as EnemyState
+	elif state_machine.has_node("Follow"):
+		state_node_follow = state_machine.get_node("Follow") as EnemyState
+
 	# Trigger the initial state transition to set the label text and run enter()
 	if state_machine.current_state:
 		_on_state_transitioned(state_machine.current_state, state_machine.current_state.name)
@@ -96,28 +97,42 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func draw_idle_detection_area_mesh() -> void:
-	if debug_area_mesh and idle_state_node:
-		var detection_range = idle_state_node.detection_range
+	if debug_area_mesh and state_node_idle:
+		var detection_range = state_node_idle.detection_range
 		# The CylinderMesh by default has a radius of 1.0 and height of 1.0.
 		# We need to scale it by the desired radius on the X and Z axes.
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		# The Y scale controls the height, which we set to a small value in the mesh settings.
 		# We usually don't need to change the Y scale here.
+		debug_area_mesh.visible = true
+	elif debug_area_mesh and state_node_follow:
+		var detection_range = state_node_follow.follow_range
+		debug_area_mesh.scale.x = detection_range * 2
+		debug_area_mesh.scale.z = detection_range * 2
+		debug_area_mesh.visible = true
+		# TODO: change color of area
+		#debug_area_mesh.material_override.albedo...? us animation?
 	else:
 		debug_area_mesh.visible = false
 
 # ============================================
 
 func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
+	print("[enemy_cont] on_state_tr: ", new_state_name)
 	# 1: Update the text of the Label3D node to show the new state name
 	if debug_label_state and show_state_debug:
 		debug_label_state.text = new_state_name
 	# 2:
-	if new_state_name == "Idle":
-		idle_state_node = state
+	if new_state_name.to_lower() == "idle":
+		state_node_idle = state
+		state_node_follow = null
+	elif new_state_name.to_lower() == "follow":
+		state_node_idle = null
+		state_node_follow = state
 	else:
-		idle_state_node = null
+		state_node_idle = null
+		state_node_follow = null
 
 func take_damage(amount:int) -> void:
 	if is_dead:

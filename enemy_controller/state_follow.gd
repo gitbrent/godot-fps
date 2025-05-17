@@ -2,8 +2,8 @@ extends EnemyState
 class_name EnemyFollow
 
 @export var move_speed := 4.0
-@export var follow_area := 25.0
-@export var lose_interest_area := 30.0
+@export var follow_range := 20.0
+@export var lose_interest_area := 20.0
 
 @onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
 
@@ -41,10 +41,10 @@ func physics_update(delta: float) -> Vector3:
 		var move_direction = direction_to_player.normalized()
 
 		# Check if the player is within the follow area
-		if distance_to_player <= follow_area:
+		if distance_to_player <= follow_range:
 			# Move towards the player
 			desired_horizontal_velocity = move_direction * move_speed
-		# Else (player is outside follow_area but we are still in follow state)
+		# Else (player is outside follow_range but we are still in follow state)
 		# The enemy will stop but remain in the follow state until they leave lose_interest_area
 		# desired_horizontal_velocity remains Vector3.ZERO
 

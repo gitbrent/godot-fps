@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://brho4063gnup4"
-path.s3tc="res://.godot/imported/Test03_vanguard_normal.png-ff87e0797a3ce4861e8720a8cb8d000d.s3tc.ctex"
+uid="uid://df7fwt83bqkig"
+path.s3tc="res://.godot/imported/VanguardAnimations06_vanguard_normal.png-d3de5922e4c20aaa07ebdca56a2d7f46.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://enemy_state/test3/Test03_vanguard_normal.png"
-dest_files=["res://.godot/imported/Test03_vanguard_normal.png-ff87e0797a3ce4861e8720a8cb8d000d.s3tc.ctex"]
+source_file="res://enemy_controller/export6/VanguardAnimations06_vanguard_normal.png"
+dest_files=["res://.godot/imported/VanguardAnimations06_vanguard_normal.png-d3de5922e4c20aaa07ebdca56a2d7f46.s3tc.ctex"]
 
 [params]
 
@@ -28,7 +28,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://brent_blender/test3/Test03_vanguard_normal.png"
+roughness/src_normal="res://enemy_state/export6/VanguardAnimations06_vanguard_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

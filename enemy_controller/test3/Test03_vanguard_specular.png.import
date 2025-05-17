@@ -2,21 +2,23 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2kop143pe14s"
-path.s3tc="res://.godot/imported/texture_13.png-011ce6ea76de29398130f5c362fb9c04.s3tc.ctex"
+uid="uid://bb7i5umhbety7"
+path="res://.godot/imported/Test03_vanguard_specular.png-758b0e965026f5b9320eb22ccaa5f519.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
+}
+generator_parameters={
+"md5": "b2fe844f0f00ff2cb7b4ed026d464d39"
 }
 
 [deps]
 
-source_file="res://KENNEY_PNG/Purple/texture_13.png"
-dest_files=["res://.godot/imported/texture_13.png-011ce6ea76de29398130f5c362fb9c04.s3tc.ctex"]
+source_file="res://enemy_controller/test3/Test03_vanguard_specular.png"
+dest_files=["res://.godot/imported/Test03_vanguard_specular.png-758b0e965026f5b9320eb22ccaa5f519.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
@@ -32,4 +34,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

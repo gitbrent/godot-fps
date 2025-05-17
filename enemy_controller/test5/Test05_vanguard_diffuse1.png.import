@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvcivjkfrehtp"
-path.s3tc="res://.godot/imported/Test03_vanguard_diffuse1.png-a18470dcf2c8879941e3c7b1b35c3d80.s3tc.ctex"
+uid="uid://bqbvwpv60av4m"
+path.s3tc="res://.godot/imported/Test05_vanguard_diffuse1.png-b0a3c4ec68a64c34778b06ae25a50bcf.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://enemy_state/test3/Test03_vanguard_diffuse1.png"
-dest_files=["res://.godot/imported/Test03_vanguard_diffuse1.png-a18470dcf2c8879941e3c7b1b35c3d80.s3tc.ctex"]
+source_file="res://enemy_controller/test5/Test05_vanguard_diffuse1.png"
+dest_files=["res://.godot/imported/Test05_vanguard_diffuse1.png-b0a3c4ec68a64c34778b06ae25a50bcf.s3tc.ctex"]
 
 [params]
 

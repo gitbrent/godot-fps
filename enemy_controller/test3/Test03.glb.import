@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dxy3600cd8xq5"
-path="res://.godot/imported/Test03.glb-1108a19ac710cd0765f0526cda074576.scn"
+path="res://.godot/imported/Test03.glb-10aeb6ec051584f1646be51712531c60.scn"
 
 [deps]
 
-source_file="res://enemy_state/test3/Test03.glb"
-dest_files=["res://.godot/imported/Test03.glb-1108a19ac710cd0765f0526cda074576.scn"]
+source_file="res://enemy_controller/test3/Test03.glb"
+dest_files=["res://.godot/imported/Test03.glb-10aeb6ec051584f1646be51712531c60.scn"]
 
 [params]
 

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bplo4qa6dtsj8"
-path="res://.godot/imported/Test05_vanguard_specular.png-64a67a893e41657ed51181f9f88dea73.ctex"
+uid="uid://d2sg427ig3v1y"
+path="res://.godot/imported/VanguardAnimations06_vanguard_specular.png-36fbb2c8845a1f2b05da935137b8d1e4.ctex"
 metadata={
 "vram_texture": false
 }
@@ -13,8 +13,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://enemy_state/test5/Test05_vanguard_specular.png"
-dest_files=["res://.godot/imported/Test05_vanguard_specular.png-64a67a893e41657ed51181f9f88dea73.ctex"]
+source_file="res://enemy_controller/export6/VanguardAnimations06_vanguard_specular.png"
+dest_files=["res://.godot/imported/VanguardAnimations06_vanguard_specular.png-36fbb2c8845a1f2b05da935137b8d1e4.ctex"]
 
 [params]
 

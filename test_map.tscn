@@ -1,11 +1,12 @@
-[gd_scene load_steps=24 format=4 uid="uid://brdt8fje6jpt1"]
+[gd_scene load_steps=25 format=4 uid="uid://brdt8fje6jpt1"]
 
 [ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://KENNEY_PNG/Dark/texture_01.png" id="1_4qc02"]
 [ext_resource type="Script" uid="uid://cte556yo33bge" path="res://test_map.gd" id="1_bu3ac"]
 [ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player_controller/player_controller.tscn" id="2_4wuf8"]
 [ext_resource type="PackedScene" uid="uid://c21axn1475ray" path="res://models/scifi_barrel/sci-fi_barrel.glb" id="3_s02eq"]
+[ext_resource type="Texture2D" uid="uid://37kwa6tpjmog" path="res://KENNEY_PNG/Dark/texture_09.png" id="7_ihcqn"]
 [ext_resource type="Texture2D" uid="uid://cfyw3xb6oxvm1" path="res://KENNEY_PNG/Red/texture_09.png" id="7_ssfg1"]
-[ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy_state/enemy_controller.tscn" id="10_5354r"]
+[ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy_controller/enemy_controller.tscn" id="10_5354r"]
 [ext_resource type="PackedScene" uid="uid://wbwjnb34fu2e" path="res://models/kcube_wall.tscn" id="11_dj26u"]
 [ext_resource type="PackedScene" uid="uid://cshdqtk0uywr8" path="res://models/kcube_2x2x2.tscn" id="11_yobqo"]
 [ext_resource type="PackedScene" uid="uid://jot5kky01ygo" path="res://models/kcube_2x1x2.tscn" id="12_1wgsg"]
@@ -46,6 +47,7 @@ uv1_triplanar = true
 resource_name = "Yellow"
 cull_mode = 2
 albedo_color = Color(0.651665, 0.72666, 0.139964, 1)
+albedo_texture = ExtResource("7_ihcqn")
 roughness = 0.5
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_gufkr"]
@@ -95,13 +97,16 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 shadow_enabled = true
 
 [node name="Ground" type="StaticBody3D" parent="."]
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("PlaneMesh_r0pc2")
 skeleton = NodePath("../..")
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("BoxShape3D_ssfg1")
+metadata/_edit_lock_ = true
 
 [node name="PlayerController" parent="." instance=ExtResource("2_4wuf8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
@@ -123,7 +128,7 @@ mesh = SubResource("ArrayMesh_r0pc2")
 skeleton = NodePath("")
 
 [node name="Icosphere2" type="Node3D" parent="."]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5, 8, -21)
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8, 8, -21)
 
 [node name="Object_30" type="MeshInstance3D" parent="Icosphere2"]
 material_override = SubResource("StandardMaterial3D_bu3ac")
