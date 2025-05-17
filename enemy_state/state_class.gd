@@ -3,6 +3,7 @@ extends Node
 class_name EnemyState
 
 signal transitioned(state: EnemyState, new_state_name: String)
+signal fade_out_requested()
 
 var enemy_controller: CharacterBody3D = null
 

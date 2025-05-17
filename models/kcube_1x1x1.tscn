@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://dn46gu4t35ngu"]
+
+[ext_resource type="Texture2D" uid="uid://dg6d4ysqxqwe0" path="res://KENNEY_PNG/Purple/texture_01.png" id="1_p2dx8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_44k7n"]
+albedo_texture = ExtResource("1_p2dx8")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_foe4q"]
+material = SubResource("StandardMaterial3D_44k7n")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d20sg"]
+
+[node name="Kcube1x1x1" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_foe4q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_d20sg")
