@@ -1,3 +1,16 @@
+# enemy_controller.gd
+# The controller script should act as the central hub for the enemy character's physical presence and actions. Its responsibilities include:
+# - Character Core: 
+#     Handling fundamental character properties (health, movement, physics, death).
+# - Node References: 
+#     Holding @onready references to important child nodes like the AnimationPlayer, 
+#     the StateMachine, the visual model, and the weapon node(s).
+# - Executing Actions: 
+#     Implementing the actual mechanics of actions that the state requests. 
+#     This includes the details of how the weapon is fired.
+# - Character-Wide Effects: 
+#     Handling things like applying damage, playing hit reactions, managing death, 
+#     and potentially applying recoil effects to the whole character or just the arms/weapon rig.
 extends CharacterBody3D
 class_name EnemyController
 #
@@ -8,9 +21,11 @@ class_name EnemyController
 @onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
 @onready var state_node_idle: EnemyState = null # Get a reference to the Idle state node so we can access its detection_range. Initialize to null
 @onready var state_node_follow: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
+@onready var gun_vss: Node3D = $Armature/Skeleton3D/Gun_VSS
 #
 @export var health: int = 100
 @export var rotation_speed := 10.0
+@export_group("DEBUG")
 @export var show_state_debug: bool = true:
 	set(value):
 		show_state_debug = value
@@ -96,7 +111,90 @@ func _physics_process(delta: float) -> void:
 	# LAST: Perform the final move and slide calculation once
 	move_and_slide()
 
+func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
+	print("[enemy_cont] on_state_tr: ", new_state_name)
+	#
+	# 1: Update the text of the Label3D node to show the new state name
+	if debug_label_state and show_state_debug:
+		debug_label_state.text = new_state_name
+	# 2:
+	if new_state_name.to_lower() == "idle":
+		state_node_idle = state
+		state_node_follow = null
+	elif new_state_name.to_lower() == "follow":
+		state_node_idle = null
+		state_node_follow = state
+	else:
+		state_node_idle = null
+		state_node_follow = null
+
+# STANDARD GAME FUNCS ==========================================
+
+## `take_damage` is called by projectiles if implemented (**DONT RENAME**)
+func take_damage(amount:int) -> void:
+	# 1:
+	if is_dead:
+		return
+	# 2:
+	health -= amount
+	spawn_damage_popup(amount)
+	# 3:
+	if health <= 0:
+		handle_died()
+	else:
+		animation_player.play("HIT_REACTION")
+
+## `show_hit` is called by projectiles if implemented (**DONT RENAME**)
+func show_hit(impact_point: Vector3) -> void:
+	if not is_dead:
+		# You can spawn a blood spurt here later
+		print("show_hit: ", impact_point)
+		pass
+
+# CLASS-SPECIFIC FUNCS ============================================
+
+# Public method for states to request an attack
+func fire_weapon(target_position: Vector3) -> void:
+	if is_dead:
+		return # Cannot fire if dead
+
+	# --- Implement Firing Logic ---
+	gun_vss.shoot_proj()
+	print("Enemy fired at position: ", target_position) # Placeholder print
+	# --- End Firing Logic ---
+
+
+func spawn_damage_popup(amount: int) -> void:
+	var popup_scene = preload("res://ui/damage_popup.tscn")
+	var popup = popup_scene.instantiate()
+	popup.set_popup_data(amount, global_transform.origin + Vector3.UP * 2.0)
+	get_tree().root.add_child(popup)
+
+func handle_died():
+	is_dead = true
+	velocity = Vector3.ZERO
+	state_machine.request_state_change("dead")
+	#await animation_player.animation_finished
+	#_play_anim_blocking("DYING", func():is_reacting=false)
+	# TODO: ^^^ move to state for DIE instead
+	#queue_free()
+
+# DEBUG/FYI FUNCS ==================================================
+
 func draw_idle_detection_area_mesh() -> void:
+	if is_dead:
+		debug_label_dist.visible = false
+		debug_area_mesh.visible = false
+		return
+	
+	if show_detection_area_debug:
+		var players = get_tree().get_nodes_in_group("player")
+		var nearest_player: CharacterBody3D = null
+		for player in players:
+			if player is CharacterBody3D:
+				var distance = global_position.distance_to(player.global_position)
+				debug_label_dist.text = "Dist\n"+str(snapped(distance, 0.01))
+
 	if debug_area_mesh and state_node_idle:
 		var detection_range = state_node_idle.detection_range
 		# The CylinderMesh by default has a radius of 1.0 and height of 1.0.
@@ -115,54 +213,3 @@ func draw_idle_detection_area_mesh() -> void:
 		#debug_area_mesh.material_override.albedo...? us animation?
 	else:
 		debug_area_mesh.visible = false
-
-# ============================================
-
-func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
-	print("[enemy_cont] on_state_tr: ", new_state_name)
-	# 1: Update the text of the Label3D node to show the new state name
-	if debug_label_state and show_state_debug:
-		debug_label_state.text = new_state_name
-	# 2:
-	if new_state_name.to_lower() == "idle":
-		state_node_idle = state
-		state_node_follow = null
-	elif new_state_name.to_lower() == "follow":
-		state_node_idle = null
-		state_node_follow = state
-	else:
-		state_node_idle = null
-		state_node_follow = null
-
-func take_damage(amount:int) -> void:
-	if is_dead:
-		return
-
-	health -= amount
-	spawn_damage_popup(amount)
-
-	if health <= 0:
-		die()
-	else:
-		animation_player.play("HIT_REACTION")
-
-func die():
-	is_dead = true
-	velocity = Vector3.ZERO
-	state_machine.request_state_change("dead")
-	#await animation_player.animation_finished
-	#_play_anim_blocking("DYING", func():is_reacting=false)
-	# TODO: ^^^ move to state for DIE instead
-	#queue_free()
-
-func show_hit(impact_point: Vector3) -> void:
-	if not is_dead:
-		# You can spawn a blood spurt here later
-		print("show_hit: ", impact_point)
-		pass
-
-func spawn_damage_popup(amount: int) -> void:
-	var popup_scene = preload("res://ui/damage_popup.tscn")
-	var popup = popup_scene.instantiate()
-	popup.set_popup_data(amount, global_transform.origin + Vector3.UP * 2.0)
-	get_tree().root.add_child(popup)
