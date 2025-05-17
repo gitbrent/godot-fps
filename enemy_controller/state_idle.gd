@@ -1,4 +1,3 @@
-# enemy_idle.gd
 extends EnemyState
 class_name EnemyIdle
 
@@ -17,7 +16,6 @@ func enter() -> void:
 	animation_player.play("WALKING")
 	randomize_wander()
 
-# Called every frame (can be used for non-physics related logic)
 func update(delta: float) -> void:
 	# Countdown the wander time
 	if wander_time > 0:
@@ -26,17 +24,12 @@ func update(delta: float) -> void:
 		# If wander time is up, pick a new random direction and time
 		randomize_wander()
 
-# Called every physics frame (use for movement and physics calculations)
 func physics_update(delta: float) -> Vector3:
-	# --- Existing Wander Logic ---
-	# ... (calculate move_direction and wander_time)
-	# --- End Wander Logic ---
-
 	# --- Player Detection Logic (WIP) ---
 	var players = get_tree().get_nodes_in_group("player")
 	var nearest_player_distance = INF
 	var nearest_player: CharacterBody3D = null
-
+	# 1:
 	for player in players:
 		if player is CharacterBody3D:
 			var distance = enemy_controller.global_position.distance_to(player.global_position)
@@ -44,25 +37,25 @@ func physics_update(delta: float) -> Vector3:
 				nearest_player_distance = distance
 				nearest_player = player
 
-	#var dist = nearest_player_distance.round()
-	$"../../DEBUG/LabelDist".text = "Dist\n"+str(snapped(nearest_player_distance, 0.01))
-
-	# If a player is found within the detection range, transition to follow
+	# 2: If a player is found within the detection range, transition to follow
 	if nearest_player and nearest_player_distance <= detection_range:
-		print("IDLE->FOLLOW: ", nearest_player_distance, detection_range)
-		$"../../DEBUG/LabelDist".text = ""
-		transitioned.emit(self, "follow")
+		# TODO: 20250517: Raycast to check visibility of player
+		transitioned.emit(self, "attack")
+		# OLD BELOW:
+		#print("IDLE->FOLLOW: ", nearest_player_distance, detection_range)
+		#transitioned.emit(self, "follow")
 		# You might also want to pass the detected player reference to the follow state
 		# This requires modifying the state machine and follow state to accept it.
 		# For now, the follow state will find the nearest player itself on enter.
-
+	#
 	# --- End Player Detection Logic ---
 
-	# Return the desired horizontal velocity for wandering
-	return move_direction * move_speed # Return zero velocity if you want them to stand still when idle
+	# LAST: Return the desired horizontal velocity for wandering
+	return move_direction * move_speed
+	# FUTURE: Return zero velocity if you want them to stand still when idle
 	#return Vector3.ZERO
 
-# UNIQUE CLASS FUNCS ---------------------------------
+# UNIQUE CLASS FUNCS -----------------------------------------------
 
 # Sets a new random horizontal direction and a random time to wander in that direction
 func randomize_wander() -> void:
