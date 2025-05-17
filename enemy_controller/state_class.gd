@@ -10,9 +10,11 @@ var enemy_controller: CharacterBody3D = null
 func enter() -> void:
 	pass # Override in child states
 
+## Called every frame (can be used for non-physics related logic)
 func update(delta: float) -> void:
 	pass # Override in child states
 
+## Called every physics frame (use for movement and physics calculations)
 ## Returns velocity so controller can implement from central location
 func physics_update(delta: float) -> Vector3:
 	# This is the base implementation. Child classes should override this.
