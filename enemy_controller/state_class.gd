@@ -6,6 +6,7 @@ signal transitioned(state: EnemyState, new_state_name: String)
 signal fade_out_requested()
 
 var enemy_controller: CharacterBody3D = null
+var desired_rotation_direction: Vector3 = Vector3(0, 0, 1)
 
 func enter() -> void:
 	pass # Override in child states

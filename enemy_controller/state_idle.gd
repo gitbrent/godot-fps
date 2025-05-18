@@ -1,16 +1,16 @@
 extends EnemyState
 class_name EnemyIdle
 
+#region vsars
 @export var move_speed := 2.5
-#@export var follow_area := 10.0
 @export var detection_range := 10.0
-
-## The current random direction the enemy is moving in
+# The current random direction the enemy is moving in
 var move_direction: Vector3
-## How long the enemy will move in the current direction before picking a new one
+# How long the enemy will move in the current direction before picking a new one
 var wander_time: float
-
+#
 @onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
+#endregion
 
 func enter() -> void:
 	animation_player.play("WALKING")

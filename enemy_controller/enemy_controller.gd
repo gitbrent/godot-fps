@@ -13,15 +13,18 @@
 #     and potentially applying recoil effects to the whole character or just the arms/weapon rig.
 extends CharacterBody3D
 class_name EnemyController
-#
+
+#region vars
 @onready var state_machine = $StateMachine
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var debug_label_state: Label3D = $DEBUG/LabelState
 @onready var debug_label_dist: Label3D = $DEBUG/LabelDist
+@onready var debug_label_gun: Label3D = $DEBUG/LabelGun
 @onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
 @onready var state_node_idle: EnemyState = null # Get a reference to the Idle state node so we can access its detection_range. Initialize to null
 @onready var state_node_follow: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
-@onready var gun_vss: Node3D = $Armature/Skeleton3D/Gun_VSS
+@onready var state_node_attack: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
+@onready var m16_rifle: Node3D = $m16_assault_rifle_fixed
 #
 @export var health: int = 100
 @export var rotation_speed := 10.0
@@ -40,6 +43,9 @@ class_name EnemyController
 #
 var is_dead := false
 var is_initialized = false
+var total_shots_fired = 0
+var desired_rotation_direction: Vector3 = Vector3(0, 0, 1)
+#endregion
 
 func _ready() -> void:
 	# Connect the StateMachine's 'state_changed' signal
@@ -50,6 +56,8 @@ func _ready() -> void:
 		state_node_idle = state_machine.get_node("Idle") as EnemyState
 	elif state_machine.has_node("Follow"):
 		state_node_follow = state_machine.get_node("Follow") as EnemyState
+	elif state_machine.has_node("Attack"):
+		state_node_attack = state_machine.get_node("Attack") as EnemyState
 
 	# Trigger the initial state transition to set the label text and run enter()
 	if state_machine.current_state:
@@ -59,6 +67,8 @@ func _ready() -> void:
 	if debug_label_state:
 		debug_label_state.visible = show_state_debug
 		debug_label_dist.visible = show_state_debug
+		debug_label_gun.visible = show_state_debug
+		
 	if debug_area_mesh:
 		debug_area_mesh.visible = show_detection_area_debug
 		# Set the initial scale of the mesh based on the detection range
@@ -80,6 +90,8 @@ func _process(delta: float) -> void:
 			debug_label_state.rotation_degrees.y += 180
 			debug_label_dist.look_at(camera.global_transform.origin, Vector3.UP)
 			debug_label_dist.rotation_degrees.y += 180
+			debug_label_gun.look_at(camera.global_transform.origin, Vector3.UP)
+			debug_label_gun.rotation_degrees.y += 180
 	# --- End Camera Facing ---
 
 func _physics_process(delta: float) -> void:
@@ -97,14 +109,32 @@ func _physics_process(delta: float) -> void:
 	velocity.z = desired_horizontal_velocity.z
 
 	# STEP 4: Handle Rotation
-	# Check if there is significant horizontal movement
-	if Vector3(velocity.x, 0, velocity.z).length_squared() > 0.01:
-		var target_look_direction = Vector3(velocity.x, 0, velocity.z).normalized()
-		var target_angle = atan2(target_look_direction.x, target_look_direction.z)
+	var current_move_direction_horizontal = Vector3(velocity.x, 0, velocity.z)
+	var direction_to_face = current_move_direction_horizontal # Default to using movement direction
+	# If not currently moving horizontally, use the state's desired rotation direction
+	# Check if the horizontal velocity is negligible (i.e., the character is standing still horizontally)
+	if current_move_direction_horizontal.length_squared() < 0.001:
+		# If standing still horizontally, use the desired rotation direction provided by the current state
+		if is_initialized and state_machine.current_state:
+			direction_to_face = state_machine.current_state.desired_rotation_direction
+		# Else (not initialized or no state), 'direction_to_face' remains the zero velocity vector,
+		# and the subsequent check will prevent rotation.
+	# Else (if moving horizontally), 'direction_to_face' remains the horizontal velocity vector,
+	# and the character will rotate to face its movement direction (as before).
+	#
+	# Ensure the direction to face is not a zero vector before calculating angle
+	# This prevents errors if the state hasn't set a desired_rotation_direction yet or if velocity is zero
+	if direction_to_face.length_squared() > 0.001:
+		# Calculate the target angle (angle around the Y-axis) from the direction to face
+		var target_angle = atan2(direction_to_face.x, direction_to_face.z)
+		# Get the current rotation around the Y-axis
 		var current_angle = rotation.y
+		# Lerp (linear interpolation) the current angle towards the target angle for smooth rotation
+		# Use lerp_angle for correct interpolation across the -PI to PI boundary
 		var new_angle = lerp_angle(current_angle, target_angle, delta * rotation_speed)
+		# Apply the new rotation to the enemy controller
 		rotation.y = new_angle
-
+	
 	# STEP 5:
 	draw_idle_detection_area_mesh()
 	
@@ -118,15 +148,15 @@ func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
 	if debug_label_state and show_state_debug:
 		debug_label_state.text = new_state_name
 	# 2:
+	state_node_idle = null
+	state_node_follow = null
+	state_node_attack = null
 	if new_state_name.to_lower() == "idle":
 		state_node_idle = state
-		state_node_follow = null
 	elif new_state_name.to_lower() == "follow":
-		state_node_idle = null
 		state_node_follow = state
-	else:
-		state_node_idle = null
-		state_node_follow = null
+	elif new_state_name.to_lower() == "attack":
+		state_node_attack = state
 
 # STANDARD GAME FUNCS ==========================================
 
@@ -155,14 +185,16 @@ func show_hit(impact_point: Vector3) -> void:
 
 # Public method for states to request an attack
 func fire_weapon(target_position: Vector3) -> void:
+	# 1: cannot fire if dead
 	if is_dead:
-		return # Cannot fire if dead
-
-	# --- Implement Firing Logic ---
-	gun_vss.shoot_proj()
-	print("Enemy fired at position: ", target_position) # Placeholder print
-	# --- End Firing Logic ---
-
+		return
+	# 2: firing logic
+	total_shots_fired += 1
+	m16_rifle.request_fire(target_position)
+	#print("Enemy fired at position: ", target_position) # Placeholder print
+	# 3: debug
+	#debug_label_gun.text = "FIRE AT\n"+str(target_position)
+	debug_label_gun.text = "SHOTS FIRED\n"+str(total_shots_fired)
 
 func spawn_damage_popup(amount: int) -> void:
 	var popup_scene = preload("res://ui/damage_popup.tscn")
@@ -185,6 +217,7 @@ func draw_idle_detection_area_mesh() -> void:
 	if is_dead:
 		debug_label_dist.visible = false
 		debug_area_mesh.visible = false
+		debug_label_gun.visible = false
 		return
 	
 	if show_detection_area_debug:
@@ -193,7 +226,7 @@ func draw_idle_detection_area_mesh() -> void:
 		for player in players:
 			if player is CharacterBody3D:
 				var distance = global_position.distance_to(player.global_position)
-				debug_label_dist.text = "Dist\n"+str(snapped(distance, 0.01))
+				debug_label_dist.text = "Dist\n"+str(snapped(distance, 0.1))+"m"
 
 	if debug_area_mesh and state_node_idle:
 		var detection_range = state_node_idle.detection_range
@@ -206,6 +239,13 @@ func draw_idle_detection_area_mesh() -> void:
 		debug_area_mesh.visible = true
 	elif debug_area_mesh and state_node_follow:
 		var detection_range = state_node_follow.follow_range
+		debug_area_mesh.scale.x = detection_range * 2
+		debug_area_mesh.scale.z = detection_range * 2
+		debug_area_mesh.visible = true
+		# TODO: change color of area
+		#debug_area_mesh.material_override.albedo...? us animation?
+	elif debug_area_mesh and state_node_attack:
+		var detection_range = state_node_attack.attack_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
