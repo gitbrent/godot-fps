@@ -80,8 +80,8 @@ func update(delta: float) -> void:
 		time_since_last_attack = 0.0
 		# --- Request Attack from Controller ---
 		# Call the fire_weapon method on the enemy_controller, passing target position
-		var ray_target = player.global_transform.origin + Vector3.UP * 1.5  # player chest
-		enemy_controller.fire_weapon(ray_target)
+		var player_target = player.global_transform.origin + Vector3.UP * 1.5  # player chest
+		enemy_controller.fire_weapon(player_target)
 		# --- End Request Attack ---
 		# Optionally play a single shot animation or trigger recoil
 

@@ -24,16 +24,31 @@ func _process(delta):
 			fire_cooldown = 0.0 # Ensure it doesn't go below zero
 
 func shoot_proj(target_position:Vector3) -> void:
-	print("[enemy_rifle] shoot_proj: ", target_position)
-	print(global_position)
-	#Engine.time_scale = 0.1
+	#print("[enemy_rifle] shoot_proj: ", target_position)
+	#print("Muzzle Global Position: ", muzzle_point.global_transform.origin)
+
+	# 1: FX (Call your FX function if you have one)
+	# shoot_fx() # Call your effects function
+	# TODO: Add flash, etc.
+
+	# 2: projectile
 	var bullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
+	
+	# 3: Calculate the correct shooting direction
+	# Direction from muzzle point to the target position
+	var shoot_direction = (target_position - muzzle_point.global_transform.origin).normalized()	
+	
+	# 4: Correctly set the bullet's initial spawn position
 	# Spawn the bullet slightly in front of the muzzle point along the shooting direction
-	# Adjust the 0.1 value as needed based on your gun model and bullet size
-	var spawn_offset = 0.1 # Small offset to spawn bullet slightly ahead of muzzle
-	bullet.global_transform.origin = muzzle_point.global_transform.origin + target_position * spawn_offset
-	bullet.setup(target_position) # Pass the camera's forward direction
+	var spawn_offset = 0.1 # Small offset
+	bullet.global_transform.origin = muzzle_point.global_transform.origin + shoot_direction * spawn_offset
+	
+	# 5: direct bullet to target direction
+	if bullet.has_method("setup"):
+		bullet.setup(shoot_direction)
+	else:
+		print("Warning: Bullet scene does not have a 'setup' method taking a direction Vector3.")
 
 # PUBLIC METHODS ==========================================
 
