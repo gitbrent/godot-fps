@@ -9,12 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://dysd6rv0xpsaw" path="res://player_gun/sights/lynx-scope-overlay-awesome.png" id="9_5lyo6"]
 [ext_resource type="Texture2D" uid="uid://88qnqnvatlg5" path="res://player_gun/sights/crosshair_gun.png" id="10_lu2bp"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_og67c"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lq6q2"]
 shading_mode = 0
 albedo_color = Color(1, 0.858824, 0.72549, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_gp1hk"]
-material = SubResource("StandardMaterial3D_og67c")
+material = SubResource("StandardMaterial3D_lq6q2")
 size = Vector2(0.2, 0.2)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gp1hk"]
@@ -23,7 +23,7 @@ gravity = Vector3(0, 0, 0)
 scale_min = 0.5
 scale_max = 1.5
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gp1hk"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hk3hk"]
 transparency = 1
 blend_mode = 1
 shading_mode = 0
@@ -32,7 +32,7 @@ albedo_color = Color(1, 0.823529, 0.541176, 0.666667)
 albedo_texture = ExtResource("3_gp1hk")
 
 [sub_resource type="QuadMesh" id="QuadMesh_qd4js"]
-material = SubResource("StandardMaterial3D_gp1hk")
+material = SubResource("StandardMaterial3D_hk3hk")
 size = Vector2(0.1, 0.1)
 
 [sub_resource type="Animation" id="Animation_gp1hk"]
