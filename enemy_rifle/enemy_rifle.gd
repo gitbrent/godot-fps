@@ -4,7 +4,7 @@ extends Node3D
 @export_group("Scene Children")
 @export var bullet_scene: PackedScene
 @export_group("Props")
-@export var fire_rate: float = 4.0 # Bullets per second
+@export var fire_rate: float = 2.0 # Bullets per second
 #
 @onready var muzzle_point: Node3D = $MuzzlePoint
 @onready var muzzle_flash: MeshInstance3D = $MuzzlePoint/MuzzleFlash
@@ -16,7 +16,17 @@ func _ready() -> void:
 	# 1: scene defaults
 	muzzle_flash.visible = false
 
+func _process(delta):
+	# Decrease cooldown over time
+	if fire_cooldown > 0.0:
+		fire_cooldown -= delta
+		if fire_cooldown < 0.0:
+			fire_cooldown = 0.0 # Ensure it doesn't go below zero
+
 func shoot_proj(target_position:Vector3) -> void:
+	print("[enemy_rifle] shoot_proj: ", target_position)
+	print(global_position)
+	#Engine.time_scale = 0.1
 	var bullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
 	# Spawn the bullet slightly in front of the muzzle point along the shooting direction
@@ -28,7 +38,7 @@ func shoot_proj(target_position:Vector3) -> void:
 # PUBLIC METHODS ==========================================
 
 func request_fire(target_position:Vector3) -> bool:
-	print("[request_fire]: ",target_position)
+	# print("[enemy_rifle] request_fire: ",target_position)
 	# Check if the gun is ready to fire based on cooldown
 	if fire_cooldown <= 0.0:
 		shoot_proj(target_position) # Perform the firing mechanics

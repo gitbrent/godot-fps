@@ -189,8 +189,9 @@ func fire_weapon(target_position: Vector3) -> void:
 	if is_dead:
 		return
 	# 2: firing logic
-	total_shots_fired += 1
-	m16_rifle.request_fire(target_position)
+	var fire_result = m16_rifle.request_fire(target_position)
+	if fire_result:
+		total_shots_fired += 1
 	#print("Enemy fired at position: ", target_position) # Placeholder print
 	# 3: debug
 	#debug_label_gun.text = "FIRE AT\n"+str(target_position)
