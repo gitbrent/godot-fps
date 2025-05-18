@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=4 uid="uid://d4bx7rm4wb2ax"]
+[gd_scene load_steps=32 format=4 uid="uid://d4bx7rm4wb2ax"]
 
 [ext_resource type="Script" uid="uid://bfgdoh0wqbpwu" path="res://enemy_controller/enemy_controller.gd" id="1_wilww"]
 [ext_resource type="Texture2D" uid="uid://dvcivjkfrehtp" path="res://enemy_controller/test3/Test03_vanguard_diffuse1.png" id="2_0jppv"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://bvykkb0bedomi" path="res://enemy_controller/state_dead.gd" id="7_gvooo"]
 [ext_resource type="Script" uid="uid://bt431jtlyatvr" path="res://enemy_controller/state_attack.gd" id="12_x8ewe"]
 [ext_resource type="PackedScene" uid="uid://6mbl8mtrfbde" path="res://enemy_rifle/enemy_rifle.tscn" id="13_iwtpe"]
+[ext_resource type="Script" uid="uid://dcmxw1247ny4s" path="res://enemy_controller/state_patrol.gd" id="14_oeory"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_08ms7"]
 size = Vector3(1, 2.5, 1)
@@ -5506,6 +5507,7 @@ height = 0.01
 collision_layer = 4
 collision_mask = 21
 script = ExtResource("1_wilww")
+health = 20
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
@@ -5984,12 +5986,14 @@ skin = SubResource("Skin_7hmpb")
 
 [node name="ow-my-balls" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("4_tlx2e")
+volume_db = -5.0
 
 [node name="Ow-right-in-the-back" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("5_ush2a")
 
 [node name="EnemySpotted" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("6_iwtpe")
+volume_db = -3.0
 
 [node name="Enemy-lost" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("7_e5gnd")
@@ -6018,6 +6022,10 @@ metadata/_custom_type_script = "uid://cwed87lihuouf"
 
 [node name="Dead" type="Node" parent="StateMachine"]
 script = ExtResource("7_gvooo")
+metadata/_custom_type_script = "uid://bk4bnnvg75snr"
+
+[node name="Patrol" type="Node" parent="StateMachine"]
+script = ExtResource("14_oeory")
 metadata/_custom_type_script = "uid://bk4bnnvg75snr"
 
 [node name="DEBUG" type="Node3D" parent="."]

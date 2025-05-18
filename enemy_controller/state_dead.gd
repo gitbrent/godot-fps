@@ -6,7 +6,7 @@ class_name EnemyDead
 @onready var audio_brutal: AudioStreamPlayer = $"../../Audio/ow-my-balls"
 
 func enter() -> void:
-	print("ENEMY DEAD!")
+	#print("ENEMY DEAD!")
 	# 1: normal
 	#animation_player.play("DYING")
 	# --OR--

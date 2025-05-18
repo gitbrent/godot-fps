@@ -196,14 +196,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -17)
 
 [node name="Node3D" type="Node3D" parent="Kcubes"]
 
-[node name="KcubeWall1" parent="." instance=ExtResource("11_dj26u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -35)
-metadata/_edit_lock_ = true
-
-[node name="KcubeWall2" parent="." instance=ExtResource("11_dj26u")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -24, 0, -11)
-metadata/_edit_lock_ = true
-
 [node name="ARCH1" type="Node3D" parent="."]
 
 [node name="Kcube2x3x2_1" parent="ARCH1" instance=ExtResource("14_ihcqn")]
@@ -353,3 +345,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2, -16.5)
 
 [node name="Kcube1x1x1_6" parent="KENNEY/PurpleWall1s" instance=ExtResource("13_1wgsg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2, -16.5)
+
+[node name="WALLS" type="Node3D" parent="."]
+
+[node name="KcubeWall1" parent="WALLS" instance=ExtResource("11_dj26u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -35)
+metadata/_edit_lock_ = true
+
+[node name="KcubeWall2" parent="WALLS" instance=ExtResource("11_dj26u")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -24, 0, -11)
+metadata/_edit_lock_ = true
