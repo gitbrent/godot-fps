@@ -98,7 +98,8 @@ func _physics_process(delta: float) -> void:
 	# 7: Handle Shoot Input - Tell the gun to fire
 	if Input.is_action_pressed("ui_shoot"):
 		if gun_instance: # Ensure the gun reference is valid
-			var shot_fired = gun_instance.request_fire()
+			gun_instance.request_fire()
+			#var shot_fired = gun_instance.request_fire()
 			# You could optionally check 'shot_fired' if you need to know here
 			# if shot_fired:
 			#     print("Player fired!")

@@ -1,5 +1,6 @@
 extends EnemyState
 class_name EnemyDead
+## This state is responsible for the immediate visual and audio feedback of death.
 
 @onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
 @onready var audio_brutal: AudioStreamPlayer = $"../../Audio/ow-my-balls"
