@@ -12,17 +12,17 @@ func _ready() -> void:
 		return
 	# STEP 2:
 	spawn_enemy()
-	# DEBUG: (below) (works!)
-	#await get_tree().create_timer(5).timeout
-	#spawned_enemy.state_machine.request_state_change("follow")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	#pass
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	if enemies.size() < 2:
+		spawn_enemy()
 
 func spawn_enemy() -> void:
 	if enemy_scene:
-		print("[test_map] spawning enemy...")
+		#print("[test_map] spawning enemy...")
 		spawned_enemy = enemy_scene.instantiate()
 		get_tree().current_scene.add_child(spawned_enemy)
 		spawned_enemy.global_position = Vector3(0.0, 0.0, -12.0)
