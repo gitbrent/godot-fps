@@ -27,7 +27,7 @@ var target_player: CharacterBody3D = null # Keep a reference to the current targ
 #endregion
 
 func enter() -> void:
-	print("ENEMY START ATTACKING.")
+	#print("ENEMY START ATTACKING.")
 	# 1: Be ready to fire immediately on entering (or add a delay)
 	time_since_last_attack = attack_cooldown
 	# 1: show corresponding animation
@@ -80,7 +80,8 @@ func update(delta: float) -> void:
 		time_since_last_attack = 0.0
 		# --- Request Attack from Controller ---
 		# Call the fire_weapon method on the enemy_controller, passing target position
-		enemy_controller.fire_weapon(player.global_position)
+		var ray_target = player.global_transform.origin + Vector3.UP * 1.5  # player chest
+		enemy_controller.fire_weapon(ray_target)
 		# --- End Request Attack ---
 		# Optionally play a single shot animation or trigger recoil
 
@@ -127,7 +128,7 @@ func physics_update(delta: float) -> Vector3:
 	return Vector3.ZERO
 
 func exit() -> void:
-	print("ENEMY STOP ATTACKING.")
+	#print("ENEMY STOP ATTACKING.")
 	audio_enemy_lost.play()
 	target_player = null # Clear target
 
