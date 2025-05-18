@@ -45,11 +45,19 @@ var is_dead := false
 var is_initialized = false
 var total_shots_fired = 0
 var desired_rotation_direction: Vector3 = Vector3(0, 0, 1)
+var fade_out_duration = 0.75 # fade in seconds
 #endregion
 
 func _ready() -> void:
 	# Connect the StateMachine's 'state_changed' signal
 	state_machine.state_changed.connect(_on_state_transitioned)
+	
+	# Iterate through the StateMachine's children (your individual state nodes)
+	if state_machine: # Ensure state_machine exists
+		for child in state_machine.get_children():
+			if child is EnemyState: # Check if the child is one of your state scripts
+				# Connect the fade_out_requested signal to the new function in this script
+				child.fade_out_requested.connect(_on_fade_out_requested)
 	
 	# Find the Idle state node by name from the state machine's children
 	if state_machine.has_node("Idle"):
@@ -63,7 +71,7 @@ func _ready() -> void:
 	if state_machine.current_state:
 		_on_state_transitioned(state_machine.current_state, state_machine.current_state.name)
 	
-	# Set initial visibility for both labels
+	# Set initial visibility for debugs
 	if debug_label_state:
 		debug_label_state.visible = show_state_debug
 		debug_label_dist.visible = show_state_debug
@@ -71,6 +79,10 @@ func _ready() -> void:
 		
 	if debug_area_mesh:
 		debug_area_mesh.visible = show_detection_area_debug
+		# make material unique or the prior enemy who faded_out, set the shared resource albedo.a to 0.0!
+		var original_material = debug_area_mesh.get_active_material(0)
+		if original_material:
+			debug_area_mesh.set_material_override(original_material.duplicate())
 		# Set the initial scale of the mesh based on the detection range
 		draw_idle_detection_area_mesh()
 	
@@ -142,7 +154,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
-	print("[enemy_cont] on_state_tr: ", new_state_name)
+	#print("[enemy_cont] on_state_tr: ", new_state_name)
 	#
 	# 1: Update the text of the Label3D node to show the new state name
 	if debug_label_state and show_state_debug:
@@ -178,7 +190,7 @@ func take_damage(amount:int) -> void:
 func show_hit(impact_point: Vector3) -> void:
 	if not is_dead:
 		# You can spawn a blood spurt here later
-		print("show_hit: ", impact_point)
+		print("[enemy_cont] show_hit: ", impact_point)
 		pass
 
 # CLASS-SPECIFIC FUNCS ============================================
@@ -212,13 +224,73 @@ func handle_died():
 	# TODO: ^^^ move to state for DIE instead
 	#queue_free()
 
+func _on_fade_out_requested() -> void:
+	# Disable physics and collision so the dead enemy doesn't interact anymore
+	set_physics_process(false)
+	set_process(false) # Stop _process updates (like camera facing if it's still active here)
+	# You might also want to disable specific collision layers/masks
+	# set_collision_mask_value(your_layer, false)
+	# set_collision_layer_value(your_layer, false)
+	# If you have a CollisionShape3D directly, you can disable it:
+	# if $CollisionShape3D: $CollisionShape3D.disabled = true # Adjust path if needed
+
+	# Find all MeshInstance3D nodes that are children (recursive search needed)
+	var mesh_nodes = find_meshes_in_children(self) # Use the helper function below
+
+	var tween = create_tween()
+	var meshes_found = false # Flag to track if we found meshes to fade
+
+	for mesh in mesh_nodes:
+		# Ensure the mesh has a valid mesh resource
+		if !mesh.mesh:
+			continue
+
+		# Iterate through all surfaces of the mesh
+		# Use get_active_material to get the material considering overrides
+		for surface_idx in range(mesh.mesh.get_surface_count()):
+			var material = mesh.get_active_material(surface_idx)
+
+			if material is StandardMaterial3D:
+				# IMPORTANT: For fading, the material needs to have its Transparency
+				# property set to "Alpha" or "Alpha Dither" in the Inspector or via script.
+				# If it's Opaque, tweening alpha won't work visually.
+
+				# Tween the albedo color's alpha to 0.0 for fading
+				# The parallel() makes all these tweens run simultaneously
+				tween.parallel().tween_property(material, "albedo_color:a", 0.0, fade_out_duration)
+				meshes_found = true # Mark that we found at least one mesh to fade
+
+			# Add checks for other material types if your model uses them
+			# If you have materials that use the "Modulate" color (like some imported types),
+			# you might need to tween mesh.modulate.a instead, but StandardMaterial3D is common.
+
+	# Queue free the enemy node after the fade tween finishes
+	# Only queue_free if a tween was created (i.e., if there were meshes to fade)
+	if meshes_found:
+		tween.tween_callback(func(): queue_free())
+	else:
+		# If no meshes were found to fade, just queue_free immediately
+		print("No meshes found to fade, queue_freeing immediately.")
+		queue_free()
+
+# --- Add the helper function to recursively find meshes ---
+# This function helps find MeshInstance3D nodes nested within the enemy's children (e.g., inside the imported model scene)
+func find_meshes_in_children(node: Node) -> Array[MeshInstance3D]:
+	var meshes: Array[MeshInstance3D] = []
+	for child in node.get_children():
+		if child is MeshInstance3D:
+			meshes.append(child)
+		# Recursively search in children
+		meshes.append_array(find_meshes_in_children(child))
+	return meshes
+
 # DEBUG/FYI FUNCS ==================================================
 
 func draw_idle_detection_area_mesh() -> void:
 	if is_dead:
 		debug_label_dist.visible = false
-		debug_area_mesh.visible = false
 		debug_label_gun.visible = false
+		debug_area_mesh.visible = false
 		return
 	
 	if show_detection_area_debug:
