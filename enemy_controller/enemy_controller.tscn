@@ -5993,10 +5993,11 @@ stream = ExtResource("5_ush2a")
 
 [node name="EnemySpotted" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("6_iwtpe")
-volume_db = -3.0
+volume_db = -5.0
 
-[node name="Enemy-lost" type="AudioStreamPlayer" parent="Audio"]
+[node name="EnemyLost" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("7_e5gnd")
+volume_db = -5.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -6032,9 +6033,10 @@ metadata/_custom_type_script = "uid://bk4bnnvg75snr"
 
 [node name="LabelState" type="Label3D" parent="DEBUG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.39514, 0)
-outline_modulate = Color(0.625137, 0.646158, 0.0975324, 1)
+outline_modulate = Color(0.17147, 0.228082, 0.67884, 1)
 text = "STATE"
-font_size = 48
+font_size = 96
+outline_size = 24
 metadata/_edit_lock_ = true
 
 [node name="LabelDist" type="Label3D" parent="DEBUG"]
@@ -6042,8 +6044,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0468, 1.64489, 0.0896553)
 modulate = Color(0.358422, 0.551433, 1, 1)
 outline_modulate = Color(0.019658, 0, 0.736169, 1)
 text = "DIST"
-font_size = 96
-outline_size = 24
+font_size = 64
+outline_size = 6
 metadata/_edit_lock_ = true
 
 [node name="LabelGun" type="Label3D" parent="DEBUG"]

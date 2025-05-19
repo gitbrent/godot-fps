@@ -22,12 +22,17 @@ class_name EnemyController
 @onready var debug_label_gun: Label3D = $DEBUG/LabelGun
 @onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
 @onready var state_node_idle: EnemyState = null # Get a reference to the Idle state node so we can access its detection_range. Initialize to null
+@onready var state_node_patrol: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_follow: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_attack: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var m16_rifle: Node3D = $m16_assault_rifle_fixed
 #
+@export_group("Props")
 @export var health: int = 100
-@export var rotation_speed := 10.0
+@export var rotation_speed := 15.0
+@export var fade_out_duration = 1.5 # (seconds)
+@export_group("Behavior")
+@export var can_patrol: bool = false
 @export_group("DEBUG")
 @export var show_state_debug: bool = true:
 	set(value):
@@ -43,9 +48,9 @@ class_name EnemyController
 #
 var is_dead := false
 var is_initialized = false
-var total_shots_fired = 0
+var last_known_threat_location: Vector3 = Vector3.INF
 var desired_rotation_direction: Vector3 = Vector3(0, 0, 1)
-var fade_out_duration = 0.75 # fade in seconds
+var total_shots_fired = 0
 #endregion
 
 func _ready() -> void:
@@ -62,6 +67,8 @@ func _ready() -> void:
 	# Find the Idle state node by name from the state machine's children
 	if state_machine.has_node("Idle"):
 		state_node_idle = state_machine.get_node("Idle") as EnemyState
+	elif state_machine.has_node("Patrol"):
+		state_node_patrol = state_machine.get_node("Patrol") as EnemyState
 	elif state_machine.has_node("Follow"):
 		state_node_follow = state_machine.get_node("Follow") as EnemyState
 	elif state_machine.has_node("Attack"):
@@ -162,9 +169,12 @@ func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
 	# 2:
 	state_node_idle = null
 	state_node_follow = null
+	state_node_patrol = null
 	state_node_attack = null
 	if new_state_name.to_lower() == "idle":
 		state_node_idle = state
+	elif new_state_name.to_lower() == "patrol":
+		state_node_patrol = state
 	elif new_state_name.to_lower() == "follow":
 		state_node_follow = state
 	elif new_state_name.to_lower() == "attack":
@@ -207,7 +217,24 @@ func fire_weapon(target_position: Vector3) -> void:
 	#print("Enemy fired at position: ", target_position) # Placeholder print
 	# 3: debug
 	#debug_label_gun.text = "FIRE AT\n"+str(target_position)
-	debug_label_gun.text = "SHOTS FIRED\n"+str(total_shots_fired)
+	debug_label_gun.text = "shots\n"+str(total_shots_fired)
+
+# Private funcs
+
+func can_see(target: Node3D, eye_offset := Vector3.UP * 1.5) -> bool:
+	if not is_instance_valid(target):
+		return false
+
+	var space_state = get_world_3d().direct_space_state
+	var origin = global_transform.origin + eye_offset
+	var target_pos = target.global_transform.origin + eye_offset
+
+	var query = PhysicsRayQueryParameters3D.create(origin, target_pos)
+	query.exclude = [self]  # ignore self
+	# query.collision_mask = 1  # use if needed to restrict what "blocks" vision
+
+	var result = space_state.intersect_ray(query)
+	return result and result.collider == target
 
 func spawn_damage_popup(amount: int) -> void:
 	var popup_scene = preload("res://ui/damage_popup.tscn")
@@ -287,6 +314,8 @@ func find_meshes_in_children(node: Node) -> Array[MeshInstance3D]:
 # DEBUG/FYI FUNCS ==================================================
 
 func draw_idle_detection_area_mesh() -> void:
+	var mat := debug_area_mesh.material_override as StandardMaterial3D
+
 	if is_dead:
 		debug_label_dist.visible = false
 		debug_label_gun.visible = false
@@ -299,7 +328,7 @@ func draw_idle_detection_area_mesh() -> void:
 		for player in players:
 			if player is CharacterBody3D:
 				var distance = global_position.distance_to(player.global_position)
-				debug_label_dist.text = "Dist\n"+str(snapped(distance, 0.1))+"m"
+				debug_label_dist.text = "dist\n"+str(snapped(distance, 0.1))+"m"
 
 	if debug_area_mesh and state_node_idle:
 		var detection_range = state_node_idle.detection_range
@@ -310,19 +339,23 @@ func draw_idle_detection_area_mesh() -> void:
 		# The Y scale controls the height, which we set to a small value in the mesh settings.
 		# We usually don't need to change the Y scale here.
 		debug_area_mesh.visible = true
+		mat.albedo_color = Color(0.0, 0.0, 1.0, 0.1)  # blue
+	elif debug_area_mesh and state_node_patrol:
+		var detection_range = state_node_patrol.detection_range
+		debug_area_mesh.scale.x = detection_range * 2
+		debug_area_mesh.scale.z = detection_range * 2
+		debug_area_mesh.visible = true
+		mat.albedo_color = Color(1.0, 1.0, 0.0, 0.1)  # yellow
 	elif debug_area_mesh and state_node_follow:
 		var detection_range = state_node_follow.follow_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
-		# TODO: change color of area
-		#debug_area_mesh.material_override.albedo...? us animation?
 	elif debug_area_mesh and state_node_attack:
 		var detection_range = state_node_attack.attack_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
-		# TODO: change color of area
-		#debug_area_mesh.material_override.albedo...? us animation?
+		mat.albedo_color = Color(1.0, 0.0, 0.0, 0.1)  # red
 	else:
 		debug_area_mesh.visible = false

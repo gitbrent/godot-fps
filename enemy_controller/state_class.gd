@@ -11,12 +11,18 @@ var desired_rotation_direction: Vector3 = Vector3(0, 0, 1)
 func enter() -> void:
 	pass # Override in child states
 
-## Called every frame (can be used for non-physics related logic)
+## Called every frame
+## update() is for non-physics logic like timers and input
 func update(delta: float) -> void:
 	pass # Override in child states
 
-## Called every physics frame (use for movement and physics calculations)
+## Called every physics frame
+## physics_update is called by the controller before move_and_slide
+## (use for movement and physics calculations)
 ## Returns velocity so controller can implement from central location
+# It should return the desired horizontal velocity (Vector3.ZERO when standing still)
+# and set the desired_rotation_direction.
+
 func physics_update(delta: float) -> Vector3:
 	# This is the base implementation. Child classes should override this.
 	# By default, return zero velocity if not overridden or if the base function is called.

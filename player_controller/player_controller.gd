@@ -13,13 +13,16 @@ extends CharacterBody3D
 @export var BASE_SPEED = 5.0
 @export var SPRINT_SPEED = 10.0
 @export var JUMP_VELOCITY = 4.5
-# VARS
+# INPUT VARS
 var mouse_captured = false
 var look_rotation : Vector2
 var move_speed = 0.0
 var joy_look = Vector2.ZERO
 var joy_look_speed = 1000
-## ONREADY VARS
+# CLASS VARS
+#var total_kills = 0 # TODO: need gun/bullet feedback (listener?)
+var total_shots = 0
+# ONREADY VARS
 @onready var head: Node3D = $Head
 @onready var collider: CollisionShape3D = $Collider
 @onready var camera: Camera3D = $Head/Camera3D
@@ -27,6 +30,7 @@ var joy_look_speed = 1000
 @onready var health_bar: ProgressBar = $CanvasLayer/HealthBar
 @onready var death_message: Label = $CanvasLayer/DeathMessage
 @onready var gun_instance: Node3D
+@onready var label_2: Label = $CanvasLayer/VBoxContainer/Label2
 #endregion
 
 # ---------------------------------------------------------
@@ -98,11 +102,10 @@ func _physics_process(delta: float) -> void:
 	# 7: Handle Shoot Input - Tell the gun to fire
 	if Input.is_action_pressed("ui_shoot"):
 		if gun_instance: # Ensure the gun reference is valid
-			gun_instance.request_fire()
-			#var shot_fired = gun_instance.request_fire()
-			# You could optionally check 'shot_fired' if you need to know here
-			# if shot_fired:
-			#     print("Player fired!")
+			var fire_result = gun_instance.request_fire()
+			if fire_result:
+				total_shots += 1
+				label_2.text = str(total_shots)
 
 	# LAST:
 	move_and_slide()

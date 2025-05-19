@@ -19,8 +19,10 @@ class_name EnemyAttack
 #
 @onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
 @onready var audio_enemy_spotted: AudioStreamPlayer = $"../../Audio/EnemySpotted"
-@onready var audio_enemy_lost: AudioStreamPlayer = $"../../Audio/Enemy-lost"
+@onready var audio_enemy_lost: AudioStreamPlayer = $"../../Audio/EnemyLost"
 #
+var player: CharacterBody3D = null
+var distance_to_player: float = INF
 var has_line_of_sight: bool = false
 var time_since_last_attack: float = 0.0
 var target_player: CharacterBody3D = null # Keep a reference to the current target player
@@ -40,41 +42,10 @@ func enter() -> void:
 		transitioned.emit(self, "idle")
 
 func update(delta: float) -> void:
-	# 1: reset vars
-	has_line_of_sight = false
-	# Update attack cooldown timer
+	# 1: Update attack cooldown timer
 	time_since_last_attack += delta
-
-	# Find target (e.g., the player) - you'll need to get the player reference
-	var player = get_tree().get_first_node_in_group("player")
-
-	if !player or !is_instance_valid(player):
-		# If target is lost, transition back to follow or idle
-		transitioned.emit(self, "Idle")
-		return
-
-	# Check if target is still within attack range
-	var distance_to_player = enemy_controller.global_position.distance_to(player.global_position)
-	if distance_to_player > attack_range:
-		# Target moved out of range, transition back to follow
-		transitioned.emit(self, "follow")
-		return
-
-	# Line of sight check
-	if player and distance_to_player <= attack_range:
-		# Line of Sight (LOS) check using raycast
-		var space_state = enemy_controller.get_world_3d().direct_space_state
-		var ray_origin = enemy_controller.global_transform.origin + Vector3.UP * 1.5  # eye height
-		var ray_target = player.global_transform.origin + Vector3.UP * 1.5  # player chest
-		# TODO: ^ replace with player's Marker3D
-		var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_target)
-		query.exclude = [enemy_controller]  # don't hit self
-		#query.collision_mask = 1  # set to what your world geometry is on (e.g. 1 = World)
-		var result = space_state.intersect_ray(query)
-		if result and result.collider == player:
-			has_line_of_sight = true
-
-	# Check if ready to attack based on cooldown and line of sight
+	
+	# 2: Check if ready to attack based on cooldown and line of sight
 	if time_since_last_attack >= attack_cooldown and has_line_of_sight:
 		# Reset cooldown
 		time_since_last_attack = 0.0
@@ -85,43 +56,63 @@ func update(delta: float) -> void:
 		# --- End Request Attack ---
 		# Optionally play a single shot animation or trigger recoil
 
-	if not has_line_of_sight:
-		transitioned.emit(self, "Idle")
-
-# physics_update is called by the controller before move_and_slide
-# It should return the desired horizontal velocity (Vector3.ZERO when standing still)
-# and set the desired_rotation_direction.
 func physics_update(delta: float) -> Vector3:
-	# If we lost our target player, try to find one again
-	if target_player == null or not is_instance_valid(target_player):
-		target_player = find_nearest_player()
-		if target_player == null:
-			# If still no target, transition back to idle
-			transitioned.emit(self, "idle")
-			return Vector3.ZERO # Return zero velocity
-	
-	# Calculate the direction and distance to the target player
-	var direction_to_player = target_player.global_position - enemy_controller.global_position
-	direction_to_player.y = 0 # Ignore vertical difference for horizontal facing
-	var distance_to_player = direction_to_player.length()
+	# 1:
+	player = get_tree().get_first_node_in_group("player")
+	# 2:
+	if player and is_instance_valid(player):
+		distance_to_player = enemy_controller.global_position.distance_to(player.global_position)
+		has_line_of_sight = enemy_controller.can_see(player)
 
-	# --- Determine Desired Facing Direction ---
-	# Set the desired rotation direction towards the target player
-	if distance_to_player > 0: # Avoid normalizing a zero vector if exactly at player pos
-		desired_rotation_direction = direction_to_player.normalized()
-	# else: If distance is zero, keep the last valid desired_rotation_direction or a default.
+		# --- Determine Desired Facing Direction ---
+		# Set the desired rotation direction towards the target player
+		var direction_to_player = player.global_position - enemy_controller.global_position
+		direction_to_player.y = 0 # Ignore vertical difference for horizontal facing
+		if direction_to_player.length_squared() > 0.001:
+			desired_rotation_direction = direction_to_player.normalized()
+		# else: If distance is zero, keep the last valid desired_rotation_direction or a default.
 
-	# --- Check Transition Conditions ---
-	# If the player is outside the attack range, transition back to follow
-	if distance_to_player > attack_range:
-		transitioned.emit(self, "idle")
-		return Vector3.ZERO
+	else: # Player is null or invalid (target lost)
+		distance_to_player = INF # Player not found, set distance to infinity
+		has_line_of_sight = false
+		# If player is lost, the rotation direction might revert to a default or last known,
+		# or you might handle a "lost target" rotation behavior here.
 
-	# If the player is too close (optional - if minimum attack range)
-	# var minimum_attack_range = 1.0
-	# if distance_to_player < minimum_attack_range:
-	# 	transitioned.emit(self, "retreat") # Example: transition to a retreat state
-	# 	return Vector3.ZERO
+	# --- State Transition Logic (Consolidated Here) ---
+	var next_state_name = "" # Variable to hold the name of the state to transition to
+
+	# Condition 1: Player is lost (null or invalid instance)
+	if player == null or !is_instance_valid(player):
+		next_state_name = "patrol" # Default transition if target is lost
+
+	# Condition 2: Player moved out of attack range
+	elif distance_to_player > attack_range:
+		# If target moved out of attack range, transition back to patrol
+		next_state_name = "patrol"
+
+	# Condition 3: Lost line of sight (but player is still in range)
+	elif !has_line_of_sight:
+		# If line of sight is lost while still within range
+		# Decide between patrol and idle if LOS is lost in range based on controller property
+		if enemy_controller.can_patrol: # Check the can_patrol property on the controller
+			next_state_name = "patrol"
+		else:
+			next_state_name = "idle"
+
+	# Add other transition conditions here (e.g., player too close, enemy health low, reload needed)
+	# Example: If reload is needed (based on ammo count managed elsewhere)
+	# if enemy_controller.is_reload_needed():
+	#    next_state_name = "reload"
+
+	# --- Perform Transition if Needed ---
+	if next_state_name != "":
+		#print("Transitioning from `Attack` --> ", next_state_name)
+		transitioned.emit(self, next_state_name)
+		# Reset state-specific variables on transition out
+		player = null
+		distance_to_player = INF
+		has_line_of_sight = false
+		# No need to call exit() here - the StateMachine calls it
 
 	# --- Return Desired Velocity ---
 	# The enemy stands still while attacking, so return zero velocity
