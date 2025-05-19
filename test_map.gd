@@ -3,6 +3,7 @@ extends Node3D
 @export var player: PlayerController
 @export var enemy_scene: PackedScene
 var spawned_enemy: EnemyController
+var max_enemies = 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,7 +18,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	#pass
 	var enemies = get_tree().get_nodes_in_group("enemies")
-	if enemies.size() < 2:
+	if enemies.size() < max_enemies:
 		spawn_enemy()
 
 func spawn_enemy() -> void:
