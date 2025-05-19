@@ -35,12 +35,18 @@ func physics_update(delta: float) -> Vector3:
 			if distance < nearest_player_distance:
 				nearest_player_distance = distance
 				nearest_player = player
-
+	
 	# 2: If a player is found within the detection range, transition to follow
 	if nearest_player and nearest_player_distance <= detection_range:
 		if enemy_controller.can_see(nearest_player):
 			transitioned.emit(self, "attack")
-
+	
+	# 3: If a threat direction has been set (e.g., after taking damage)
+	var lkt_dir = enemy_controller.last_known_threat_direction
+	if lkt_dir != Vector3(0,0,1) and lkt_dir != Vector3.INF:
+		desired_rotation_direction = enemy_controller.last_known_threat_direction
+		move_direction = enemy_controller.last_known_threat_direction
+	
 	# LAST: Return the desired horizontal velocity for wandering
 	return move_direction * move_speed
 

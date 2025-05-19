@@ -48,7 +48,7 @@ class_name EnemyController
 #
 var is_dead := false
 var is_initialized = false
-var last_known_threat_location: Vector3 = Vector3.INF
+var last_known_threat_direction: Vector3 = Vector3.INF
 var desired_rotation_direction: Vector3 = Vector3(0, 0, 1)
 var total_shots_fired = 0
 #endregion
@@ -183,7 +183,7 @@ func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
 # STANDARD GAME FUNCS ==========================================
 
 ## `take_damage` is called by projectiles if implemented (**DONT RENAME**)
-func take_damage(amount:int) -> void:
+func take_damage(amount:int, direction_of_impact: Vector3) -> void:
 	# 1:
 	if is_dead:
 		return
@@ -195,11 +195,21 @@ func take_damage(amount:int) -> void:
 		handle_died()
 	else:
 		animation_player.play("HIT_REACTION")
+	# 4:
+	last_known_threat_direction = -direction_of_impact
+	#print("Enemy hit from direction: ", last_known_threat_direction)
+	# TODO: switch to PATROL state!
+	# Optional: If not currently in combat states (Attack, Follow), transition to an investigate/alert state immediately
+	# This might be a dedicated state or trigger this investigation behavior in Idle/Patrol.
+	# if state_machine.current_state.name.to_lower() != "attack" and state_machine.current_state.name.to_lower() != "follow":
+	#     # Transition to a state that prioritizes checking last_known_threat_location
+	#     # state_machine.request_state_change("investigate") # Need an investigate state
+	#     # Or just rely on Idle/Patrol checking the variable as implemented below
 
 ## `show_hit` is called by projectiles if implemented (**DONT RENAME**)
 func show_hit(impact_point: Vector3) -> void:
 	if not is_dead:
-		# You can spawn a blood spurt here later
+		# TODO: spawn a blood spurt here later
 		print("[enemy_cont] show_hit: ", impact_point)
 		pass
 

@@ -67,7 +67,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	# 1: die if player fell off the map
 	if global_transform.origin.y < 0.0:
-		take_damage(HEALTH)
+		take_damage(HEALTH, Vector3.ZERO)
 	
 	# 2: apply gravity
 	if not is_on_floor():
@@ -132,7 +132,7 @@ func rotate_look(rot_input : Vector2):
 
 # ---------------------------------------------------------
 
-func take_damage(amount: int) -> void:
+func take_damage(amount: int, direction_of_impact: Vector3) -> void:
 	#print("Ouch! Player took ", amount, " damage. Health now: ", health)
 	HEALTH = max(HEALTH - amount, 0)
 	health_bar.value = HEALTH

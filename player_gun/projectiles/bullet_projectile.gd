@@ -3,15 +3,16 @@ extends RigidBody3D
 @export var impact_scene: PackedScene
 @export var speed: float = 100.0
 @export var lifetime: float = 3.0
+var fire_direction: Vector3
 
 func setup(direction: Vector3) -> void:
+	fire_direction = direction
 	linear_velocity = direction.normalized() * speed
 	await get_tree().create_timer(lifetime).timeout
 	queue_free()
 
 func spawn_impact(pos: Vector3, normal: Vector3) -> void:
 	print("Spawning impact at:", pos, "Normal:", normal)
-	
 	if not impact_scene:
 		print("Impact scene not set!")
 		return
@@ -28,7 +29,7 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 	#print("[bullet-projectile]-hit: ", body.name)
 	# STEP 1: damage
 	if body.is_in_group("damageable") and body.has_method("take_damage"):
-		body.take_damage(10)
+		body.take_damage(10, fire_direction)
 	# STEP 2: hit
 	if body.is_in_group("damageable") and body.has_method("show_hit"):
 		body.show_hit(global_position)
