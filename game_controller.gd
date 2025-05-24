@@ -106,6 +106,7 @@ func _on_examine_weapon_button_pressed():
 		hud_game_menu.visible = false
 	# WIP:
 	show_start_screen(false)
+	pause_game(true)
 	# Hide player HUD if it was visible
 	if spawned_player:
 		var player_hud_canvas_layer = spawned_player.hud_canvas_layer
@@ -132,7 +133,6 @@ func close_weapon_examine_screen(): # Called from weapon_examine_screen.gd
 		spawned_weapon_gallery.queue_free()
 		spawned_weapon_gallery = null
 
-	get_tree().paused = false # Unpause the game
-
+	pause_game(false)
 	# Show the main menu again (or whatever screen you came from)
 	show_start_screen(true) # Or show_game_over_screen() if you want to remember previous state
