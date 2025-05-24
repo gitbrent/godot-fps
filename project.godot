@@ -25,6 +25,7 @@ window/size/viewport_height=1398
 damageable=""
 player=""
 enemies=""
+ui_damage_popup=""
 
 [input]
 
