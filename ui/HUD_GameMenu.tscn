@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://bwmlsmdlr63lo" path="res://ui/hud_game_menu.gd" id="1_xdd34"]
 [ext_resource type="FontFile" uid="uid://dakdmgwnqqui4" path="res://ui/assets/Xolonium-Regular.ttf" id="1_yu3po"]
 [ext_resource type="Texture2D" uid="uid://cuf7nuafiduhg" path="res://ui/assets/blue_button00.png" id="2_1bp0k"]
+[ext_resource type="Texture2D" uid="uid://o0llpofd1qj6" path="res://ui/assets/Screenshot 2025-05-24 at 12.59.40.png" id="2_04p6d"]
 [ext_resource type="Texture2D" uid="uid://d0bfveprjtsb0" path="res://ui/assets/blue_button01.png" id="3_xdd34"]
-[ext_resource type="FontFile" uid="uid://bqjyrkrivp4xe" path="res://ui/assets/kenvector_future.ttf" id="4_04p6d"]
 
 [node name="HudGameMenu" type="Control"]
 layout_mode = 3
@@ -16,6 +16,10 @@ grow_vertical = 2
 script = ExtResource("1_xdd34")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Screenshot" type="Sprite2D" parent="CanvasLayer"]
+texture = ExtResource("2_04p6d")
+centered = false
 
 [node name="Overlay" type="ColorRect" parent="CanvasLayer"]
 anchors_preset = 15
@@ -57,10 +61,42 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("4_04p6d")
+theme_override_fonts/font = ExtResource("1_yu3po")
 theme_override_font_sizes/font_size = 96
 text = "Start"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ButtonGallery" type="TextureButton" parent="CanvasLayer"]
+process_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = 301.0
+offset_right = 500.0
+offset_bottom = 451.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("2_1bp0k")
+texture_pressed = ExtResource("3_xdd34")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/ButtonGallery"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_yu3po")
+theme_override_font_sizes/font_size = 96
+text = "Weapon Gallery"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="CanvasLayer/ButtonStart" to="." method="_on_button_start_pressed"]
+[connection signal="pressed" from="CanvasLayer/ButtonGallery" to="." method="_on_button_gallery_pressed"]

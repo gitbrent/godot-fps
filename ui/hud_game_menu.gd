@@ -14,3 +14,8 @@ func _on_button_start_pressed() -> void:
 
 func show_game_menu(show:bool) -> void:
 	canvas_layer.visible = show
+
+
+func _on_button_gallery_pressed() -> void:
+	get_parent()._on_examine_weapon_button_pressed()
+	pass # Replace with function body.
