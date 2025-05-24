@@ -3,6 +3,8 @@ extends CharacterBody3D
 ## player_controller.gd
 ## Brent Prototype Player Controller
 
+signal player_died()
+
 #region variables
 # PROPERTIES
 @export_group("Properties")
@@ -20,17 +22,19 @@ var move_speed = 0.0
 var joy_look = Vector2.ZERO
 var joy_look_speed = 1000
 # CLASS VARS
+var is_dying: bool = false
 #var total_kills = 0 # TODO: need gun/bullet feedback (listener?)
 var total_shots = 0
 # ONREADY VARS
 @onready var head: Node3D = $Head
 @onready var collider: CollisionShape3D = $Collider
 @onready var camera: Camera3D = $Head/Camera3D
-@onready var damage_flash: ColorRect = $CanvasLayer/DamageFlash
-@onready var health_bar: ProgressBar = $CanvasLayer/HealthBar
-@onready var death_message: Label = $CanvasLayer/DeathMessage
+@onready var damage_flash: ColorRect = $HUD_CanvasLayer/DamageFlash
+@onready var health_bar: ProgressBar = $HUD_CanvasLayer/HealthBar
+@onready var death_message: Label = $HUD_CanvasLayer/DeathMessage
 @onready var gun_instance: Node3D
-@onready var label_2: Label = $CanvasLayer/VBoxContainer/Label2
+@onready var sound_argh: AudioStreamPlayer = $"Audio/Sound-argh"
+@onready var label_2: Label = $HUD_CanvasLayer/VBoxContainer/Label2
 #endregion
 
 # ---------------------------------------------------------
@@ -49,6 +53,9 @@ func _ready() -> void:
 	gun_instance.name = "Gun"
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_dying:
+		return
+	
 	# Mouse capturing
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		capture_mouse()
@@ -65,6 +72,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			joy_look.y = -event.axis_value
 
 func _physics_process(delta: float) -> void:
+	if is_dying:
+		return
+	
 	# 1: die if player fell off the map
 	if global_transform.origin.y < 0.0:
 		take_damage(HEALTH, Vector3.ZERO)
@@ -150,14 +160,46 @@ func flash_damage_screen():
 	tween.tween_callback(func(): damage_flash.visible = false)
 
 func die():
+	# STEP 0:
+	if is_dying:
+		return
 	#print("PLAYER DIED")
-	# Add death animation, ragdoll, scene reset, etc.
+	is_dying = true
+	
+	# STEP 1: uncapture mouse
+	release_mouse()
+
+	# 2. Immediate Visual/Audio Feedback
 	damage_flash.modulate = Color(1, 0, 0, 0.7)
 	damage_flash.visible = true
+	sound_argh.play()
 	death_message.visible = true
 	gun_instance.visible = false
-	var tween := create_tween()
-	tween.tween_property(camera, "rotation_degrees:z", -45.0, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	await tween.finished
-	# Optional: pause the game
-	get_tree().paused = true
+
+	# 3. Fade Out UI (Damage Popups, HUD, etc.)
+	# Assuming damage popups are children of a CanvasLayer or Control node, or you have a list of them
+	# You'd need a reference to your HUD root or a function to hide/tween all UI elements
+	# Example for damage_flash fade out and other HUD elements:
+	var ui_fade_tween := create_tween()
+	ui_fade_tween.set_parallel(true) # Run multiple tweens at once
+	# Tween out damage_flash alpha
+	#ui_fade_tween.tween_property(damage_flash, "modulate:a", 0.0, 1.0).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+	# fade out healthbar
+	ui_fade_tween.tween_property(health_bar, "modulate:a", 0.0, 1.0).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+
+	# Add death animation, ragdoll, scene reset, etc.
+	damage_flash.visible = true
+	damage_flash.modulate = Color(1, 0, 0, 0.7)
+
+	# 4: Fade out all damage popups
+	for popup in get_tree().get_nodes_in_group("ui_damage_popup"):
+		popup.queue_free()
+
+	# 5. Fall over
+	var camera_tween := create_tween()
+	camera_tween.tween_property(camera, "rotation_degrees:z", -45.0, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	await camera_tween.finished
+	await ui_fade_tween.finished
+
+	# LAST:
+	emit_signal("player_died")
