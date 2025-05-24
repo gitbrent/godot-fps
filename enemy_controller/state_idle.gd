@@ -32,9 +32,6 @@ func physics_update(delta: float) -> Vector3:
 	if enemy_controller.last_known_threat_direction != Vector3(0,0,1): # Check against default
 		# Face the direction of threat
 		desired_rotation_direction = enemy_controller.last_known_threat_direction
-		# ^^^ WORKS great
-		#desired_horizontal_velocity = enemy_controller.last_known_threat_direction * 4
-		# FIXME: Above causes 1000's of errors
 	
 	# 3:
 	return desired_horizontal_velocity

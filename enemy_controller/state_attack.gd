@@ -18,8 +18,8 @@ class_name EnemyAttack
 @export var attack_cooldown: float = 0.5
 #
 @onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
-@onready var audio_enemy_spotted: AudioStreamPlayer = $"../../Audio/EnemySpotted"
-@onready var audio_enemy_lost: AudioStreamPlayer = $"../../Audio/EnemyLost"
+@onready var audio_enemy_spotted: AudioStreamPlayer = $"../../Audio/Contact!"
+@onready var audio_enemy_lost: AudioStreamPlayer = $"../../Audio/I-lost-hem!"
 #
 var player: CharacterBody3D = null
 var distance_to_player: float = INF

@@ -26,6 +26,7 @@ class_name EnemyController
 @onready var state_node_follow: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_attack: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var m16_rifle: Node3D = $m16_assault_rifle_fixed
+@onready var audio_projectile_strike: AudioStreamPlayer = $"Audio/Projectile-strike"
 #
 @export_group("Props")
 @export var health: int = 100
@@ -205,6 +206,8 @@ func take_damage(amount:int, direction_of_impact: Vector3) -> void:
 	#     # Transition to a state that prioritizes checking last_known_threat_location
 	#     # state_machine.request_state_change("investigate") # Need an investigate state
 	#     # Or just rely on Idle/Patrol checking the variable as implemented below
+	# 5: sound effect
+	audio_projectile_strike.play()
 
 ## `show_hit` is called by projectiles if implemented (**DONT RENAME**)
 func show_hit(impact_point: Vector3) -> void:
@@ -255,6 +258,7 @@ func spawn_damage_popup(amount: int) -> void:
 func handle_died():
 	is_dead = true
 	velocity = Vector3.ZERO
+	m16_rifle.queue_free()
 	state_machine.request_state_change("dead")
 	#await animation_player.animation_finished
 	#_play_anim_blocking("DYING", func():is_reacting=false)

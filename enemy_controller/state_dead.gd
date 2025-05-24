@@ -3,7 +3,7 @@ class_name EnemyDead
 ## This state is responsible for the immediate visual and audio feedback of death.
 
 @onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
-@onready var audio_brutal: AudioStreamPlayer = $"../../Audio/ow-my-balls"
+@onready var audio_brutal: AudioStreamPlayer = $"../../Audio/Ow-right-in-the-fkn-nuts"
 
 func enter() -> void:
 	#print("ENEMY DEAD!")

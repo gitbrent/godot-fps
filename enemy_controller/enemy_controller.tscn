@@ -4,14 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://dvcivjkfrehtp" path="res://enemy_controller/test3/Test03_vanguard_diffuse1.png" id="2_0jppv"]
 [ext_resource type="Script" uid="uid://b240sr7xljqv2" path="res://enemy_controller/state_machine.gd" id="3_cdg0o"]
 [ext_resource type="Texture2D" uid="uid://brho4063gnup4" path="res://enemy_controller/test3/Test03_vanguard_normal.png" id="3_gvooo"]
-[ext_resource type="AudioStream" uid="uid://b0bq0wjt6citd" path="res://enemy_controller/audio/ow-my-balls.mp3" id="4_tlx2e"]
+[ext_resource type="AudioStream" uid="uid://djwtd60ecxc8c" path="res://enemy_controller/audio/voice1/contact!.mp3" id="4_e5gnd"]
+[ext_resource type="AudioStream" uid="uid://yh8pnd28oe7a" path="res://enemy_controller/audio/voice1/ow-right-in-the-fkn-nuts.mp3" id="4_oeory"]
 [ext_resource type="Script" uid="uid://pdw1m7tkdt" path="res://enemy_controller/state_idle.gd" id="4_x6dxp"]
 [ext_resource type="Script" uid="uid://cwed87lihuouf" path="res://enemy_controller/state_follow.gd" id="5_cdg0o"]
 [ext_resource type="AnimationLibrary" uid="uid://b3v0nimf8t7r1" path="res://enemy_controller/animations-test05.res" id="5_nm63k"]
-[ext_resource type="AudioStream" uid="uid://ch8gl5wmuw235" path="res://enemy_controller/audio/ow-right-in-the-back.mp3" id="5_ush2a"]
-[ext_resource type="AudioStream" uid="uid://dfqbriyfapw0i" path="res://enemy_controller/audio/enemy_spotted.mp3" id="6_iwtpe"]
-[ext_resource type="AudioStream" uid="uid://ub3wkhkfyipi" path="res://enemy_controller/audio/enemy-lost.mp3" id="7_e5gnd"]
+[ext_resource type="AudioStream" uid="uid://xjr0drm6ter1" path="res://enemy_controller/audio/voice1/i-lost-hem!.mp3" id="5_oeory"]
 [ext_resource type="Script" uid="uid://bvykkb0bedomi" path="res://enemy_controller/state_dead.gd" id="7_gvooo"]
+[ext_resource type="AudioStream" uid="uid://cnx8yqdpw4etj" path="res://enemy_controller/audio/projectile-strike.mp3" id="7_oeory"]
 [ext_resource type="Script" uid="uid://bt431jtlyatvr" path="res://enemy_controller/state_attack.gd" id="12_x8ewe"]
 [ext_resource type="PackedScene" uid="uid://6mbl8mtrfbde" path="res://enemy_rifle/enemy_rifle.tscn" id="13_iwtpe"]
 [ext_resource type="Script" uid="uid://dcmxw1247ny4s" path="res://enemy_controller/state_patrol.gd" id="14_oeory"]
@@ -5984,20 +5984,19 @@ skin = SubResource("Skin_7hmpb")
 
 [node name="Audio" type="Node" parent="."]
 
-[node name="ow-my-balls" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("4_tlx2e")
-volume_db = -5.0
+[node name="Contact!" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("4_e5gnd")
 
-[node name="Ow-right-in-the-back" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("5_ush2a")
+[node name="I-lost-hem!" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("5_oeory")
 
-[node name="EnemySpotted" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("6_iwtpe")
-volume_db = -5.0
+[node name="Ow-right-in-the-fkn-nuts" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("4_oeory")
 
-[node name="EnemyLost" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("7_e5gnd")
-volume_db = -5.0
+[node name="Projectile-strike" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("7_oeory")
+volume_db = -2.0
+pitch_scale = 0.8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
