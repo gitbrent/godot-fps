@@ -1,9 +1,9 @@
-class_name PlayerController
-extends CharacterBody3D
 ## player_controller.gd
 ## Brent Prototype Player Controller
+class_name PlayerController
+extends CharacterBody3D
 
-signal player_died()
+signal player_died
 
 #region variables
 # PROPERTIES
@@ -35,6 +35,7 @@ var total_shots = 0
 @onready var gun_instance: Node3D
 @onready var sound_argh: AudioStreamPlayer = $"Audio/Sound-argh"
 @onready var label_2: Label = $HUD_CanvasLayer/VBoxContainer/Label2
+@onready var hud_canvas_layer: CanvasLayer = $HUD_CanvasLayer
 #endregion
 
 # ---------------------------------------------------------
