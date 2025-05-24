@@ -19,6 +19,7 @@ config/icon="res://assets/icon.svg"
 
 window/size/viewport_width=2160
 window/size/viewport_height=1398
+window/stretch/mode="canvas_items"
 
 [global_group]
 
@@ -55,6 +56,8 @@ ui_aim_down_sights={
 
 [layer_names]
 
+3d_render/layer_1="world"
+3d_render/layer_20="WeaponExamine"
 3d_physics/layer_1="world"
 3d_physics/layer_2="bullets"
 3d_physics/layer_3="enemies"

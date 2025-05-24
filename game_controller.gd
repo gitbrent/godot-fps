@@ -1,15 +1,20 @@
 extends Node3D
+class_name GameController
 
+#region vars
 @export var player_scene: PackedScene
 @export var enemy_scene: PackedScene
+@export var weapon_gallery_scene: PackedScene
 #
 @onready var hud_game_menu: Control = $HudGameMenu
 @onready var countdown_label: CanvasLayer = $CountdownLabel
 #
-var spawned_player: PlayerController
-var spawned_enemy: EnemyController
+var spawned_player: PlayerController = null
+var spawned_enemy: EnemyController = null
+var spawned_weapon_gallery: WeaponGallery = null
 var max_enemies = 3
 var can_spawn_enemies = false
+#endregion
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -20,7 +25,7 @@ func _ready() -> void:
 	# STEP 2:
 	hud_game_menu.btn_clicked_start_game.connect(_on_btn_clicked_start_game)
 	# STEP 3:
-	show_start_screen()
+	show_start_screen(true)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -34,9 +39,9 @@ func pause_game(value:bool) -> void:
 
 # HUD GUI FUNCS -----------------------------------------------
 
-func show_start_screen() -> void:
-	pause_game(true)
-	hud_game_menu.show_game_menu(true)
+func show_start_screen(value:bool) -> void:
+	pause_game(value)
+	hud_game_menu.show_game_menu(value)
 
 func _on_btn_clicked_start_game() -> void:
 	# 1: cleanup
@@ -48,8 +53,9 @@ func _on_btn_clicked_start_game() -> void:
 			node.queue_free()
 	
 	# 2:
-	hud_game_menu.show_game_menu(false)
-	pause_game(false)
+	show_start_screen(false)
+	
+	# 3:
 	spawn_player()
 	
 	# 3:
@@ -69,7 +75,7 @@ func _on_player_died() -> void:
 	# 3:
 	spawned_player.queue_free()
 	# 3:
-	show_start_screen()
+	show_start_screen(true)
 
 func spawn_player() -> void:
 	spawned_player = player_scene.instantiate()
@@ -87,3 +93,46 @@ func spawn_enemy() -> void:
 		spawned_enemy.can_patrol = true
 		spawned_enemy.global_position = Vector3(0.0, 0.0, -10.0)
 		spawned_enemy.state_machine.request_state_change("patrol")
+
+# WEAPON GALLERY --------------------------------------------
+
+func _on_examine_weapon_button_pressed():
+	print("Examine Weapon button pressed!")
+	if spawned_weapon_gallery:
+		spawned_weapon_gallery.queue_free()
+	get_tree().paused = true # Pause the game while in examine screen
+	# Hide main menu UI
+	if hud_game_menu:
+		hud_game_menu.visible = false
+	# WIP:
+	show_start_screen(false)
+	# Hide player HUD if it was visible
+	if spawned_player:
+		var player_hud_canvas_layer = spawned_player.hud_canvas_layer
+		if player_hud_canvas_layer:
+			player_hud_canvas_layer.visible = false
+
+	if weapon_gallery_scene:
+		spawned_weapon_gallery = weapon_gallery_scene.instantiate()
+		get_tree().current_scene.add_child(spawned_weapon_gallery)
+		# Ensure it processes inputs even if paused
+		spawned_weapon_gallery.set_process_mode(Node.PROCESS_MODE_ALWAYS)
+		spawned_weapon_gallery.btn_clicked_close_weapon_gallery.connect(close_weapon_examine_screen)
+
+		# --- Load a specific weapon ---
+		# Example: Load an enemy's default weapon. You'll need the path to its GLB/OBJ/TSCN file.
+		# Ensure your enemy weapon model scene (e.g., "res://models/enemy_rifle.tscn") is correctly imported
+		spawned_weapon_gallery.load_weapon("res://enemy_rifle/enemy_rifle.tscn")
+	else:
+		print("Error: Weapon examine scene prefab not assigned!")
+
+func close_weapon_examine_screen(): # Called from weapon_examine_screen.gd
+	print("Closing weapon examine screen.")
+	if is_instance_valid(spawned_weapon_gallery):
+		spawned_weapon_gallery.queue_free()
+		spawned_weapon_gallery = null
+
+	get_tree().paused = false # Unpause the game
+
+	# Show the main menu again (or whatever screen you came from)
+	show_start_screen(true) # Or show_game_over_screen() if you want to remember previous state

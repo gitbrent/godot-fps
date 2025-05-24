@@ -1,9 +1,10 @@
-[gd_scene load_steps=27 format=4 uid="uid://brdt8fje6jpt1"]
+[gd_scene load_steps=28 format=4 uid="uid://brdt8fje6jpt1"]
 
 [ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://KENNEY_PNG/Dark/texture_01.png" id="1_4qc02"]
-[ext_resource type="Script" uid="uid://cte556yo33bge" path="res://test_map.gd" id="1_bu3ac"]
+[ext_resource type="Script" uid="uid://cte556yo33bge" path="res://game_controller.gd" id="1_bu3ac"]
 [ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player_controller/player_controller.tscn" id="2_4wuf8"]
 [ext_resource type="PackedScene" uid="uid://c21axn1475ray" path="res://models/scifi_barrel/sci-fi_barrel.glb" id="3_s02eq"]
+[ext_resource type="PackedScene" uid="uid://bbckvmseeosda" path="res://weapon_gallery/weapon_gallery.tscn" id="4_pphbs"]
 [ext_resource type="PackedScene" uid="uid://wkv1txt18fhi" path="res://ui/countdown_label.tscn" id="5_3qa0k"]
 [ext_resource type="Texture2D" uid="uid://37kwa6tpjmog" path="res://KENNEY_PNG/Dark/texture_09.png" id="7_ihcqn"]
 [ext_resource type="Texture2D" uid="uid://cfyw3xb6oxvm1" path="res://KENNEY_PNG/Red/texture_09.png" id="7_ssfg1"]
@@ -90,6 +91,7 @@ shadow_mesh = SubResource("ArrayMesh_gufkr")
 script = ExtResource("1_bu3ac")
 player_scene = ExtResource("2_4wuf8")
 enemy_scene = ExtResource("10_5354r")
+weapon_gallery_scene = ExtResource("4_pphbs")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_t8dge")
@@ -111,10 +113,6 @@ shape = SubResource("BoxShape3D_ssfg1")
 metadata/_edit_lock_ = true
 
 [node name="CountdownLabel" parent="." instance=ExtResource("5_3qa0k")]
-
-[node name="EnemyIdle" parent="." instance=ExtResource("10_5354r")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -13)
-health = 100
 
 [node name="SHAPES" type="Node3D" parent="."]
 
