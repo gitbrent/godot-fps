@@ -1,6 +1,6 @@
-# Update your damage popup script to extend Node3D
 extends Node3D
 
+#region vars
 @onready var label_3d: Label3D = $Label3D
 #
 @export var horizontal_jitter: float = 0.5
@@ -9,6 +9,7 @@ extends Node3D
 #
 var damage_amount_data: int
 var world_position_data: Vector3
+#endregion
 
 # Use a setter function to receive the data
 func set_popup_data(amount: int, world_position: Vector3) -> void:

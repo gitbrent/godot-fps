@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://pqufex84htx0" path="res://ui/damage_popup.gd" id="1_m8tyv"]
 [ext_resource type="FontFile" uid="uid://c8rynjlvhun2s" path="res://assets/Xolonium-Regular.ttf" id="3_suoun"]
 
-[node name="DamagePopup" type="Node3D"]
+[node name="DamagePopup" type="Node3D" groups=["ui_damage_popup"]]
 script = ExtResource("1_m8tyv")
 
 [node name="Label3D" type="Label3D" parent="."]
