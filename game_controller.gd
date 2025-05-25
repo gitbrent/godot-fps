@@ -24,6 +24,7 @@ func _ready() -> void:
 		return
 	# STEP 2:
 	hud_game_menu.btn_clicked_start_game.connect(_on_btn_clicked_start_game)
+	hud_game_menu.btn_clicked_show_gallery.connect(_on_btn_clicked_show_gallery)
 	# STEP 3:
 	show_start_screen(true)
 
@@ -100,8 +101,8 @@ func spawn_enemy() -> void:
 
 # WEAPON GALLERY --------------------------------------------
 
-func _on_examine_weapon_button_pressed():
-	print("Examine Weapon button pressed!")
+func _on_btn_clicked_show_gallery():
+	print("show Weapon button pressed!")
 	if spawned_weapon_gallery:
 		spawned_weapon_gallery.queue_free()
 	get_tree().paused = true # Pause the game while in examine screen

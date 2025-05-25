@@ -10,7 +10,7 @@ signal btn_clicked_show_gallery
 func _ready() -> void:
 	canvas_layer.visible = false
 
-func _input(event):
+func _unhandled_input(event):
 	if Input.is_action_just_pressed("ui_accept"):
 		_on_button_start_pressed()
 	elif Input.is_action_just_pressed("ui_select"):
@@ -23,8 +23,6 @@ func _on_button_start_pressed() -> void:
 
 func _on_button_gallery_pressed() -> void:
 	emit_signal("btn_clicked_show_gallery")
-	#get_parent()._on_examine_weapon_button_pressed()
-	#pass # Replace with function body.
 
 # PUBLIC ==================================================
 
