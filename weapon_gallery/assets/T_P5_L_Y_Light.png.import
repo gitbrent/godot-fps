@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://g26up8epnohl"
-path="res://.godot/imported/T_P5_L_Y.png-7b7c268bfdb87077df8525a1a0451e01.ctex"
+uid="uid://htw2bsmf77dh"
+path="res://.godot/imported/T_P5_L_Y_Light.png-a586c31e4e7e87f08fc641bb99d522e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/assets/T_P5_L_Y.png"
-dest_files=["res://.godot/imported/T_P5_L_Y.png-7b7c268bfdb87077df8525a1a0451e01.ctex"]
+source_file="res://weapon_gallery/assets/T_P5_L_Y_Light.png"
+dest_files=["res://.godot/imported/T_P5_L_Y_Light.png-a586c31e4e7e87f08fc641bb99d522e4.ctex"]
 
 [params]
 

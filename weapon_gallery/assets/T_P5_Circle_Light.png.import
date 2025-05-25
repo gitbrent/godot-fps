@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bnl8x3fs8eidh"
-path="res://.godot/imported/T_P5_R3_X.png-7d417c765caf32bb61639de5051fac88.ctex"
+uid="uid://bxf0e1afvggun"
+path="res://.godot/imported/T_P5_Circle_Light.png-e3f23edb7d1819c61350e982a9566a15.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/assets/T_P5_R3_X.png"
-dest_files=["res://.godot/imported/T_P5_R3_X.png-7d417c765caf32bb61639de5051fac88.ctex"]
+source_file="res://weapon_gallery/assets/T_P5_Circle_Light.png"
+dest_files=["res://.godot/imported/T_P5_Circle_Light.png-e3f23edb7d1819c61350e982a9566a15.ctex"]
 
 [params]
 
