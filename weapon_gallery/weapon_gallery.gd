@@ -1,5 +1,5 @@
 ## DESIGN NOTES
-## - weapons exist on 1 *and* 20
+## - weapons exist on mask 1 *and* 20
 ## - that way we can easily show here wihtout having to set/unset masks!
 extends Node3D
 class_name WeaponGallery
@@ -12,32 +12,57 @@ signal btn_clicked_close_weapon_gallery
 #
 var loaded_weapon_model: Node3D = null
 var rotation_speed: float = 0.5
+var joystick_rotation_speed: float = 100.0 # (degrees per second)
+var min_zoom_z: float = 0.5 # Closest Z camera can get to origin (weapon)
+var max_zoom_z: float = 2.0 # Farthest Z camera can get from origin
+var zoom_speed: float = 1.0 # how fast it zooms
 #endregion
 
 func _ready():
-	# Ensure the camera only renders the "WeaponExamine" layer or specific layer for this view
-	main_camera.cull_mask = (1 << 19) # Example: Assuming layer 20 is "UI_3D"
-	# Initially hide the weapon container if you load it later
-	# weapon_container.visible = false
+	# Ensure the camera only renders the "WeaponExamine" layer (20)
+	main_camera.cull_mask = (1 << 19)
 
 func _process(delta: float):
-	# Handle mouse input for rotation
-	if Input.is_action_pressed("ui_left"):
-		var mouse_delta = Input.get_last_mouse_velocity()
-		# Rotate around the Z-axis based on horizontal mouse movement
-		# The Z-axis rotation for the weapon itself depends on your weapon's model orientation.
-		# Often, you rotate around the Y-axis for horizontal spin, or X-axis for vertical.
-		# The request was Z-axis, so let's use that.
-		if loaded_weapon_model:
-			# You might need to adjust the axis depending on your model's orientation.
-			# For typical "examine" screens, it's often rotation around the Y-axis for horizontal spin.
-			# If the user wants Z-axis for vertical spin, this is correct.
-			loaded_weapon_model.rotate_object_local(Vector3(0, 0, 1), deg_to_rad(mouse_delta.x * rotation_speed))
-			# If you meant horizontal spin (like rotating it left/right on a stand), use Y-axis:
-			# loaded_weapon_model.rotate_object_local(Vector3(0, 1, 0), deg_to_rad(mouse_delta.x * rotation_speed))
+	# Joystick Input for Rotation
+	if loaded_weapon_model:
+		var joystick_x_input = Input.get_axis("move_left", "move_right")
+		if abs(joystick_x_input) > 0.1: # Add a small deadzone
+			# Rotate around the Y-axis based on joystick X input
+			loaded_weapon_model.rotate_object_local(Vector3(0, 1, 0), deg_to_rad(joystick_x_input * joystick_rotation_speed * delta))
 
-# Method to load a specific weapon model
-func load_weapon(weapon_scene_path: String):
+	# Joystick Input for Zoom (Left Stick Up/Down)
+	var joystick_y_input = Input.get_axis("ui_up", "ui_down")
+
+	if abs(joystick_y_input) > 0.1: # Small deadzone
+		# Calculate the change in Z based on input and speed
+		# If joystick_y_input is positive (forward stick), we want Z to DECREASE (move closer)
+		# If joystick_y_input is negative (backward stick), we want Z to INCREASE (move farther)
+		var zoom_delta_z = joystick_y_input * zoom_speed * delta
+		# Apply the change to the camera's Z position
+		var new_camera_z = main_camera.position.z - zoom_delta_z # Subtract to zoom in for positive input
+		# Clamp the new Z position
+		new_camera_z = clamp(new_camera_z, min_zoom_z, max_zoom_z)
+		# Apply the clamped Z position back to the camera
+		# Crucially, we only change the Z component; X and Y remain fixed.
+		main_camera.position.z = new_camera_z
+
+func _input(event):
+	# Mouse drag rotation (Y-axis for left/right spin)
+	if event is InputEventMouseMotion and event.button_mask & MOUSE_BUTTON_MASK_LEFT:
+		if loaded_weapon_model:
+			# Rotate around the Y-axis (for left/right horizontal spin)
+			loaded_weapon_model.rotate_object_local(Vector3(0, 1, 0), deg_to_rad(event.relative.x * rotation_speed))
+
+	# Handle a "Back" button input (e.g., Esc key)
+	if Input.is_action_just_pressed("ui_cancel"):
+		emit_signal("btn_clicked_close_weapon_gallery")
+
+func _on_button_back_pressed() -> void:
+	emit_signal("btn_clicked_close_weapon_gallery")
+
+# PUBLIC METHODS -----------------------------------------------
+
+func load_weapon(weapon_scene_path: String) ->void:
 	if loaded_weapon_model:
 		loaded_weapon_model.queue_free() # Remove previous weapon if any
 		loaded_weapon_model = null
@@ -46,30 +71,7 @@ func load_weapon(weapon_scene_path: String):
 	if weapon_scene:
 		loaded_weapon_model = weapon_scene.instantiate()
 		weapon_container.add_child(loaded_weapon_model)
-		# You might need to adjust the loaded_weapon_model's local_position and rotation
-		# to center it correctly in the view.
-		loaded_weapon_model.position = Vector3.ZERO # Ensure it's at the container's center
-		loaded_weapon_model.rotation_degrees = Vector3.ZERO # Reset rotation if needed
-		print("WEAPON LOADED!")
-		# Ensure it's on the correct rendering layer for this camera
-		# loaded_weapon_model.set_layer(20) # Assuming layer 20 is "UI_3D"
+		loaded_weapon_model.position = Vector3.ZERO
+		loaded_weapon_model.rotation_degrees = Vector3(0, -45, 0)
 	else:
-		print("Failed to load weapon scene: ", weapon_scene_path)
-
-func _input(event):
-	# Alternatively, if you want drag rotation without holding a button
-	if event is InputEventMouseMotion and event.button_mask & MOUSE_BUTTON_MASK_LEFT:
-		var mouse_delta = event.relative
-		if loaded_weapon_model:
-			# Rotate around the Z-axis (vertical rotation) based on horizontal mouse movement
-			loaded_weapon_model.rotate_object_local(Vector3(0, 0, 1), deg_to_rad(mouse_delta.x * rotation_speed))
-			# If you meant horizontal rotation (like spinning it on a table), use Y-axis:
-			# loaded_weapon_model.rotate_object_local(Vector3(0, 1, 0), deg_to_rad(mouse_delta.x * rotation_speed))
-
-	# Handle a "Back" button input
-	if Input.is_action_just_pressed("ui_cancel"): # Default Godot action for Esc key
-		# Emit a signal or call a function in GameController to close this scene
-		get_parent().close_weapon_examine_screen() # Assuming GameController is the parent
-
-func _on_button_back_pressed() -> void:
-	emit_signal("btn_clicked_close_weapon_gallery")
+		print("ERROR: Failed to load weapon scene: ", weapon_scene_path)
