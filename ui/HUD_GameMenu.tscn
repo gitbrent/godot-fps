@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://bhhs3kjln8s2f"]
+[gd_scene load_steps=8 format=3 uid="uid://bhhs3kjln8s2f"]
 
 [ext_resource type="Script" uid="uid://bwmlsmdlr63lo" path="res://ui/hud_game_menu.gd" id="1_xdd34"]
-[ext_resource type="FontFile" uid="uid://dakdmgwnqqui4" path="res://ui/assets/Xolonium-Regular.ttf" id="1_yu3po"]
 [ext_resource type="Texture2D" uid="uid://cuf7nuafiduhg" path="res://ui/assets/blue_button00.png" id="2_1bp0k"]
 [ext_resource type="Texture2D" uid="uid://o0llpofd1qj6" path="res://ui/assets/Screenshot 2025-05-24 at 12.59.40.png" id="2_04p6d"]
+[ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="3_04p6d"]
 [ext_resource type="Texture2D" uid="uid://d0bfveprjtsb0" path="res://ui/assets/blue_button01.png" id="3_xdd34"]
+[ext_resource type="Texture2D" uid="uid://cgvddjwqdyl4k" path="res://ui/assets/T_P5_Cross_Light.png" id="6_ka6vp"]
+[ext_resource type="Texture2D" uid="uid://514kfpddwdpo" path="res://ui/assets/T_P5_Triangle_Light.png" id="7_rjiop"]
 
 [node name="HudGameMenu" type="Control"]
 layout_mode = 3
@@ -29,74 +31,99 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.411765)
 
-[node name="Label" type="Label" parent="CanvasLayer"]
-anchors_preset = 14
-anchor_top = 0.5
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -349.0
-offset_bottom = -204.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_yu3po")
+
+[node name="LabelTitle1" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_04p6d")
+theme_override_font_sizes/font_size = 240
+text = "Godot 4"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="LabelTitle2" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_04p6d")
 theme_override_font_sizes/font_size = 120
-text = "Main Menu"
+text = "FPS Prototype"
 horizontal_alignment = 1
 
-[node name="ButtonStart" type="TextureButton" parent="CanvasLayer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 750)
+layout_mode = 2
+
+[node name="ButtonStart" type="TextureButton" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
 process_mode = 3
-offset_left = 830.0
-offset_top = 800.0
-offset_right = 1330.0
-offset_bottom = 950.0
+custom_minimum_size = Vector2(1000, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
 texture_normal = ExtResource("2_1bp0k")
 texture_pressed = ExtResource("3_xdd34")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="CanvasLayer/ButtonStart"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/ButtonStart"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_yu3po")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/VBoxContainer/VBoxContainer/ButtonStart/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_ka6vp")
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/VBoxContainer/ButtonStart/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_04p6d")
 theme_override_font_sizes/font_size = 96
 text = "Start"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonGallery" type="TextureButton" parent="CanvasLayer"]
+[node name="ButtonGallery" type="TextureButton" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
 process_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -500.0
-offset_top = 301.0
-offset_right = 500.0
-offset_bottom = 451.0
-grow_horizontal = 2
-grow_vertical = 2
+custom_minimum_size = Vector2(1000, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
 texture_normal = ExtResource("2_1bp0k")
 texture_pressed = ExtResource("3_xdd34")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="CanvasLayer/ButtonGallery"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/ButtonGallery"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_yu3po")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/VBoxContainer/VBoxContainer/ButtonGallery/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("7_rjiop")
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/VBoxContainer/ButtonGallery/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_04p6d")
 theme_override_font_sizes/font_size = 96
 text = "Weapon Gallery"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="CanvasLayer/ButtonStart" to="." method="_on_button_start_pressed"]
-[connection signal="pressed" from="CanvasLayer/ButtonGallery" to="." method="_on_button_gallery_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/ButtonStart" to="." method="_on_button_start_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/ButtonGallery" to="." method="_on_button_gallery_pressed"]

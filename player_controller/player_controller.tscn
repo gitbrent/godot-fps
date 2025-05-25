@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ch1ft8by16a4u" path="res://player_controller/player_controller.gd" id="1_f0yg5"]
 [ext_resource type="PackedScene" uid="uid://dj028bfrwe8p3" path="res://player_gun/gun.tscn" id="2_5s87f"]
 [ext_resource type="AudioStream" uid="uid://c3ccclta6ikdj" path="res://player_controller/assets/sound-argh.mp3" id="3_h00al"]
-[ext_resource type="FontFile" uid="uid://c8rynjlvhun2s" path="res://assets/Xolonium-Regular.ttf" id="3_u00sh"]
+[ext_resource type="FontFile" uid="uid://c8rynjlvhun2s" path="res://assets/fonts/Xolonium-Regular.ttf" id="3_u00sh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
 albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
