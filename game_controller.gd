@@ -27,6 +27,10 @@ func _ready() -> void:
 	# STEP 3:
 	show_start_screen(true)
 
+func _input(event):
+	if Input.is_action_just_pressed("joypad_start"):
+		show_start_screen(true)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if can_spawn_enemies:
