@@ -80,7 +80,7 @@ func load_weapon(weapon_scene_path: String) -> void:
 		loaded_weapon_model = weapon_scene.instantiate()
 		weapon_container.add_child(loaded_weapon_model)
 		loaded_weapon_model.position = Vector3.ZERO
-		loaded_weapon_model.rotation_degrees = Vector3(0, -45, 0)
+		loaded_weapon_model.rotation_degrees = Vector3(0, -90, 0)
 	else:
 		print("ERROR: Failed to load weapon scene: ", weapon_scene_path)
 
