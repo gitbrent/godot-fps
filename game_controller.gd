@@ -42,33 +42,6 @@ func _process(delta: float) -> void:
 func pause_game(value:bool) -> void:
 	get_tree().paused = value
 
-# HUD GUI FUNCS -----------------------------------------------
-
-func show_start_screen(value:bool) -> void:
-	pause_game(value)
-	hud_game_menu.show_game_menu(value)
-
-func _on_btn_clicked_start_game() -> void:
-	# 1: cleanup
-	if spawned_player:
-		spawned_player.queue_free()
-	
-	if get_tree().has_group("enemies"):
-		for node in get_tree().get_nodes_in_group("enemies"):
-			node.queue_free()
-	
-	# 2:
-	show_start_screen(false)
-	
-	# 3:
-	spawn_player()
-	
-	# 3:
-	# TODO: WIP: show "321" on the screen
-	countdown_label.show_321_countdown()
-	await get_tree().create_timer(3).timeout
-	can_spawn_enemies = true
-
 # PLAYER FUNCS -----------------------------------------------
 
 func _on_player_died() -> void:
@@ -99,10 +72,41 @@ func spawn_enemy() -> void:
 		spawned_enemy.global_position = Vector3(0.0, 0.0, -10.0)
 		spawned_enemy.state_machine.request_state_change("patrol")
 
+# HUD GUI FUNCS -----------------------------------------------
+
+func show_start_screen(value:bool) -> void:
+	pause_game(value)
+	hud_game_menu.show_game_menu(value)
+
+func _on_btn_clicked_start_game() -> void:
+	if not get_tree().paused:
+		return
+	
+	# 1: cleanup
+	if spawned_player:
+		spawned_player.queue_free()
+	
+	if get_tree().has_group("enemies"):
+		for node in get_tree().get_nodes_in_group("enemies"):
+			node.queue_free()
+	
+	# 2:
+	show_start_screen(false)
+	
+	# 3:
+	spawn_player()
+	
+	# 4: show "3..2..1.." on the screen
+	countdown_label.show_321_countdown()
+	await get_tree().create_timer(3).timeout
+	can_spawn_enemies = true
+
 # WEAPON GALLERY --------------------------------------------
 
 func _on_btn_clicked_show_gallery():
-	print("show Weapon button pressed!")
+	if not get_tree().paused:
+		return
+	
 	if spawned_weapon_gallery:
 		spawned_weapon_gallery.queue_free()
 	get_tree().paused = true # Pause the game while in examine screen
@@ -132,8 +136,7 @@ func _on_btn_clicked_show_gallery():
 	else:
 		print("Error: Weapon examine scene prefab not assigned!")
 
-func close_weapon_examine_screen(): # Called from weapon_examine_screen.gd
-	print("Closing weapon examine screen.")
+func close_weapon_examine_screen():
 	if is_instance_valid(spawned_weapon_gallery):
 		spawned_weapon_gallery.queue_free()
 		spawned_weapon_gallery = null

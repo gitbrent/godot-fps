@@ -1,0 +1,114 @@
+[gd_scene load_steps=13 format=3 uid="uid://g253hm818e8x"]
+
+[ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://models/KENNEY_PNG/Dark/texture_01.png" id="1_g7d5n"]
+[ext_resource type="PackedScene" uid="uid://jot5kky01ygo" path="res://models/kcube_2x1x2.tscn" id="2_xwje8"]
+[ext_resource type="PackedScene" uid="uid://b5ry7d7084r21" path="res://models/kcube_2x2x2_g.tscn" id="3_wmtjm"]
+[ext_resource type="PackedScene" uid="uid://wlbqedbg6wnt" path="res://models/kcube_2x3x2.tscn" id="4_726oj"]
+[ext_resource type="PackedScene" uid="uid://dn46gu4t35ngu" path="res://models/kcube_1x1x1.tscn" id="5_0drw0"]
+[ext_resource type="PackedScene" uid="uid://cjai0bvd01c38" path="res://models/kcube_wall_small.tscn" id="6_ubhhm"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ukvod"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_s7fds"]
+sky_material = SubResource("ProceduralSkyMaterial_ukvod")
+
+[sub_resource type="Environment" id="Environment_cudbw"]
+background_mode = 2
+sky = SubResource("Sky_s7fds")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g7d5n"]
+albedo_texture = ExtResource("1_g7d5n")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wnujn"]
+material = SubResource("StandardMaterial3D_g7d5n")
+size = Vector2(10, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rse2m"]
+size = Vector3(100, 0.1, 100)
+
+[node name="TestAlley" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_cudbw")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Ground" type="StaticBody3D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("PlaneMesh_wnujn")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_rse2m")
+
+[node name="KcubeWall1" parent="." instance=ExtResource("6_ubhhm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="KcubeWall2" parent="." instance=ExtResource("6_ubhhm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="Kcube1x1x1" parent="." instance=ExtResource("5_0drw0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1, 2)
+
+[node name="Kcube1x1x2" parent="." instance=ExtResource("5_0drw0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 1, 2)
+
+[node name="green" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="Kcube2x2x2_1" parent="green" instance=ExtResource("3_wmtjm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 2.5)
+
+[node name="Kcube2x2x2_2" parent="green" instance=ExtResource("3_wmtjm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 2.5)
+
+[node name="Kcube2x2x2_3" parent="green" instance=ExtResource("3_wmtjm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 4.5)
+
+[node name="Kcube2x2x2_4" parent="green" instance=ExtResource("3_wmtjm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0.5)
+
+[node name="Kcube2x2x2_5" parent="green" instance=ExtResource("3_wmtjm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 0.5)
+
+[node name="Kcube2x2x2_6" parent="green" instance=ExtResource("3_wmtjm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 4, 0.5)
+
+[node name="orange" type="Node3D" parent="."]
+
+[node name="Kcube2x3x2_1" parent="orange" instance=ExtResource("4_726oj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -19)
+
+[node name="Kcube2x3x2_2" parent="orange" instance=ExtResource("4_726oj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -19)
+
+[node name="Kcube2x3x2_3" parent="orange" instance=ExtResource("4_726oj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -19)
+
+[node name="Kcube2x3x2_4" parent="orange" instance=ExtResource("4_726oj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -19)
+
+[node name="gray" type="Node3D" parent="."]
+
+[node name="Kcube2x1x2_1" parent="gray" instance=ExtResource("2_xwje8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 1.5)
+
+[node name="Kcube2x1x2_2" parent="gray" instance=ExtResource("2_xwje8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1.5)
+
+[node name="Kcube2x1x2_3" parent="gray" instance=ExtResource("2_xwje8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1.5)
+
+[node name="Kcube2x1x2_4" parent="gray" instance=ExtResource("2_xwje8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1.5)

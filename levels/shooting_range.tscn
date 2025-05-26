@@ -1,0 +1,138 @@
+[gd_scene load_steps=16 format=3 uid="uid://mfcipuoecvrg"]
+
+[ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://models/KENNEY_PNG/Dark/texture_01.png" id="1_iul7d"]
+[ext_resource type="PackedScene" uid="uid://cnhsqvrt3t0yw" path="res://models/kcube_wall_smallest.tscn" id="2_661nk"]
+[ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player_controller/player_controller.tscn" id="2_y7f2f"]
+[ext_resource type="PackedScene" uid="uid://cb7la0hjv3a1e" path="res://models/kcube_2x1x1.tscn" id="4_e5ond"]
+[ext_resource type="PackedScene" uid="uid://spo1ccdf5fp7" path="res://models/fence_barrier/fence_barrier.tscn" id="5_4cpvd"]
+[ext_resource type="PackedScene" uid="uid://b5ry7d7084r21" path="res://models/kcube_2x2x2_g.tscn" id="5_oq0ww"]
+[ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="7_oq0ww"]
+[ext_resource type="PackedScene" uid="uid://bxnajpobtxh6o" path="res://models/barrier_pack/barrier01.tscn" id="8_u8n4j"]
+[ext_resource type="PackedScene" uid="uid://d4jsuomes8khv" path="res://models/targets/target_poster.tscn" id="9_13fi6"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_661nk"]
+sky_top_color = Color(0.564706, 0.984314, 1, 1)
+sky_horizon_color = Color(1.08211, 1.17926, 1.17419, 1)
+ground_horizon_color = Color(1.08211, 1.17926, 1.17419, 1)
+
+[sub_resource type="Sky" id="Sky_e5ond"]
+sky_material = SubResource("ProceduralSkyMaterial_661nk")
+
+[sub_resource type="Environment" id="Environment_4cpvd"]
+background_mode = 2
+sky = SubResource("Sky_e5ond")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qgarv"]
+albedo_texture = ExtResource("1_iul7d")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_oq0ww"]
+material = SubResource("StandardMaterial3D_qgarv")
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u8n4j"]
+size = Vector3(100, 0.1, 100)
+
+[node name="ShootingRange" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4cpvd")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 5.5, 0)
+shadow_enabled = true
+metadata/_edit_lock_ = true
+
+[node name="Ground" type="StaticBody3D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("PlaneMesh_oq0ww")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_u8n4j")
+
+[node name="PlayerController" parent="." instance=ExtResource("2_y7f2f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+
+[node name="Walls" type="Node3D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="KcubeWall1" parent="Walls" instance=ExtResource("2_661nk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0, 0)
+
+[node name="KcubeWall2" parent="Walls" instance=ExtResource("2_661nk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 0, 0)
+
+[node name="KcubeWall3" parent="Walls" instance=ExtResource("2_661nk")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -9.5)
+
+[node name="KcubeWall4" parent="Walls" instance=ExtResource("2_661nk")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -1.5, 9.5)
+
+[node name="Cover" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="Kcube2x1x1_1" parent="Cover" instance=ExtResource("4_e5ond")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 5)
+metadata/_edit_lock_ = true
+
+[node name="Kcube2x1x1_2" parent="Cover" instance=ExtResource("4_e5ond")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 5)
+metadata/_edit_lock_ = true
+
+[node name="Kcube2x1x1_3" parent="Cover" instance=ExtResource("4_e5ond")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 4)
+metadata/_edit_lock_ = true
+
+[node name="Kcube2x1x1_4" parent="Cover" instance=ExtResource("4_e5ond")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 4)
+metadata/_edit_lock_ = true
+
+[node name="Kcube2x2x2_1" parent="Cover" instance=ExtResource("5_oq0ww")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 4.5)
+metadata/_edit_lock_ = true
+
+[node name="Kcube2x2x2_2" parent="Cover" instance=ExtResource("5_oq0ww")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 4.5)
+metadata/_edit_lock_ = true
+
+[node name="Fences" type="Node3D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="FenceBarrier1" parent="Fences" instance=ExtResource("5_4cpvd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, -8.5)
+
+[node name="FenceBarrier2" parent="Fences" instance=ExtResource("5_4cpvd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -8.5)
+
+[node name="FenceBarrier3" parent="Fences" instance=ExtResource("5_4cpvd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -8.5)
+
+[node name="FenceBarrier4" parent="Fences" instance=ExtResource("5_4cpvd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -8.5)
+
+[node name="FenceBarrier5" parent="Fences" instance=ExtResource("5_4cpvd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, -8.5)
+
+[node name="FenceBarrier6" parent="Fences" instance=ExtResource("5_4cpvd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, -8.5)
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -11)
+pixel_size = 0.05
+modulate = Color(1, 1, 1, 0.67451)
+text = "20m x 20m"
+font = ExtResource("7_oq0ww")
+
+[node name="Barrier01" parent="." instance=ExtResource("8_u8n4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 2)
+
+[node name="Barrier02" parent="." instance=ExtResource("8_u8n4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 2)
+
+[node name="TargetPoster1" parent="." instance=ExtResource("9_13fi6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 1.5, -8.25)

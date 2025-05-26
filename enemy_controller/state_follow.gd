@@ -11,7 +11,7 @@ var target_player: CharacterBody3D = null # Keep a reference to the current targ
 
 func enter() -> void:
 	# 1: show corresponding animation
-	animation_player.play("WALKING")
+	animation_player.play("WALKING_WITH_RIFLE")
 	# 2: When entering, try to find a target player immediately
 	target_player = find_nearest_player()
 	if target_player == null:

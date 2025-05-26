@@ -29,10 +29,11 @@ var target_player: CharacterBody3D = null # Keep a reference to the current targ
 #endregion
 
 func enter() -> void:
-	#print("ENEMY START ATTACKING.")
 	# 1: Be ready to fire immediately on entering (or add a delay)
 	time_since_last_attack = attack_cooldown
 	# 1: show corresponding animation
+	animation_player.play("RIFLE_DOWN_TO_AIM")
+	await animation_player.animation_finished
 	animation_player.play("FIRING_RIFLE")
 	audio_enemy_spotted.play()
 	# 2: When entering, try to find a target player immediately

@@ -13,7 +13,7 @@ var wander_time: float
 #endregion
 
 func enter() -> void:
-	animation_player.play("WALKING")
+	animation_player.play("WALKING_WITH_RIFLE")
 	randomize_wander()
 
 func update(delta: float) -> void:

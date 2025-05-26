@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bhhs3kjln8s2f"]
+[gd_scene load_steps=7 format=3 uid="uid://bhhs3kjln8s2f"]
 
 [ext_resource type="Script" uid="uid://bwmlsmdlr63lo" path="res://ui/hud_game_menu.gd" id="1_xdd34"]
-[ext_resource type="Texture2D" uid="uid://cuf7nuafiduhg" path="res://ui/assets/blue_button00.png" id="2_1bp0k"]
 [ext_resource type="Texture2D" uid="uid://o0llpofd1qj6" path="res://ui/assets/Screenshot 2025-05-24 at 12.59.40.png" id="2_04p6d"]
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="3_04p6d"]
-[ext_resource type="Texture2D" uid="uid://d0bfveprjtsb0" path="res://ui/assets/blue_button01.png" id="3_xdd34"]
+[ext_resource type="Texture2D" uid="uid://d6xxiaptr6om" path="res://ui/assets/UI-04.png" id="5_te1gm"]
 [ext_resource type="Texture2D" uid="uid://cgvddjwqdyl4k" path="res://ui/assets/T_P5_Cross_Light.png" id="6_ka6vp"]
 [ext_resource type="Texture2D" uid="uid://514kfpddwdpo" path="res://ui/assets/T_P5_Triangle_Light.png" id="7_rjiop"]
 
@@ -67,8 +66,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 focus_neighbor_bottom = NodePath("../ButtonGallery")
-texture_normal = ExtResource("2_1bp0k")
-texture_pressed = ExtResource("3_xdd34")
+texture_normal = ExtResource("5_te1gm")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -106,8 +104,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 focus_neighbor_top = NodePath("../ButtonStart")
-texture_normal = ExtResource("2_1bp0k")
-texture_pressed = ExtResource("3_xdd34")
+texture_normal = ExtResource("5_te1gm")
 ignore_texture_size = true
 stretch_mode = 0
 

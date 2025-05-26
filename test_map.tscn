@@ -1,13 +1,13 @@
-[gd_scene load_steps=28 format=4 uid="uid://brdt8fje6jpt1"]
+[gd_scene load_steps=29 format=4 uid="uid://brdt8fje6jpt1"]
 
-[ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://KENNEY_PNG/Dark/texture_01.png" id="1_4qc02"]
+[ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://models/KENNEY_PNG/Dark/texture_01.png" id="1_4qc02"]
 [ext_resource type="Script" uid="uid://cte556yo33bge" path="res://game_controller.gd" id="1_bu3ac"]
 [ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player_controller/player_controller.tscn" id="2_4wuf8"]
 [ext_resource type="PackedScene" uid="uid://c21axn1475ray" path="res://models/scifi_barrel/sci-fi_barrel.glb" id="3_s02eq"]
 [ext_resource type="PackedScene" uid="uid://bbckvmseeosda" path="res://weapon_gallery/weapon_gallery.tscn" id="4_pphbs"]
 [ext_resource type="PackedScene" uid="uid://wkv1txt18fhi" path="res://ui/countdown_label.tscn" id="5_3qa0k"]
-[ext_resource type="Texture2D" uid="uid://37kwa6tpjmog" path="res://KENNEY_PNG/Dark/texture_09.png" id="7_ihcqn"]
-[ext_resource type="Texture2D" uid="uid://cfyw3xb6oxvm1" path="res://KENNEY_PNG/Red/texture_09.png" id="7_ssfg1"]
+[ext_resource type="Texture2D" uid="uid://37kwa6tpjmog" path="res://models/KENNEY_PNG/Dark/texture_09.png" id="7_ihcqn"]
+[ext_resource type="Texture2D" uid="uid://cfyw3xb6oxvm1" path="res://models/KENNEY_PNG/Red/texture_09.png" id="7_ssfg1"]
 [ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy_controller/enemy_controller.tscn" id="10_5354r"]
 [ext_resource type="PackedScene" uid="uid://wbwjnb34fu2e" path="res://models/kcube_wall.tscn" id="11_dj26u"]
 [ext_resource type="PackedScene" uid="uid://cshdqtk0uywr8" path="res://models/kcube_2x2x2.tscn" id="11_yobqo"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://dn46gu4t35ngu" path="res://models/kcube_1x1x1.tscn" id="13_1wgsg"]
 [ext_resource type="PackedScene" uid="uid://wlbqedbg6wnt" path="res://models/kcube_2x3x2.tscn" id="14_ihcqn"]
 [ext_resource type="PackedScene" uid="uid://bhhs3kjln8s2f" path="res://ui/HUD_GameMenu.tscn" id="15_7l7f8"]
+[ext_resource type="PackedScene" uid="uid://g253hm818e8x" path="res://levels/test_alley.tscn" id="18_1ygvo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4wuf8"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -31,12 +32,12 @@ sky = SubResource("Sky_s02eq")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qgarv"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khah1"]
 albedo_texture = ExtResource("1_4qc02")
 uv1_triplanar = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_r0pc2"]
-material = SubResource("StandardMaterial3D_qgarv")
+material = SubResource("StandardMaterial3D_khah1")
 size = Vector2(100, 100)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ssfg1"]
@@ -362,3 +363,6 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -24, 0
 metadata/_edit_lock_ = true
 
 [node name="HudGameMenu" parent="." instance=ExtResource("15_7l7f8")]
+
+[node name="TestAlley" parent="." instance=ExtResource("18_1ygvo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
