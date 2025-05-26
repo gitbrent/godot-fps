@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://d7dr1vpkr7kg"]
+
+[ext_resource type="Texture2D" uid="uid://b0w2ix3otors7" path="res://shooting_range/assets/bullet_hole.png" id="1_cft3r"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kfnqe"]
+transparency = 1
+albedo_texture = ExtResource("1_cft3r")
+grow = true
+grow_amount = -0.001
+
+[sub_resource type="QuadMesh" id="QuadMesh_kfnqe"]
+material = SubResource("StandardMaterial3D_kfnqe")
+size = Vector2(0.1, 0.1)
+
+[node name="BulletHoleDecal" type="MeshInstance3D"]
+mesh = SubResource("QuadMesh_kfnqe")

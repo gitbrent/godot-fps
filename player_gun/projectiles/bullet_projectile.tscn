@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://7f8yov8g563i"]
+[gd_scene load_steps=7 format=3 uid="uid://7f8yov8g563i"]
 
 [ext_resource type="Script" uid="uid://ccycqti6r0fak" path="res://player_gun/projectiles/bullet_projectile.gd" id="1_ojvds"]
 [ext_resource type="PackedScene" uid="uid://d8hpw0xro6xg" path="res://player_gun/fx/hit_spark.tscn" id="2_wpa0b"]
+[ext_resource type="PackedScene" uid="uid://bk650qds30823" path="res://shooting_range/bullet_hole_decal.tscn" id="3_lnq0e"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_64nip"]
 radius = 0.025
@@ -22,6 +23,7 @@ gravity_scale = 0.0
 continuous_cd = true
 script = ExtResource("1_ojvds")
 impact_scene = ExtResource("2_wpa0b")
+bullet_hole_decal = ExtResource("3_lnq0e")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_64nip")

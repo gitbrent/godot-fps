@@ -2,20 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ik84hxf4vboi"
-path.s3tc="res://.godot/imported/standard_firing_target_1.png-ecb67dc1b244b2f4a02a9ec333f31420.s3tc.ctex"
+uid="uid://b0w2ix3otors7"
+path.s3tc="res://.godot/imported/bullet_hole.png-d7d7ea2af9aba46c7a3c30d09971c48b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "cda92a564046dc93921cf5190ee893a0"
-}
 
 [deps]
 
-source_file="res://models/targets/standard_firing_target_1.png"
-dest_files=["res://.godot/imported/standard_firing_target_1.png-ecb67dc1b244b2f4a02a9ec333f31420.s3tc.ctex"]
+source_file="res://shooting_range/assets/bullet_hole.png"
+dest_files=["res://.godot/imported/bullet_hole.png-d7d7ea2af9aba46c7a3c30d09971c48b.s3tc.ctex"]
 
 [params]
 
@@ -27,8 +24,8 @@ compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=8
-roughness/src_normal="res://models/targets/standard_firing_target_2.png"
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

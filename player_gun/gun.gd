@@ -75,11 +75,11 @@ func _process(delta):
 
 func shoot_proj() -> void:
 	# 1: FX
-	shoot_fx()
+	shoot_show_fx()
 	# 2: projectile
 	shoot_bullet_proj()
 
-func shoot_fx():
+func shoot_show_fx():
 	# 4: muzzle-flash
 	$Node3D/MuzzlePoint/MuzzleParticles.restart()
 	# 1: audio
@@ -101,6 +101,7 @@ func shoot_bullet_proj():
 	# Get the camera's forward direction directly
 	var shoot_direction = -camera.global_transform.basis.z
 	var bullet = bullet_scene.instantiate()
+	bullet.name = "BulletProjectile_" + str(Time.get_ticks_msec()) # Using timestamp
 	get_tree().current_scene.add_child(bullet)
 	# Spawn the bullet slightly in front of the muzzle point along the shooting direction
 	# Adjust the 0.1 value as needed based on your gun model and bullet size

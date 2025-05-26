@@ -53,7 +53,8 @@ shadow_mesh = SubResource("ArrayMesh_uhod2")
 [sub_resource type="BoxShape3D" id="BoxShape3D_l8lvw"]
 size = Vector3(6, 1.5, 1)
 
-[node name="Barrier01" type="StaticBody3D"]
+[node name="Barrier01" type="StaticBody3D" groups=["damageable"]]
+collision_mask = 2
 
 [node name="Object_17" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.279596, 0.414519, 1.81192e-08, 0, -2.18557e-08, 0.5, 0.414519, -0.279596, -1.22215e-08, -4.3, -0.4, -1.3)

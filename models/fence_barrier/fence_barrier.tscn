@@ -152,7 +152,7 @@ shadow_mesh = SubResource("ArrayMesh_g6ob7")
 [sub_resource type="BoxShape3D" id="BoxShape3D_26s6u"]
 size = Vector3(3, 3, 0.5)
 
-[node name="FenceBarrier" type="StaticBody3D"]
+[node name="FenceBarrier" type="StaticBody3D" groups=["damageable"]]
 
 [node name="Sketchfab_model" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 2.22045e-16, 1, 0, -1, 2.22045e-16, 0, 0, 0)

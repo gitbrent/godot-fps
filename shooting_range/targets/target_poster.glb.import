@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b0dsvlo6846lg"
-path="res://.godot/imported/standard_firing_target.glb-a566bed9e31e83b2cff8142218c52f67.scn"
+uid="uid://dh474l7q47v2n"
+path="res://.godot/imported/target_poster.glb-abe3963919fd810cbb5b53a82d3b1140.scn"
 
 [deps]
 
-source_file="res://models/targets/standard_firing_target.glb"
-dest_files=["res://.godot/imported/standard_firing_target.glb-a566bed9e31e83b2cff8142218c52f67.scn"]
+source_file="res://shooting_range/targets/target_poster.glb"
+dest_files=["res://.godot/imported/target_poster.glb-abe3963919fd810cbb5b53a82d3b1140.scn"]
 
 [params]
 

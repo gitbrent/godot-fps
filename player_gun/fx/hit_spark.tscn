@@ -107,6 +107,7 @@ process_material = SubResource("ParticleProcessMaterial_twdb3")
 draw_pass_1 = SubResource("QuadMesh_p2rd4")
 
 [node name="Decal" type="Decal" parent="Hit_VFX"]
+visible = false
 size = Vector3(1, 1, 1)
 texture_albedo = ExtResource("5_w83gl")
 upper_fade = 0.0494816
