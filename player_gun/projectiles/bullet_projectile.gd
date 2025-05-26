@@ -14,7 +14,7 @@ func setup(direction: Vector3) -> void:
 	queue_free()
 
 func spawn_impact(hit_position: Vector3, hit_normal: Vector3) -> void:
-	print("[b_p] spawn_impact: ", hit_position, " / ", hit_normal)
+	#print("[b_p] spawn_impact: ", hit_position, " / ", hit_normal)
 	# 1:
 	if not impact_scene:
 		print("Impact scene not set!")
@@ -25,134 +25,55 @@ func spawn_impact(hit_position: Vector3, hit_normal: Vector3) -> void:
 	impact.global_transform.origin = hit_position + hit_normal * 0.05
 	impact.look_at(hit_position + hit_normal, Vector3.UP)
 
+## WORKS!
 func show_hit_decal(hit_position: Vector3, hit_normal: Vector3) -> void:
 	# 1) instance the Decal
 	var decal = bullet_hole_decal.instantiate() as Decal
 	get_tree().current_scene.add_child(decal)
 
 	# 2) offset it slightly to prevent z-fighting
-	decal.global_transform.origin = hit_position + hit_normal * 0.05
+	decal.global_transform.origin = hit_position + hit_normal * 0.005
 
-	# 3) face the decal INTO the surface
-	#    look_at() makes the -Z axis point at the target, so we aim it at (pos - normal)
-	decal.look_at(hit_position - hit_normal, Vector3.UP)
+	# 3) Face the decal OUTWARDS from the surface, aligned with the normal
+	# We want the decal's +Z axis to point along the hit_normal.
+	# Since Basis.looking_at points -Z at the target, we pass -hit_normal as the target direction.
+	var target_direction = -hit_normal
+	var up_vector = Vector3.UP
+
+	# Handle the edge case where the normal is almost perfectly vertical (up or down)
+	# In this case, Vector3.UP is parallel to the normal, and it can't determine "up".
+	# Use a different perpendicular vector as the up_vector in such cases.
+	if abs(hit_normal.dot(Vector3.UP)) > 0.999: # Check if normal is almost parallel to global UP
+		up_vector = Vector3.FORWARD # Or Vector3.RIGHT, any vector not parallel to UP
+
+	var new_basis = Basis.looking_at(target_direction, up_vector, true) # `true` for `is_global_up`
+	decal.global_transform.basis = new_basis
 
 	# 4) random spin around the decal's own normal for variety
+	# The decal's local Z-axis is now aligned with the hit_normal.
+	# So, rotate around the local Z-axis.
 	decal.rotate_object_local(Vector3(0, 0, 1), randf_range(0, TAU))
 
-	# 5) queue it up for cleanup
-	#get_tree().create_timer(5.0).timeout.connect(decal.queue_free)
+	# Optional: Add a timer to queue_free the decal after a duration
+	var timer = get_tree().create_timer(5.0)
+	timer.timeout.connect(decal.queue_free)
 
-func ZZZZshow_hit_decal(hit_position: Vector3, hit_normal: Vector3) -> void:
-	if not bullet_hole_decal:
-		print("bullet_hole_decal not set!")
-		return
-
-	var decal = bullet_hole_decal.instantiate()
-	get_tree().current_scene.add_child(decal)
-
-	# Position just in front of the surface
-	decal.global_position = hit_position + hit_normal * 0.05
-
-	# Build a basis that points decal's Z toward the wall, and aligns up to prevent rotation issues
-	var forward = -hit_normal.normalized()
-	var right = forward.cross(Vector3.UP).normalized()
-	var up = right.cross(forward).normalized()
-	decal.global_transform = Transform3D(Basis(right, up, forward), decal.global_position)
-
-	# Optional: rotate decal randomly around Z for visual variation
-	#decal.rotate_object_local(Vector3(0, 0, 1), randf_range(0, TAU))
-
-func ZZZshow_hit_decal(hit_position: Vector3, hit_normal: Vector3):
-	if not bullet_hole_decal:
-		push_warning("bullet_hole_decal not set!")
-		return
-
-	var bhole = bullet_hole_decal.instantiate()
-	get_tree().current_scene.add_child(bhole)
-
-	# Step 1: Move to surface + nudge outward slightly
-	var spawn_position = hit_position + hit_normal * 0.01
-	bhole.global_transform.origin = spawn_position
-
-	# Step 2: Align Z to face into the surface
-	#var up = abs(hit_normal.dot(Vector3.UP)) > 0.99 ? Vector3.FORWARD : Vector3.UP
-	var up = Vector3.UP
-	if abs(hit_normal.dot(Vector3.UP)) > 0.99:
-		up = Vector3.FORWARD
-	bhole.look_at(spawn_position - hit_normal, up)
-
-	# Step 3: Optional random rotation around Z for variety
-	bhole.rotate_object_local(Vector3(0, 0, 1), randf_range(0, TAU))
-
-	# Step 4: DEBUG SPHERE — remove after testing
-	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color.RED  # or Color(1, 0, 0)
-	var debug = MeshInstance3D.new()
-	debug.mesh = SphereMesh.new()
-	debug.scale = Vector3.ONE * 0.05
-	debug.material_override = mat
-	get_tree().current_scene.add_child(debug)
-	debug.global_transform.origin = spawn_position
-	await get_tree().create_timer(0.4).timeout
-	debug.queue_free()
-
-func ZZshow_hit_decal(hit_position: Vector3, hit_normal: Vector3):
-	if not bullet_hole_decal:
-		print("bullet_hole_decal not set!")
-		return
-
-	var bhole = bullet_hole_decal.instantiate()
-	get_tree().current_scene.add_child(bhole)
-
-	# Position slightly offset along the normal to avoid z-fighting
-	bhole.global_transform.origin = hit_position + hit_normal * 0.01
-
-	# Align to the surface normal (Z axis should point out from the surface)
-	var basis = Basis()
-	basis.z = -hit_normal.normalized()
-	basis.x = basis.z.cross(Vector3.UP).normalized()
-	basis.y = basis.z.cross(basis.x).normalized()
-	bhole.global_transform.basis = basis
-
-	# Optional: randomize rotation around surface normal for variety
-	bhole.rotate_object_local(Vector3(0, 0, 1), randf_range(0, TAU))
-
-func Zshow_hit_decal(hit_position: Vector3, hit_normal: Vector3):
-	# 1:
-	if not bullet_hole_decal:
-		print("bullet_hole_decal not set!")
-		return
-	# 2:
-	var bhole = bullet_hole_decal.instantiate()
-	get_tree().current_scene.add_child(bhole)
-	# Offset slightly out to avoid Z-fighting
-	bhole.global_transform.origin = hit_position + hit_normal * 0.05
-
-	# Align the decal to the surface normal
-	#bhole.look_at(hit_position + hit_normal, Vector3.UP) # Look at a point along the normal, with Y-axis up
-	bhole.look_at(hit_position, hit_position + hit_normal)
-	# You might need to rotate it manually if the QuadMesh's default orientation isn't correct
-	#bhole.rotate_object_local(Vector3(0,0,1), deg_to_rad(randf_range(0, 360))) # Random rotation for variety
-
-	# Optionally, fade out or remove after a delay to prevent too many decals
-	#var timer = get_tree().create_timer(10.0) # Remove after 10 seconds
-	#timer.timeout.connect(bhole.queue_free)
-
-## BRENT: this works and is cool!
+## WORKS! and is cool!
 func show_red_dot_hit(hit_position: Vector3, hit_normal: Vector3):
-	# Step 4: DEBUG SPHERE — remove after testing
-	var spawn_position = hit_position + hit_normal * 0.01
+	# 1: RED SPHERE
 	var mat := StandardMaterial3D.new()
 	mat.albedo_color = Color.RED  # or Color(1, 0, 0)
-	var debug = MeshInstance3D.new()
-	debug.mesh = SphereMesh.new()
-	debug.scale = Vector3.ONE * 0.05
-	debug.material_override = mat
-	get_tree().current_scene.add_child(debug)
-	debug.global_transform.origin = spawn_position
-	await get_tree().create_timer(0.4).timeout
-	debug.queue_free()
+	# 2:
+	var red_impact_sphere = MeshInstance3D.new()
+	red_impact_sphere.mesh = SphereMesh.new()
+	red_impact_sphere.scale = Vector3.ONE * 0.05
+	red_impact_sphere.material_override = mat
+	get_tree().current_scene.add_child(red_impact_sphere)
+	var spawn_position = hit_position + hit_normal * 0.0
+	red_impact_sphere.global_transform.origin = spawn_position
+	# 2:
+	var timer = get_tree().create_timer(5.0)
+	timer.timeout.connect(red_impact_sphere.queue_free)
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	#print("[bullet-projectile]-hit: ", body.name)
