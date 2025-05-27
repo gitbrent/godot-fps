@@ -1,6 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://mfcipuoecvrg"]
+[gd_scene load_steps=21 format=3 uid="uid://mfcipuoecvrg"]
 
 [ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://models/KENNEY_PNG/Dark/texture_01.png" id="1_he0oh"]
+[ext_resource type="Script" uid="uid://dt7ybllcq1qvj" path="res://shooting_range/shooting_range.gd" id="1_pbkss"]
+[ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy_controller/enemy_controller.tscn" id="2_v401n"]
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="2_x5web"]
 [ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player_controller/player_controller.tscn" id="3_pbkss"]
 [ext_resource type="PackedScene" uid="uid://cnhsqvrt3t0yw" path="res://models/kcube_wall_smallest.tscn" id="4_v401n"]
@@ -9,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://spo1ccdf5fp7" path="res://models/fence_barrier/fence_barrier.tscn" id="7_p6dwm"]
 [ext_resource type="PackedScene" uid="uid://bxnajpobtxh6o" path="res://models/barrier_pack/barrier01.tscn" id="8_45v1t"]
 [ext_resource type="PackedScene" uid="uid://d4jsuomes8khv" path="res://shooting_range/targets/target_poster.tscn" id="9_ycnku"]
+[ext_resource type="Texture2D" uid="uid://c6ph0p6042kkb" path="res://models/KENNEY_PNG/Red/texture_01.png" id="10_x5web"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_661nk"]
 sky_top_color = Color(0.564706, 0.984314, 1, 1)
@@ -35,13 +38,24 @@ size = Vector2(20, 20)
 [sub_resource type="BoxShape3D" id="BoxShape3D_u8n4j"]
 size = Vector3(100, 0.1, 100)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pbkss"]
+albedo_texture = ExtResource("10_x5web")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_v401n"]
+material = SubResource("StandardMaterial3D_pbkss")
+size = Vector2(3, 6)
+
 [node name="ShootingRange" type="Node3D"]
+script = ExtResource("1_pbkss")
+enemy_scene = ExtResource("2_v401n")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_4cpvd")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 5.5, 0)
+light_color = Color(1, 1, 0.94902, 1)
 shadow_enabled = true
 metadata/_edit_lock_ = true
 
@@ -135,23 +149,37 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 2)
 [node name="Barrier02" parent="." instance=ExtResource("8_45v1t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 2)
 
-[node name="Posters" type="Node3D" parent="."]
+[node name="Spawn1" type="Node3D" parent="."]
 
-[node name="TargetPoster1" parent="Posters" instance=ExtResource("9_ycnku")]
+[node name="TargetPoster1" parent="Spawn1" instance=ExtResource("9_ycnku")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 1.5, -8.3)
 
-[node name="Label3D1" type="Label3D" parent="Posters"]
+[node name="Label3D1" type="Label3D" parent="Spawn1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.5, -8)
 outline_modulate = Color(0.784314, 0, 0, 1)
 text = "spawn ememy
 ATTACK"
 font_size = 64
 
-[node name="Label3D2" type="Label3D" parent="Posters"]
+[node name="Marker3D" type="Marker3D" parent="Spawn1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, -6.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Spawn1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.01, -5)
+mesh = SubResource("PlaneMesh_v401n")
+
+[node name="Spawn2" type="Node3D" parent="."]
+visible = false
+
+[node name="TargetPoster1" parent="Spawn2" instance=ExtResource("9_ycnku")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.5, -8.3)
+
+[node name="Label3D2" type="Label3D" parent="Spawn2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.5, -8)
-outline_modulate = Color(0.784314, 0, 0, 1)
+outline_modulate = Color(0.00784314, 0.0235294, 1, 1)
 text = "spawn ememy
 IDLE"
-font = ExtResource("2_x5web")
-font_size = 72
-outline_size = 8
+font_size = 64
+
+[connection signal="player_died" from="PlayerController" to="." method="_on_player_controller_player_died"]
+[connection signal="poster_hit" from="Spawn1/TargetPoster1" to="." method="_on_target_poster_1_poster_hit"]
