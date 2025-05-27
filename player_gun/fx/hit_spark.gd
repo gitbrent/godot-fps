@@ -10,5 +10,5 @@ func _ready() -> void:
 	# 2:
 	sparks.emitting = true
 	# 3:
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.75).timeout
 	$Hit_VFX/Decal.queue_free()

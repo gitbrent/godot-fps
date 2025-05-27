@@ -66,7 +66,7 @@ initial_velocity_max = 12.0
 gravity = Vector3(0, 0, 0)
 scale_min = 0.3
 scale_max = 0.5
-color = Color(1, 1, 0.639216, 1)
+color = Color(0.999983, 0.334049, 0.330637, 1)
 alpha_curve = SubResource("CurveTexture_o326j")
 
 [sub_resource type="QuadMesh" id="QuadMesh_p2rd4"]
@@ -77,8 +77,9 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 script = ExtResource("1_1hkxx")
 
 [node name="FYI_ground" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 visible = false
+size = Vector3(1, 0.2, 1)
 
 [node name="Hit_VFX" type="Node3D" parent="."]
 

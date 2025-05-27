@@ -90,6 +90,6 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		#body.show_hit_decal(hit_position, hit_normal)
 		spawn_impact(hit_position, hit_normal)
 		show_hit_decal(hit_position, hit_normal)
-		show_red_dot_hit(hit_position, hit_normal)
+		#show_red_dot_hit(hit_position, hit_normal)
 	# STEP 3: remove bullet from world
 	queue_free()
