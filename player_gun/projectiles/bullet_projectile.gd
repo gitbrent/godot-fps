@@ -5,6 +5,7 @@ class_name BulletProjectile
 @export var bullet_hole_decal: PackedScene
 @export var speed: float = 100.0
 @export var lifetime: float = 3.0
+@export var damage: float = 10.0
 var fire_direction: Vector3
 
 func setup(direction: Vector3) -> void:
@@ -77,16 +78,16 @@ func show_red_dot_hit(hit_position: Vector3, hit_normal: Vector3):
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	#print("[bullet-projectile]-hit: ", body.name)
+	var hit_position = global_transform.origin # Simple for now, but use actual contact point if available
+	var hit_normal = -linear_velocity.normalized() # Simple estimate of surface normal (opposite of bullet direction)
 	# STEP 1: damage
 	if body.is_in_group("damageable") and body.has_method("take_damage"):
-		body.take_damage(10, fire_direction)
+		body.take_damage(damage, fire_direction)
 	# STEP 2: hit
 	if body.is_in_group("damageable") and body.has_method("show_hit"):
 		body.show_hit(global_position)
 	# NEW: if hit node doesnt implement its own `show_hit`, then show default effect
 	if body.is_in_group("damageable") and not body.has_method("show_hit"):
-		var hit_position = global_transform.origin # Simple for now, but use actual contact point if available
-		var hit_normal = -linear_velocity.normalized() # Simple estimate of surface normal (opposite of bullet direction)
 		#body.show_hit_decal(hit_position, hit_normal)
 		spawn_impact(hit_position, hit_normal)
 		show_hit_decal(hit_position, hit_normal)
