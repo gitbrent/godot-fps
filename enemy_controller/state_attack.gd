@@ -100,7 +100,7 @@ func physics_update(delta: float) -> Vector3:
 
 	# --- Perform Transition if Needed ---
 	if next_state_name != "":
-		#print("Transitioning from `Attack` --> ", next_state_name)
+		#print("[enemt-state] `Attack` --> ", next_state_name, " - ", distance_to_player > attack_range, has_line_of_sight)
 		transitioned.emit(self, next_state_name)
 		
 		# Reset state-specific variables on transition out
@@ -113,7 +113,7 @@ func physics_update(delta: float) -> Vector3:
 	return Vector3.ZERO
 
 func exit() -> void:
-	#print("ENEMY STOP ATTACKING.")
+	#print("[ENEMY-STATE] ATTACK -> ?")
 	audio_enemy_lost.play()
 	target_player = null
 
