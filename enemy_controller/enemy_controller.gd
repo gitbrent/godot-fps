@@ -243,8 +243,9 @@ func can_see(target: Node3D, eye_offset := Vector3.UP * 1.5) -> bool:
 	var target_pos = target.global_transform.origin + eye_offset
 
 	var query = PhysicsRayQueryParameters3D.create(origin, target_pos)
-	query.exclude = [self]  # ignore self
-	# query.collision_mask = 1  # use if needed to restrict what "blocks" vision
+	query.exclude = [self] # ignore self
+	# IMPORTANT: exclude non-player layers, otherwise, items like bullet will interfere!
+	query.collision_mask = 16 # (layer 5, player)
 
 	var result = space_state.intersect_ray(query)
 	return result and result.collider == target
