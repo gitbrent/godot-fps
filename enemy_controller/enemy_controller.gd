@@ -198,7 +198,7 @@ func take_damage(amount:int, direction_of_impact: Vector3) -> void:
 		animation_player.play("HIT_REACTION")
 	# 4:
 	last_known_threat_direction = -direction_of_impact
-	#print("Enemy hit from direction: ", last_known_threat_direction)
+	#print("[E_C] Enemy hit from direction: ", last_known_threat_direction)
 	# TODO: switch to PATROL state!
 	# Optional: If not currently in combat states (Attack, Follow), transition to an investigate/alert state immediately
 	# This might be a dedicated state or trigger this investigation behavior in Idle/Patrol.
