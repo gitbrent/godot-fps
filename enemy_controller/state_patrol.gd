@@ -28,7 +28,11 @@ func physics_update(delta: float) -> Vector3:
 	var players = get_tree().get_nodes_in_group("player")
 	var nearest_player_distance = INF
 	var nearest_player: CharacterBody3D = null
-	# 1:
+	# 1: Ensure walking is playing (controlled c/h played a hit reaction that stops the animation started in `enter()`)
+	if animation_player.is_playing():
+		animation_player.play("WALKING_WITH_RIFLE")
+	
+	# 2: find player
 	for player in players:
 		if player is CharacterBody3D:
 			var distance = enemy_controller.global_position.distance_to(player.global_position)
@@ -36,12 +40,12 @@ func physics_update(delta: float) -> Vector3:
 				nearest_player_distance = distance
 				nearest_player = player
 	
-	# 2: If a player is found within the detection range, transition to follow
+	# 3: If a player is found within the detection range, transition to follow
 	if nearest_player and nearest_player_distance <= detection_range:
 		if enemy_controller.can_see(nearest_player):
 			transitioned.emit(self, "attack")
 	
-	# 3: If a threat direction has been set (e.g., after taking damage)
+	# 4: If a threat direction has been set (e.g., after taking damage)
 	var lkt_dir = enemy_controller.last_known_threat_direction
 	if lkt_dir != Vector3(0,0,1) and lkt_dir != Vector3.INF:
 		desired_rotation_direction = enemy_controller.last_known_threat_direction
