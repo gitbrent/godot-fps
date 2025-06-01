@@ -21,11 +21,10 @@ class_name EnemyAttack
 @onready var audio_enemy_spotted: AudioStreamPlayer = $"../../Audio/Contact!"
 @onready var audio_enemy_lost: AudioStreamPlayer = $"../../Audio/I-lost-hem!"
 #
-var player: CharacterBody3D = null
+var target_player: CharacterBody3D = null
 var distance_to_player: float = INF
 var has_line_of_sight: bool = false
 var time_since_last_attack: float = 0.0
-var target_player: CharacterBody3D = null # Keep a reference to the current target player
 #endregion
 
 func enter() -> void:
@@ -45,34 +44,28 @@ func enter() -> void:
 func update(delta: float) -> void:
 	# 1: Update attack cooldown timer
 	time_since_last_attack += delta
-	
 	# 2: Check if ready to attack based on cooldown and line of sight
 	if time_since_last_attack >= attack_cooldown and has_line_of_sight:
-		# Reset cooldown
+		# 2-1: Reset cooldown
 		time_since_last_attack = 0.0
-		# --- Request Attack from Controller ---
-		# Call the fire_weapon method on the enemy_controller, passing target position
-		var player_target = player.global_transform.origin + Vector3.UP * 1.5  # player chest
+		# 2-2: Call the fire_weapon method on the enemy_controller, passing target position
+		var player_target = target_player.global_transform.origin + Vector3.UP * 1.5  # player chest
 		enemy_controller.fire_weapon(player_target)
-		# --- End Request Attack ---
-		# Optionally play a single shot animation or trigger recoil
 
 func physics_update(delta: float) -> Vector3:
 	# 1:
-	player = get_tree().get_first_node_in_group("player")
+	target_player = get_tree().get_first_node_in_group("player")
 	# 2:
-	if player and is_instance_valid(player):
-		distance_to_player = enemy_controller.global_position.distance_to(player.global_position)
-		has_line_of_sight = enemy_controller.can_see(player)
-
+	if target_player and is_instance_valid(target_player):
+		distance_to_player = enemy_controller.global_position.distance_to(target_player.global_position)
+		has_line_of_sight = enemy_controller.can_see(target_player)
 		# --- Determine Desired Facing Direction ---
 		# Set the desired rotation direction towards the target player
-		var direction_to_player = player.global_position - enemy_controller.global_position
+		var direction_to_player = target_player.global_position - enemy_controller.global_position
 		direction_to_player.y = 0 # Ignore vertical difference for horizontal facing
 		if direction_to_player.length_squared() > 0.001:
 			desired_rotation_direction = direction_to_player.normalized()
 		# else: If distance is zero, keep the last valid desired_rotation_direction or a default.
-
 	else: # Player is null or invalid (target lost)
 		distance_to_player = INF # Player not found, set distance to infinity
 		has_line_of_sight = false
@@ -83,7 +76,7 @@ func physics_update(delta: float) -> Vector3:
 	var next_state_name = "" # Variable to hold the name of the state to transition to
 
 	# Condition 1: Player is lost (null or invalid instance)
-	if player == null or !is_instance_valid(player):
+	if target_player == null or !is_instance_valid(target_player):
 		next_state_name = "patrol" # Default transition if target is lost
 
 	# Condition 2: Player moved out of attack range
@@ -109,11 +102,11 @@ func physics_update(delta: float) -> Vector3:
 	if next_state_name != "":
 		#print("Transitioning from `Attack` --> ", next_state_name)
 		transitioned.emit(self, next_state_name)
+		
 		# Reset state-specific variables on transition out
-		player = null
+		target_player = null
 		distance_to_player = INF
 		has_line_of_sight = false
-		# No need to call exit() here - the StateMachine calls it
 
 	# --- Return Desired Velocity ---
 	# The enemy stands still while attacking, so return zero velocity
@@ -122,7 +115,7 @@ func physics_update(delta: float) -> Vector3:
 func exit() -> void:
 	#print("ENEMY STOP ATTACKING.")
 	audio_enemy_lost.play()
-	target_player = null # Clear target
+	target_player = null
 
 # CLASS CUSTOM FUNCS -----------------------------------------------
 
@@ -136,7 +129,7 @@ func find_nearest_player() -> CharacterBody3D:
 	var shortest_distance = INF # Initialize with a very large number
 
 	for player in players:
-		if player is CharacterBody3D: # Ensure it's a CharacterBody3D
+		if player is CharacterBody3D:
 			var distance = enemy_controller.global_position.distance_to(player.global_position)
 			if distance < shortest_distance:
 				shortest_distance = distance
