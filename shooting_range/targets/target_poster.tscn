@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=4 uid="uid://d4jsuomes8khv"]
+[gd_scene load_steps=8 format=4 uid="uid://d4jsuomes8khv"]
 
 [ext_resource type="Script" uid="uid://dg0tpcoans345" path="res://shooting_range/targets/target_poster.gd" id="1_kc5ej"]
 [ext_resource type="Texture2D" uid="uid://blsjh43sl2srv" path="res://shooting_range/targets/target_poster_0.png" id="1_qtp6m"]
 [ext_resource type="Texture2D" uid="uid://dvgjg2fdttney" path="res://shooting_range/targets/target_poster_1.png" id="2_kc5ej"]
-[ext_resource type="PackedScene" uid="uid://d7dr1vpkr7kg" path="res://shooting_range/bullet_hole_qmesh.tscn" id="2_l6iil"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j7l0y"]
 resource_name = "blinn1"
@@ -55,7 +54,6 @@ size = Vector3(1, 1.4, 0.05)
 [node name="TargetPoster" type="StaticBody3D" groups=["damageable"]]
 collision_mask = 3
 script = ExtResource("1_kc5ej")
-bullet_hole_prefab = ExtResource("2_l6iil")
 
 [node name="Sketchfab_model" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 2.22045e-16, 1, 0, -1, 2.22045e-16, 0, 0, 0)
