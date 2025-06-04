@@ -3,31 +3,21 @@ extends Node3D
 #region
 @export var enemy_scene: PackedScene
 @export var exptgt_scene: PackedScene
+@export var enemy_chat_scene: PackedScene
 #
 @onready var spawn1_marker_3d: Marker3D = $Spawn1/Marker3D
 @onready var spawn2_marker_3d: Marker3D = $Spawn2/Marker3D
+@onready var spawn3_mesh_3d: MeshInstance3D = $Spawn3/MeshInstance3D
 @onready var spawn_6: Node3D = $Spawn6
 #
 const EXP_TARGET_POS: Vector3 = Vector3(7.5, 1.4, -8.2)
 var active_enemies: Array[EnemyController] = []
+var active_chatters: Node3D
 var active_exp_tgt: StaticBody2D
 #endregion
 
 func _ready() -> void:
 	spawn_exp_target()
-
-func spawn_exp_target() -> void:
-	# 1:
-	if not enemy_scene:
-		print("[s_r] assert failed!")
-		return
-	# 2:
-	var active_exp_tgt = exptgt_scene.instantiate() as exp_target
-	spawn_6.add_child(active_exp_tgt)
-	active_exp_tgt.global_position = EXP_TARGET_POS
-	# 3: Add the new enemy to your tracking array
-	if active_exp_tgt.has_signal("exploded"):
-		active_exp_tgt.exploded.connect(_on_target_exploded)
 
 func spawn_enemy() -> EnemyController:
 	# 1:
@@ -47,6 +37,32 @@ func spawn_enemy() -> EnemyController:
 		new_enemy.tree_exited.connect(Callable(self, "_on_enemy_removed_from_tree").bind(new_enemy))
 	# LAST:
 	return new_enemy
+
+func spawn_chatters() -> void:
+	# 1: check
+	if not enemy_chat_scene:
+		print("[s_r] assert failed!")
+		return
+	# 2: instantiate
+	active_chatters = enemy_chat_scene.instantiate() as Node3D
+	get_tree().current_scene.add_child(active_chatters)
+	# 3: position
+	active_chatters.global_position = spawn3_mesh_3d.global_position
+
+func spawn_exp_target() -> void:
+	# 1:
+	if not enemy_scene:
+		print("[s_r] assert failed!")
+		return
+	# 2:
+	var active_exp_tgt = exptgt_scene.instantiate() as exp_target
+	spawn_6.add_child(active_exp_tgt)
+	active_exp_tgt.global_position = EXP_TARGET_POS
+	# 3: Add the new enemy to tracking array
+	if active_exp_tgt.has_signal("exploded"):
+		active_exp_tgt.exploded.connect(_on_target_exploded)
+
+# --------------------------------------------------
 
 func _on_player_controller_player_died() -> void:
 	# When player dies, clear all active enemies
@@ -86,5 +102,4 @@ func _on_target_poster_2_poster_hit() -> void:
 	new_enemy.can_patrol = false
 
 func _on_target_poster_3_poster_hit() -> void:
-	print("TODO: add 2 guys, add audio")
-	pass # Replace with function body.
+	spawn_chatters()

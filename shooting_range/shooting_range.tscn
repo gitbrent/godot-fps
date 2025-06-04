@@ -1,10 +1,11 @@
-[gd_scene load_steps=30 format=3 uid="uid://mfcipuoecvrg"]
+[gd_scene load_steps=31 format=3 uid="uid://mfcipuoecvrg"]
 
 [ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://models/KENNEY_PNG/Dark/texture_01.png" id="1_he0oh"]
 [ext_resource type="Script" uid="uid://dt7ybllcq1qvj" path="res://shooting_range/shooting_range.gd" id="1_pbkss"]
 [ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy_controller/enemy_controller.tscn" id="2_v401n"]
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="2_x5web"]
 [ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player_controller/player_controller.tscn" id="3_pbkss"]
+[ext_resource type="PackedScene" uid="uid://c448kw8pbyx7e" path="res://scenes/enemies_chatting/enemies_chatting.tscn" id="4_45v1t"]
 [ext_resource type="PackedScene" uid="uid://cnhsqvrt3t0yw" path="res://models/kcube_wall_smallest.tscn" id="4_v401n"]
 [ext_resource type="PackedScene" uid="uid://cb7la0hjv3a1e" path="res://models/kcube_2x1x1.tscn" id="5_bc64h"]
 [ext_resource type="PackedScene" uid="uid://b5ry7d7084r21" path="res://models/kcube_2x2x2_g.tscn" id="6_y0g2x"]
@@ -77,6 +78,7 @@ size = Vector2(6, 3)
 script = ExtResource("1_pbkss")
 enemy_scene = ExtResource("2_v401n")
 exptgt_scene = ExtResource("14_y0g2x")
+enemy_chat_scene = ExtResource("4_45v1t")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_4cpvd")
@@ -260,9 +262,11 @@ mesh = SubResource("PlaneMesh_v401n")
 metadata/_edit_lock_ = true
 
 [node name="Spawn3" type="Node3D" parent="."]
+metadata/_edit_lock_ = true
 
 [node name="TargetPoster3" parent="Spawn3" instance=ExtResource("9_ycnku")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, -8.3)
+metadata/_edit_lock_ = true
 
 [node name="Label3D" type="Label3D" parent="Spawn3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.5, -8)
@@ -270,16 +274,12 @@ outline_modulate = Color(0.00784314, 0.0235294, 1, 1)
 text = "enemies
 chatting"
 font_size = 64
-
-[node name="Marker3D1" type="Marker3D" parent="Spawn3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -7)
-
-[node name="Marker3D2" type="Marker3D" parent="Spawn3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -7)
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Spawn3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -6.5)
 mesh = SubResource("PlaneMesh_ycnku")
+metadata/_edit_lock_ = true
 
 [node name="Spawn6" type="Node3D" parent="."]
 metadata/_edit_lock_ = true
