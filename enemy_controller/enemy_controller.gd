@@ -14,6 +14,8 @@
 extends CharacterBody3D
 class_name EnemyController
 
+signal died
+
 #region vars
 @onready var state_machine = $StateMachine
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -259,8 +261,9 @@ func spawn_damage_popup(amount: int) -> void:
 func handle_died():
 	is_dead = true
 	velocity = Vector3.ZERO
-	m16_rifle.queue_free()
 	state_machine.request_state_change("dead")
+	emit_signal("died")
+	m16_rifle.queue_free()
 	#await animation_player.animation_finished
 	#_play_anim_blocking("DYING", func():is_reacting=false)
 	# TODO: ^^^ move to state for DIE instead
