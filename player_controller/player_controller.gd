@@ -48,8 +48,8 @@ func _ready() -> void:
 	# 2: messages
 	death_message.visible = false
 	# SETUP
-	health_bar.value = HEALTH
 	health_bar.max_value = HEALTH
+	health_bar.value = HEALTH
 	# GUN SETUP
 	gun_instance = GUN.instantiate()
 	head.add_child(gun_instance)
