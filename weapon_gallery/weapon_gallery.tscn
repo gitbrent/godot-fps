@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bbckvmseeosda"]
 
 [ext_resource type="Script" uid="uid://dndptuk5hmp6x" path="res://weapon_gallery/weapon_gallery.gd" id="1_uhmw4"]
-[ext_resource type="PackedScene" uid="uid://6mbl8mtrfbde" path="res://enemy_rifle/enemy_rifle.tscn" id="2_a3ypu"]
+[ext_resource type="PackedScene" uid="uid://6mbl8mtrfbde" path="res://enemy/enemy_rifle/enemy_rifle.tscn" id="2_a3ypu"]
 [ext_resource type="Environment" uid="uid://ba3rstpkpxccv" path="res://weapon_gallery/environment_weapon_gallery.tres" id="2_ljudm"]
 [ext_resource type="Texture2D" uid="uid://bxf0e1afvggun" path="res://weapon_gallery/assets/T_P5_Circle_Light.png" id="3_sajid"]
 [ext_resource type="Texture2D" uid="uid://htw2bsmf77dh" path="res://weapon_gallery/assets/T_P5_L_Y_Light.png" id="4_sajid"]

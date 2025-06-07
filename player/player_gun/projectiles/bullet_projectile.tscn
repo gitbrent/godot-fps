@@ -1,0 +1,119 @@
+[gd_scene load_steps=20 format=3 uid="uid://7f8yov8g563i"]
+
+[ext_resource type="Script" uid="uid://ccycqti6r0fak" path="res://player/player_gun/projectiles/bullet_projectile.gd" id="1_ojvds"]
+[ext_resource type="PackedScene" uid="uid://d8hpw0xro6xg" path="res://player/player_gun/fx/hit_spark.tscn" id="2_wpa0b"]
+[ext_resource type="PackedScene" uid="uid://bk650qds30823" path="res://levels/shooting_range/bullet_hole_decal.tscn" id="3_lnq0e"]
+[ext_resource type="Shader" uid="uid://x6q8qlh636pb" path="res://player/player_gun/projectiles/blood.tres" id="4_4wwn3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_64nip"]
+radius = 0.025
+height = 0.05
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_64nip"]
+radius = 0.0375
+height = 0.075
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wpa0b"]
+size = Vector3(0.0463715, 0.0506515, 0.0485687)
+
+[sub_resource type="Gradient" id="Gradient_lnq0e"]
+colors = PackedColorArray(1, 0.180392, 0.164706, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4wwn3"]
+gradient = SubResource("Gradient_lnq0e")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gps5w"]
+spread = 0.0
+color_ramp = SubResource("GradientTexture1D_4wwn3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lnq0e"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.121569, 0.113725, 1)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_lnq0e"]
+material = SubResource("StandardMaterial3D_lnq0e")
+size = Vector2(0.05, 0.05)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gps5w"]
+render_priority = 0
+shader = ExtResource("4_4wwn3")
+
+[sub_resource type="Curve" id="Curve_g1bid"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.485149), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_dwymp"]
+curve = SubResource("Curve_g1bid")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_taeav"]
+spread = 2.5
+initial_velocity_min = 4.0
+initial_velocity_max = 6.0
+linear_accel_min = 4.0
+linear_accel_max = 4.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_dwymp")
+collision_mode = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_l68am"]
+size = Vector2(0.15, 0.15)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4wwn3"]
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_gps5w"]
+orientation = 1
+
+[node name="BulletProjectile" type="RigidBody3D"]
+collision_layer = 2
+collision_mask = 21
+mass = 0.1
+gravity_scale = 0.0
+continuous_cd = true
+script = ExtResource("1_ojvds")
+impact_scene = ExtResource("2_wpa0b")
+bullet_hole_decal = ExtResource("3_lnq0e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_64nip")
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_64nip")
+metadata/_edit_lock_ = true
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 21
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00181293, 0.00105256, 0.000679035)
+shape = SubResource("BoxShape3D_wpa0b")
+
+[node name="Tracers_WIP" type="GPUParticles3D" parent="."]
+visible = false
+lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_gps5w")
+draw_pass_1 = SubResource("QuadMesh_lnq0e")
+
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+visible = false
+size = Vector3(8, 0.5, 8)
+
+[node name="BloodParticles3D" type="GPUParticles3D" parent="."]
+material_override = SubResource("ShaderMaterial_gps5w")
+cast_shadow = 0
+emitting = false
+amount = 100
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_taeav")
+draw_pass_1 = SubResource("QuadMesh_l68am")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+visible = false
+process_material = SubResource("ParticleProcessMaterial_4wwn3")
+draw_pass_1 = SubResource("QuadMesh_gps5w")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://g253hm818e8x"]
 
-[ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://models/KENNEY_PNG/Dark/texture_01.png" id="1_g7d5n"]
-[ext_resource type="PackedScene" uid="uid://jot5kky01ygo" path="res://models/kenney_cubes/kcube_2x1x2.tscn" id="2_xwje8"]
-[ext_resource type="PackedScene" uid="uid://b5ry7d7084r21" path="res://models/kenney_cubes/kcube_2x2x2_g.tscn" id="3_wmtjm"]
-[ext_resource type="PackedScene" uid="uid://wlbqedbg6wnt" path="res://models/kenney_cubes/kcube_2x3x2.tscn" id="4_726oj"]
-[ext_resource type="PackedScene" uid="uid://dn46gu4t35ngu" path="res://models/kenney_cubes/kcube_1x1x1.tscn" id="5_0drw0"]
-[ext_resource type="PackedScene" uid="uid://cjai0bvd01c38" path="res://models/kenney_cubes/kcube_wall_small.tscn" id="6_ubhhm"]
+[ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://assets_models/KENNEY_PNG/Dark/texture_01.png" id="1_g7d5n"]
+[ext_resource type="PackedScene" uid="uid://jot5kky01ygo" path="res://assets_models/kenney_cubes/kcube_2x1x2.tscn" id="2_xwje8"]
+[ext_resource type="PackedScene" uid="uid://b5ry7d7084r21" path="res://assets_models/kenney_cubes/kcube_2x2x2_g.tscn" id="3_wmtjm"]
+[ext_resource type="PackedScene" uid="uid://wlbqedbg6wnt" path="res://assets_models/kenney_cubes/kcube_2x3x2.tscn" id="4_726oj"]
+[ext_resource type="PackedScene" uid="uid://dn46gu4t35ngu" path="res://assets_models/kenney_cubes/kcube_1x1x1.tscn" id="5_0drw0"]
+[ext_resource type="PackedScene" uid="uid://cjai0bvd01c38" path="res://assets_models/kenney_cubes/kcube_wall_small.tscn" id="6_ubhhm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ukvod"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)

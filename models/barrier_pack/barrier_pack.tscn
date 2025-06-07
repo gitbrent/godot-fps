@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://canrwhbyyoq2y"]
-
-[ext_resource type="PackedScene" uid="uid://dy050ufvnqp50" path="res://models/barrier_pack/barrier__traffic_cone_pack.glb" id="1_dleyb"]
-
-[node name="BarrierPack" instance=ExtResource("1_dleyb")]
