@@ -9014,7 +9014,6 @@ script = ExtResource("15_50015")
 metadata/_custom_type_script = "uid://bk4bnnvg75snr"
 
 [node name="DEBUG" type="Node3D" parent="."]
-visible = false
 
 [node name="LabelState" type="Label3D" parent="DEBUG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.39514, 0)
