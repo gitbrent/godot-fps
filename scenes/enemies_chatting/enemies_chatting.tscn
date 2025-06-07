@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://bgerq1wbs5tk2" path="res://scenes/enemies_chatting/enemies_chatting.gd" id="1_0elav"]
 [ext_resource type="Texture2D" uid="uid://cixjdw6cgqfjs" path="res://models/KENNEY_PNG/Green/texture_01.png" id="1_e777x"]
 [ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy_controller/enemy_controller.tscn" id="2_0elav"]
-[ext_resource type="AudioStream" uid="uid://cyx41wfb6eivh" path="res://enemy_controller/audio/chatter/Male_Soldier_Enemy_chatter1.mp3" id="4_iqhds"]
-[ext_resource type="AudioStream" uid="uid://c5fi1hmdcl7va" path="res://enemy_controller/audio/chatter/Male_Soldier_Enemy_chatter2.mp3" id="5_tnypc"]
+[ext_resource type="AudioStream" uid="uid://ds4jo0dcbtvqv" path="res://enemy_controller/audio/chatter/Male_Soldier_Enemy_chatter-1.mp3" id="6_adh55"]
+[ext_resource type="AudioStream" uid="uid://bp6pkgdim3eeh" path="res://enemy_controller/audio/chatter/Male_Soldier_Enemy_chatter-2.mp3" id="7_6u254"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_45v1t"]
 albedo_texture = ExtResource("1_e777x")
@@ -38,10 +38,10 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.6, 0
 show_state_debug = false
 show_detection_area_debug = false
 
-[node name="MaleSoldierEnemyChatter1" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 0, -7.2)
-stream = ExtResource("4_iqhds")
+[node name="MaleChatter1" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.3, 0, -3.8)
+stream = ExtResource("7_6u254")
 
-[node name="MaleSoldierEnemyChatter2" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 0, -7.2)
-stream = ExtResource("5_tnypc")
+[node name="MaleChatter2" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.3, 0, -3.8)
+stream = ExtResource("6_adh55")

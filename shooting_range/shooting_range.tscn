@@ -6,9 +6,9 @@
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="2_x5web"]
 [ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player_controller/player_controller.tscn" id="3_pbkss"]
 [ext_resource type="PackedScene" uid="uid://c448kw8pbyx7e" path="res://scenes/enemies_chatting/enemies_chatting.tscn" id="4_45v1t"]
-[ext_resource type="PackedScene" uid="uid://cnhsqvrt3t0yw" path="res://models/kcube_wall_smallest.tscn" id="4_v401n"]
-[ext_resource type="PackedScene" uid="uid://cb7la0hjv3a1e" path="res://models/kcube_2x1x1.tscn" id="5_bc64h"]
-[ext_resource type="PackedScene" uid="uid://b5ry7d7084r21" path="res://models/kcube_2x2x2_g.tscn" id="6_y0g2x"]
+[ext_resource type="PackedScene" uid="uid://cnhsqvrt3t0yw" path="res://models/kenney_cubes/kcube_wall_smallest.tscn" id="4_v401n"]
+[ext_resource type="PackedScene" uid="uid://cb7la0hjv3a1e" path="res://models/kenney_cubes/kcube_2x1x1.tscn" id="5_bc64h"]
+[ext_resource type="PackedScene" uid="uid://b5ry7d7084r21" path="res://models/kenney_cubes/kcube_2x2x2_g.tscn" id="6_y0g2x"]
 [ext_resource type="PackedScene" uid="uid://spo1ccdf5fp7" path="res://models/fence_barrier/fence_barrier.tscn" id="7_p6dwm"]
 [ext_resource type="PackedScene" uid="uid://bxnajpobtxh6o" path="res://models/barrier_pack/barrier01.tscn" id="8_45v1t"]
 [ext_resource type="PackedScene" uid="uid://d4jsuomes8khv" path="res://shooting_range/targets/target_poster.tscn" id="9_ycnku"]
@@ -132,6 +132,7 @@ metadata/_edit_lock_ = true
 
 [node name="PlayerController" parent="." instance=ExtResource("3_pbkss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+HEALTH = 500
 
 [node name="Walls" type="Node3D" parent="."]
 metadata/_edit_lock_ = true
