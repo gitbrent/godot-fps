@@ -23,6 +23,7 @@ var joy_look = Vector2.ZERO
 var joy_look_speed = 1000
 # CLASS VARS
 var is_dying: bool = false
+var is_crouched: bool = false
 #var total_kills = 0 # TODO: need gun/bullet feedback (listener?)
 var total_shots = 0
 # ONREADY VARS
@@ -75,6 +76,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			joy_look.y = -event.axis_value
 
 func _physics_process(delta: float) -> void:
+	# FIRST:
 	if is_dying:
 		return
 	
@@ -96,7 +98,16 @@ func _physics_process(delta: float) -> void:
 	else:
 		move_speed = BASE_SPEED
 	
-	# 5: get the input direction and handle the movement/deceleration.
+	# 5: TODO:
+	#if Input.is_action_pressed("shooter_crouch"):
+		#if is_crouched
+			## TODO:
+			#pass
+	#else:
+		## TODO:
+		#pass
+	
+	# 6: get the input direction and handle the movement/deceleration.
 	# .: As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -106,20 +117,20 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, move_speed)
 		velocity.z = move_toward(velocity.z, 0, move_speed)
-
-	# 6: handle look
+	
+	# 7: handle look
 	if joy_look != Vector2.ZERO:
 		# NOTE: Multiply by joy_look_speed and delta to get a smooth rotation
 		rotate_look(joy_look * joy_look_speed * delta)
 	
-	# 7: Handle Shoot Input - Tell the gun to fire
+	# 8: Handle Shoot Input - Tell the gun to fire
 	if Input.is_action_pressed("ui_shoot"):
 		if gun_instance: # Ensure the gun reference is valid
 			var fire_result = gun_instance.request_fire()
 			if fire_result:
 				total_shots += 1
 				label_2.text = str(total_shots)
-
+	
 	# LAST:
 	move_and_slide()
 
