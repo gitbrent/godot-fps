@@ -27,7 +27,7 @@ signal died
 @onready var state_node_patrol: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_follow: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_attack: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
-@onready var m16_rifle: Node3D = $m16_assault_rifle_fixed
+@onready var m16_rifle: Node3D = $Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed
 @onready var audio_projectile_strike: AudioStreamPlayer = $"Audio/Projectile-strike"
 #
 @export_group("Props")
