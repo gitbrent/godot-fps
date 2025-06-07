@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://d4bx7rm4wb2ax"]
+[gd_scene load_steps=38 format=4 uid="uid://d4bx7rm4wb2ax"]
 
 [ext_resource type="Script" uid="uid://bfgdoh0wqbpwu" path="res://enemy_controller/enemy_controller.gd" id="1_wilww"]
 [ext_resource type="Texture2D" uid="uid://dvcivjkfrehtp" path="res://enemy_controller/test3/Test03_vanguard_diffuse1.png" id="2_0jppv"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://djwtd60ecxc8c" path="res://enemy_controller/audio/voice1/contact!.mp3" id="4_e5gnd"]
 [ext_resource type="AudioStream" uid="uid://yh8pnd28oe7a" path="res://enemy_controller/audio/voice1/ow-right-in-the-fkn-nuts.mp3" id="4_oeory"]
 [ext_resource type="Script" uid="uid://pdw1m7tkdt" path="res://enemy_controller/state_idle.gd" id="4_x6dxp"]
+[ext_resource type="AudioStream" uid="uid://c3ccclta6ikdj" path="res://player_controller/assets/sound-argh.mp3" id="5_27s6p"]
 [ext_resource type="Script" uid="uid://cwed87lihuouf" path="res://enemy_controller/state_follow.gd" id="5_cdg0o"]
 [ext_resource type="AnimationLibrary" uid="uid://b3v0nimf8t7r1" path="res://enemy_controller/animations-test05.res" id="5_nm63k"]
 [ext_resource type="AudioStream" uid="uid://xjr0drm6ter1" path="res://enemy_controller/audio/voice1/i-lost-hem!.mp3" id="5_oeory"]
@@ -8937,6 +8938,7 @@ bones/64/enabled = true
 bones/64/position = Vector3(4.09963e-07, 10, -6.38422e-07)
 bones/64/rotation = Quaternion(-2.61898e-08, -1.1353e-08, 2.98105e-08, 1)
 bones/64/scale = Vector3(1, 1, 1)
+metadata/_edit_lock_ = true
 
 [node name="vanguard_Mesh" type="MeshInstance3D" parent="Armature/Skeleton3D"]
 mesh = SubResource("ArrayMesh_erxh0")
@@ -8949,14 +8951,19 @@ skin = SubResource("Skin_7hmpb")
 metadata/_edit_lock_ = true
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
-transform = Transform3D(-0.101355, 0.0282636, 0.994449, -0.0991236, 0.994335, -0.0383628, -0.9899, -0.102462, -0.097979, -17.0706, 15.2844, -139.808)
+transform = Transform3D(-0.101355, 0.0282637, 0.994449, -0.0991234, 0.994335, -0.038363, -0.9899, -0.102462, -0.0979794, -17.0706, 15.2844, -139.808)
 bone_name = "mixamorig_RightHand"
 bone_idx = 34
+metadata/_edit_lock_ = true
 
 [node name="m16_assault_rifle_fixed" parent="Armature/Skeleton3D/BoneAttachment3D" instance=ExtResource("13_iwtpe")]
 transform = Transform3D(2.15986, 74.8852, 3.53923, -11.2643, -3.17635, 74.0812, 74.1178, -2.66495, 11.1556, -2.69423, 14.1039, 3.9352)
+metadata/_edit_lock_ = true
 
 [node name="Audio" type="Node" parent="."]
+
+[node name="ARGH" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("5_27s6p")
 
 [node name="Contact!" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("4_e5gnd")
@@ -9007,6 +9014,7 @@ script = ExtResource("15_50015")
 metadata/_custom_type_script = "uid://bk4bnnvg75snr"
 
 [node name="DEBUG" type="Node3D" parent="."]
+visible = false
 
 [node name="LabelState" type="Label3D" parent="DEBUG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.39514, 0)
