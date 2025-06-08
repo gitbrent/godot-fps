@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bhhs3kjln8s2f"]
+[gd_scene load_steps=14 format=3 uid="uid://bhhs3kjln8s2f"]
 
 [ext_resource type="Script" uid="uid://bwmlsmdlr63lo" path="res://ui/main_menu_scene.gd" id="1_xdd34"]
 [ext_resource type="Texture2D" uid="uid://o0llpofd1qj6" path="res://ui/assets/Screenshot 2025-05-24 at 12.59.40.png" id="2_04p6d"]
@@ -10,6 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://l5nqkcb2j0o3" path="res://ui/assets/CGB02-green_L_btn.png" id="7_kx7qn"]
 [ext_resource type="Texture2D" uid="uid://514kfpddwdpo" path="res://ui/assets/T_P5_Triangle_Light.png" id="7_rjiop"]
 [ext_resource type="Texture2D" uid="uid://ouqi57voki70" path="res://ui/assets/T_P5_Square_Light.png" id="8_rjiop"]
+[ext_resource type="Texture2D" uid="uid://d00rra6j5tx8a" path="res://ui/assets/CGB02-blue_L_btn.png" id="8_t8xrk"]
+[ext_resource type="Texture2D" uid="uid://cyxqkutxcpq5j" path="res://ui/assets/CGB02-orange_L_btn.png" id="10_vkcbo"]
+[ext_resource type="Texture2D" uid="uid://gofeoymi1dks" path="res://ui/assets/T_P5_Circle_Light.png" id="13_bpcjf"]
 
 [node name="MainMenuScene" type="Control"]
 process_mode = 3
@@ -55,28 +58,30 @@ grow_vertical = 2
 
 [node name="LabelTitle1" type="Label" parent="CanvasLayer/MainContainer"]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("3_04p6d")
 theme_override_font_sizes/font_size = 240
 text = "Godot 4"
 horizontal_alignment = 1
-vertical_alignment = 2
+vertical_alignment = 1
 
 [node name="LabelTitle2" type="Label" parent="CanvasLayer/MainContainer"]
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.753984, 0.753984, 0.753984, 1)
 theme_override_fonts/font = ExtResource("3_04p6d")
 theme_override_font_sizes/font_size = 120
 text = "FPS Prototype"
 horizontal_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainContainer"]
-custom_minimum_size = Vector2(0, 500)
 layout_mode = 2
 theme_override_constants/separation = 50
 
 [node name="ButtonStart" type="TextureButton" parent="CanvasLayer/MainContainer/VBoxContainer"]
 process_mode = 3
+visible = false
 custom_minimum_size = Vector2(1000, 150)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -152,6 +157,54 @@ theme_override_font_sizes/font_size = 96
 text = "Weapon Gallery"
 vertical_alignment = 1
 
+[node name="BtnStart" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
+process_mode = 3
+custom_minimum_size = Vector2(1000, 175)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+focus_neighbor_bottom = NodePath("../ButtonGallery")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnStart"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_t8xrk")
+patch_margin_left = 60
+patch_margin_top = 55
+patch_margin_right = 62
+patch_margin_bottom = 50
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnStart"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 125
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnStart/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnStart/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_ka6vp")
+
+[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/BtnStart/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_04p6d")
+theme_override_font_sizes/font_size = 96
+text = "New Game"
+vertical_alignment = 1
+
 [node name="BtnGallery" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
 custom_minimum_size = Vector2(1000, 175)
 layout_mode = 2
@@ -204,6 +257,58 @@ theme_override_font_sizes/font_size = 96
 text = "Weapon Gallery"
 vertical_alignment = 1
 
+[node name="BtnRange" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 175)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 96
+text = "Enemy Gallery"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRange"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_vkcbo")
+region_rect = Rect2(0, 0, 511.953, 140)
+patch_margin_left = 60
+patch_margin_top = 55
+patch_margin_right = 62
+patch_margin_bottom = 50
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRange"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 8.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRange/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRange/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("8_rjiop")
+
+[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRange/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_04p6d")
+theme_override_font_sizes/font_size = 96
+text = "Shooting Range"
+vertical_alignment = 1
+
 [node name="BtnEnemy" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
 custom_minimum_size = Vector2(1000, 175)
 layout_mode = 2
@@ -246,7 +351,7 @@ theme_override_constants/separation = 20
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
-texture = ExtResource("8_rjiop")
+texture = ExtResource("13_bpcjf")
 
 [node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -258,5 +363,7 @@ vertical_alignment = 1
 
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/ButtonStart" to="." method="_on_button_start_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery" to="." method="_on_button_gallery_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnStart" to="." method="_on_button_start_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnGallery" to="." method="_on_button_gallery_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnRange" to="." method="_on_button_range_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy" to="." method="_on_button_enemy_pressed"]

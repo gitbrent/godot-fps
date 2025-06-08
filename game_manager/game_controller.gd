@@ -10,14 +10,11 @@ class_name GameController
 #region vars
 @export var player_scene: PackedScene
 @export var enemy_scene: PackedScene
-@export var weapon_gallery_scene: PackedScene
 #
-#@onready var hud_game_menu: Control = $HudGameMenu
 @onready var countdown_label: CanvasLayer = $CountdownLabel
 #
 var spawned_player: PlayerController = null
 var spawned_enemy: EnemyController = null
-var spawned_weapon_gallery: WeaponGallery = null
 var max_enemies = 3
 var can_spawn_enemies = false
 #endregion
@@ -29,10 +26,6 @@ func _ready() -> void:
 		print("ASSERT FAILED")
 		return
 	# STEP 2:
-	#hud_game_menu.btn_clicked_start_game.connect(_on_btn_clicked_start_game)
-	#hud_game_menu.btn_clicked_show_gallery.connect(_on_btn_clicked_show_gallery)
-	# STEP 3:
-	#show_start_screen(true)
 	_on_btn_clicked_start_game()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,14 +35,11 @@ func _process(delta: float) -> void:
 		if enemies.size() < max_enemies:
 			spawn_enemy()
 
-func pause_game(value:bool) -> void:
-	get_tree().paused = value
-
 # PLAYER FUNCS -----------------------------------------------
 
 func _on_player_died() -> void:
 	# 1:
-	pause_game(true)
+	GameManager.player_died
 	can_spawn_enemies = false
 	# 2:
 	await get_tree().create_timer(2).timeout

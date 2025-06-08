@@ -1,9 +1,8 @@
-[gd_scene load_steps=28 format=4 uid="uid://brdt8fje6jpt1"]
+[gd_scene load_steps=26 format=4 uid="uid://brdt8fje6jpt1"]
 
 [ext_resource type="Script" uid="uid://cte556yo33bge" path="res://game_manager/game_controller.gd" id="1_oqlok"]
 [ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player/player_controller/player_controller.tscn" id="2_7nvrk"]
 [ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy/enemy_controller/enemy_controller.tscn" id="3_jkxa6"]
-[ext_resource type="PackedScene" uid="uid://bbckvmseeosda" path="res://weapon_gallery/weapon_gallery.tscn" id="4_w75he"]
 [ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://assets_models/KENNEY_PNG/Dark/texture_01.png" id="5_udfhf"]
 [ext_resource type="PackedScene" uid="uid://wkv1txt18fhi" path="res://ui/countdown_label.tscn" id="6_i6od7"]
 [ext_resource type="PackedScene" uid="uid://c21axn1475ray" path="res://assets_models/scifi_barrel/sci-fi_barrel.glb" id="7_ryfpa"]
@@ -16,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://b5ry7d7084r21" path="res://assets_models/kenney_cubes/kcube_2x2x2_g.tscn" id="14_06ecp"]
 [ext_resource type="PackedScene" uid="uid://dn46gu4t35ngu" path="res://assets_models/kenney_cubes/kcube_1x1x1.tscn" id="15_ohjdc"]
 [ext_resource type="PackedScene" uid="uid://wbwjnb34fu2e" path="res://assets_models/kenney_cubes/kcube_wall.tscn" id="16_e5brb"]
-[ext_resource type="PackedScene" uid="uid://g253hm818e8x" path="res://levels/test_alley.tscn" id="18_toluw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4wuf8"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -91,7 +89,6 @@ shadow_mesh = SubResource("ArrayMesh_7ckqa")
 script = ExtResource("1_oqlok")
 player_scene = ExtResource("2_7nvrk")
 enemy_scene = ExtResource("3_jkxa6")
-weapon_gallery_scene = ExtResource("4_w75he")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_t8dge")
@@ -361,6 +358,3 @@ metadata/_edit_lock_ = true
 [node name="KcubeWall2" parent="SHAPES/WALLS" instance=ExtResource("16_e5brb")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -24, 0, -11)
 metadata/_edit_lock_ = true
-
-[node name="TestAlley" parent="." instance=ExtResource("18_toluw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
