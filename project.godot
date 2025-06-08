@@ -19,7 +19,7 @@ config/icon="res://assets/icon.svg"
 
 [autoload]
 
-GameManager="*res://game_manager/game_manager.gd"
+GameManager="*res://game_manager/game_manager.tscn"
 
 [display]
 
@@ -120,6 +120,11 @@ shooter_crouch={
 shooter_reload={
 "deadzone": 0.2,
 "events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":2,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+ui_start={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 

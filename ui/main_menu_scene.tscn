@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bhhs3kjln8s2f"]
+[gd_scene load_steps=10 format=3 uid="uid://bhhs3kjln8s2f"]
 
 [ext_resource type="Script" uid="uid://bwmlsmdlr63lo" path="res://ui/main_menu_scene.gd" id="1_xdd34"]
 [ext_resource type="Texture2D" uid="uid://o0llpofd1qj6" path="res://ui/assets/Screenshot 2025-05-24 at 12.59.40.png" id="2_04p6d"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://d6xxiaptr6om" path="res://ui/assets/UI-04.png" id="5_te1gm"]
 [ext_resource type="Texture2D" uid="uid://cgvddjwqdyl4k" path="res://ui/assets/T_P5_Cross_Light.png" id="6_ka6vp"]
 [ext_resource type="Texture2D" uid="uid://ckkg6si6v6k0a" path="res://ui/assets/CGB02-purple_L_btn.png" id="7_ka6vp"]
+[ext_resource type="Texture2D" uid="uid://l5nqkcb2j0o3" path="res://ui/assets/CGB02-green_L_btn.png" id="7_kx7qn"]
 [ext_resource type="Texture2D" uid="uid://514kfpddwdpo" path="res://ui/assets/T_P5_Triangle_Light.png" id="7_rjiop"]
 [ext_resource type="Texture2D" uid="uid://ouqi57voki70" path="res://ui/assets/T_P5_Square_Light.png" id="8_rjiop"]
 
@@ -22,6 +23,7 @@ script = ExtResource("1_xdd34")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Screenshot" type="Sprite2D" parent="CanvasLayer"]
+visible = false
 texture = ExtResource("2_04p6d")
 centered = false
 
@@ -85,6 +87,7 @@ theme_override_constants/margin_right = 125
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonStart/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 20
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonStart/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -96,12 +99,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("3_04p6d")
 theme_override_font_sizes/font_size = 96
-text = "Start"
-horizontal_alignment = 1
+text = "New Game"
 vertical_alignment = 1
 
 [node name="ButtonGallery" type="TextureButton" parent="CanvasLayer/MainContainer/VBoxContainer"]
 process_mode = 3
+visible = false
 custom_minimum_size = Vector2(1000, 150)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -123,6 +126,7 @@ theme_override_constants/margin_right = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 20
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -135,34 +139,58 @@ size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("3_04p6d")
 theme_override_font_sizes/font_size = 96
 text = "Weapon Gallery"
-horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnEnemy2" type="TextureButton" parent="CanvasLayer/MainContainer/VBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(1000, 250)
+[node name="BtnGallery" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 175)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture_normal = ExtResource("7_ka6vp")
-stretch_mode = 5
+theme_override_font_sizes/font_size = 96
+text = "Enemy Gallery"
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy2"]
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnGallery"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_bottom = 25
+texture = ExtResource("7_kx7qn")
+region_rect = Rect2(0, 0, 511.953, 140)
+patch_margin_left = 60
+patch_margin_top = 55
+patch_margin_right = 62
+patch_margin_bottom = 50
+metadata/_edit_lock_ = true
 
-[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy2/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnGallery"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 8.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnGallery/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnGallery/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("7_rjiop")
+
+[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/BtnGallery/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("3_04p6d")
 theme_override_font_sizes/font_size = 96
-text = "Enemy Gallery"
-horizontal_alignment = 1
+text = "Weapon Gallery"
 vertical_alignment = 1
 
 [node name="BtnEnemy" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
@@ -202,6 +230,7 @@ theme_override_constants/margin_right = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 20
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -218,4 +247,5 @@ vertical_alignment = 1
 
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/ButtonStart" to="." method="_on_button_start_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery" to="." method="_on_button_gallery_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnGallery" to="." method="_on_button_gallery_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy" to="." method="_on_button_enemy_pressed"]

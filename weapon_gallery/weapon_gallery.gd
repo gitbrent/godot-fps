@@ -4,8 +4,6 @@
 extends Node3D
 class_name WeaponGallery
 
-signal btn_clicked_close_weapon_gallery
-
 #region vars
 @onready var weapon_container: Node3D = $WeaponContainer
 @onready var main_camera: Camera3D = $Camera3D
@@ -66,7 +64,7 @@ func _input(event):
 
 	# Handle "Back" input (e.g., Esc key or O joypad)
 	if Input.is_action_just_pressed("ui_cancel"):
-		emit_signal("btn_clicked_close_weapon_gallery")
+		GameManager.load_main_menu()
 
 # PUBLIC METHODS -----------------------------------------------
 
@@ -74,7 +72,7 @@ func load_weapon(weapon_scene_path: String) -> void:
 	if loaded_weapon_model:
 		loaded_weapon_model.queue_free() # Remove previous weapon if any
 		loaded_weapon_model = null
-
+	
 	var weapon_scene = load(weapon_scene_path)
 	if weapon_scene:
 		loaded_weapon_model = weapon_scene.instantiate()

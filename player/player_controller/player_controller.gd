@@ -8,7 +8,7 @@ signal player_died
 #region variables
 # PROPERTIES
 @export_group("Properties")
-@export var HEALTH = 100
+@export var HEALTH = 500
 @export var GUN:PackedScene
 @export_group("Speeds")
 @export var LOOK_SPEED = 0.002

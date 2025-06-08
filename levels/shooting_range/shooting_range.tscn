@@ -132,7 +132,6 @@ metadata/_edit_lock_ = true
 
 [node name="PlayerController" parent="." instance=ExtResource("3_pbkss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
-HEALTH = 500
 
 [node name="Walls" type="Node3D" parent="."]
 metadata/_edit_lock_ = true

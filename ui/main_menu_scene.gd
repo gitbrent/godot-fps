@@ -1,8 +1,5 @@
 extends Control
 
-signal btn_clicked_show_gallery
-signal btn_clicked_show_enemy
-
 #region vars
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
 #endregion
@@ -21,7 +18,7 @@ func _on_button_start_pressed() -> void:
 	GameManager.load_level("res://levels/level_1.tscn")
 
 func _on_button_gallery_pressed() -> void:
-	emit_signal("btn_clicked_show_gallery")
+	GameManager.load_weapon_gallery()
 
 func _on_button_enemy_pressed() -> void:
-	emit_signal("btn_clicked_show_enemy")
+	GameManager.load_level("res://levels/shooting_range/shooting_range.tscn")
