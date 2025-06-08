@@ -15,10 +15,12 @@
 [ ] - remap inputs to match CoD, rename to new standard
 [ ] - show bullet tracers
 [ ] - add crouch to player controller
+[ ] - blood spurt on hit should be attached to enemy, not bullet_projectile!
+[ ] - NEW: enemy gallery (with state menu buttons)
 
 ## FIXME
 
-[ ] - reticule shows on weapon gallery
+[ ] - 
 
 ## Questions
 
