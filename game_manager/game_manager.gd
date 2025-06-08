@@ -9,12 +9,13 @@ signal game_restarted()
 signal game_paused_state_changed(is_paused: bool)
 signal level_loaded()
 #endregion
-#region vars
+#region VARIABLES
 # READY
 @onready var ui_root = get_tree().current_scene.get_node("UIRoot")
 # EXPS
-@export var hud_game_menu: PackedScene
-@export var weapon_gallery_scene: PackedScene
+@export var hud_game_menu: PackedScene = preload("res://ui/main_menu_scene.tscn")
+@export var weapon_gallery_scene: PackedScene = preload("res://weapon_gallery/weapon_gallery.tscn")
+@export var shooting_range_scene: PackedScene = preload("res://levels/shooting_range/shooting_range.tscn")
 # VARS
 var spawned_main_menu: Control = null
 var spawned_weapon_gallery: WeaponGallery = null

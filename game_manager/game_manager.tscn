@@ -1,12 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dpn8naafdf3iv"]
+[gd_scene load_steps=2 format=3 uid="uid://dpn8naafdf3iv"]
 
 [ext_resource type="Script" uid="uid://c4ukfni702exj" path="res://game_manager/game_manager.gd" id="1_ong7i"]
-[ext_resource type="PackedScene" uid="uid://bbckvmseeosda" path="res://weapon_gallery/weapon_gallery.tscn" id="2_mx6ys"]
-[ext_resource type="PackedScene" uid="uid://bhhs3kjln8s2f" path="res://ui/main_menu_scene.tscn" id="2_q7vcu"]
 
 [node name="MainRoot" type="Node"]
 script = ExtResource("1_ong7i")
-hud_game_menu = ExtResource("2_q7vcu")
-weapon_gallery_scene = ExtResource("2_mx6ys")
 
 [node name="UIRoot" type="CanvasLayer" parent="."]
