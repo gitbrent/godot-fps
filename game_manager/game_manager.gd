@@ -10,6 +10,8 @@ signal game_paused_state_changed(is_paused: bool)
 signal level_loaded()
 #endregion
 #region vars
+# READY
+@onready var ui_root = get_tree().current_scene.get_node("UIRoot")
 # EXPS
 @export var hud_game_menu: PackedScene
 @export var weapon_gallery_scene: PackedScene
@@ -31,54 +33,44 @@ func _input(event):
 	if Input.is_action_just_pressed("joypad_start"):
 		load_main_menu()
 
-# --- Listeners ---
+# --- LISTENERS -----------------------------------------------
 
 func _on_player_died() -> void:
 	print("Player died! Game Over!")
 	# For a shooting range, you might just restart, or go to a game over screen
 	load_game_over_screen() # Or load_level("res://scenes/main_menu_scene.tscn
 
-# --- Scene Management Functions ---
+# --- UI FUNCS ------------------------------------------------
+
+func _clear_ui() -> void:
+	for child in ui_root.get_children():
+		child.queue_free()
+	spawned_main_menu      = null
+	spawned_weapon_gallery = null
+
+# --- SCENE MGMT FUNCS ----------------------------------------
 
 func load_main_menu() -> void:
 	# 1:
-	set_game_pause_state(true)
+	_clear_ui()
 	# 2:
+	set_game_pause_state(true)
+	# 3:
 	# NOTE: below wont work with auto-loaders (`get_tree().current_scene is always null)
 	#get_tree().change_scene_to_file("res://ui/main_menu_scene.tscn")
 	spawned_main_menu = hud_game_menu.instantiate()
-	get_tree().current_scene.add_child(spawned_main_menu)
-	# 3:
-	if spawned_weapon_gallery:
-		spawned_weapon_gallery.queue_free()
+	ui_root.add_child(spawned_main_menu)
 
 func load_weapon_gallery() -> void:
-	if not get_tree().paused:
-		set_game_pause_state(true)
-
-	if spawned_main_menu:
-		spawned_main_menu.queue_free()
-
-	if spawned_weapon_gallery:
-		spawned_weapon_gallery.queue_free()
-	set_game_pause_state(true) # Pause the game while in examine screen
-	# Hide player HUD if it was visible
-	if spawned_player:
-		var player_hud_canvas_layer = spawned_player.hud_canvas_layer
-		if player_hud_canvas_layer:
-			player_hud_canvas_layer.visible = false
-
-	if weapon_gallery_scene:
-		spawned_weapon_gallery = weapon_gallery_scene.instantiate()
-		get_tree().current_scene.add_child(spawned_weapon_gallery)
-		# Ensure it processes inputs even if paused
-		spawned_weapon_gallery.set_process_mode(Node.PROCESS_MODE_ALWAYS)
-		# --- Load a specific weapon ---
-		# Example: Load an enemy's default weapon. You'll need the path to its GLB/OBJ/TSCN file.
-		# Ensure your enemy weapon model scene (e.g., "res://models/enemy_rifle.tscn") is correctly imported
-		spawned_weapon_gallery.load_weapon("res://enemy/enemy_rifle/enemy_rifle.tscn")
-	else:
-		print("Error: Weapon examine scene prefab not assigned!")
+	# 1:
+	_clear_ui()
+	# 2:
+	set_game_pause_state(true)
+	# 3:
+	spawned_weapon_gallery = weapon_gallery_scene.instantiate()
+	ui_root.add_child(spawned_weapon_gallery)
+	spawned_weapon_gallery.set_process_mode(Node.PROCESS_MODE_ALWAYS)
+	spawned_weapon_gallery.load_weapon("res://enemy/enemy_rifle/enemy_rifle.tscn")
 
 func load_level(level_path: String):
 	print("[load_level] ", level_path)
