@@ -1,10 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://dpn8naafdf3iv"]
 
-[ext_resource type="Script" uid="uid://c4ukfni702exj" path="res://game_manager/game_manager.gd" id="1_ong7i"]
+[ext_resource type="Script" uid="uid://cn8jljk8sxnkh" path="res://game_manager/ui_root.gd" id="2_mx6ys"]
 
 [node name="MainRoot" type="Node"]
-script = ExtResource("1_ong7i")
 
 [node name="UIRoot" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("2_mx6ys")
 
 [node name="LevelRoot" type="Node" parent="."]

@@ -1,5 +1,8 @@
 ## game_manager.gd
 ## - global autoload script
+## 1. set just the gd script to autoload,
+## 2. set game_manager.tscn as default
+## 3. do NOT set MainRoot's script to the autoloaded gd
 extends Node
 #class_name GameManager # NOTE: not needed: Autoload instead
 
@@ -44,17 +47,6 @@ func _ready():
 	# STEP 4: Load the initial game state (e.g., Main Menu)
 	call_deferred("load_main_menu")
 
-func _input(event):
-	if Input.is_action_just_pressed("joypad_start"):
-		# Example: Toggle pause menu if game is paused in a level, otherwise go to main menu
-		if get_tree().paused && _current_level_instance != null: # If in a level and paused
-			# This would ideally open/close a dedicated Pause Menu UI
-			# For now, let's just unpause and clear UI
-			#close_all_ui()
-			set_game_pause_state(false)
-		else: # Not in a level or not paused, go to main menu
-			load_main_menu() # Use main menu as a "pause/options" menu or initial entry
-
 # --- LISTENERS -----------------------------------------------
 
 func _on_player_died() -> void:
@@ -65,6 +57,22 @@ func _on_player_died() -> void:
 	load_game_over_screen() # Or load_level("res://scenes/main_menu_scene.tscn
 
 # --- UI FUNCS ------------------------------------------------
+
+func start_btn_pressed():
+	# Example: Toggle pause menu if game is paused in a level, otherwise go to main menu
+	if get_tree().paused && _current_level_instance != null:
+		# This would ideally open/close a dedicated Pause Menu UI
+		# For now, let's just unpause and clear UI
+		#close_all_ui()
+		set_game_pause_state(false)
+	elif _current_level_instance != null:
+		# TODO: show "Paused" on canvas
+		if get_tree().paused:
+			set_game_pause_state(false)
+		else:
+			set_game_pause_state(true)
+	else: # Not in a level or not paused, go to main menu
+		load_main_menu() # Use main menu as a "pause/options" menu or initial entry
 
 func _clear_ui() -> void:
 	# Removes all UI children from _ui_root_node
@@ -164,6 +172,7 @@ func load_game_over_screen_OLD():
 # --- Pause/Resume Game ---
 func set_game_pause_state(pause: bool):
 	get_tree().paused = pause
+	print(get_tree().paused)
 	game_paused_state_changed.emit(pause)
 	#print("Game paused: ", pause)
 
