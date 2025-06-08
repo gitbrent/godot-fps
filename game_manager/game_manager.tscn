@@ -6,3 +6,5 @@
 script = ExtResource("1_ong7i")
 
 [node name="UIRoot" type="CanvasLayer" parent="."]
+
+[node name="LevelRoot" type="Node" parent="."]
