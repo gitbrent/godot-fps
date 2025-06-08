@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bhhs3kjln8s2f"]
+[gd_scene load_steps=11 format=3 uid="uid://bhhs3kjln8s2f"]
 
 [ext_resource type="Script" uid="uid://bwmlsmdlr63lo" path="res://ui/main_menu_scene.gd" id="1_xdd34"]
 [ext_resource type="Texture2D" uid="uid://o0llpofd1qj6" path="res://ui/assets/Screenshot 2025-05-24 at 12.59.40.png" id="2_04p6d"]
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="3_04p6d"]
+[ext_resource type="Texture2D" uid="uid://dx5x2hxuy1dvd" path="res://assets_models/KENNEY_PNG/Dark/texture_08.png" id="3_idk7k"]
 [ext_resource type="Texture2D" uid="uid://d6xxiaptr6om" path="res://ui/assets/UI-04.png" id="5_te1gm"]
 [ext_resource type="Texture2D" uid="uid://cgvddjwqdyl4k" path="res://ui/assets/T_P5_Cross_Light.png" id="6_ka6vp"]
 [ext_resource type="Texture2D" uid="uid://ckkg6si6v6k0a" path="res://ui/assets/CGB02-purple_L_btn.png" id="7_ka6vp"]
@@ -26,6 +27,15 @@ script = ExtResource("1_xdd34")
 visible = false
 texture = ExtResource("2_04p6d")
 centered = false
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_idk7k")
+stretch_mode = 1
 
 [node name="Overlay" type="ColorRect" parent="CanvasLayer"]
 anchors_preset = 15

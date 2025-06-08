@@ -13,7 +13,7 @@ config_version=5
 config/name="FPS_Prototype_Level"
 config/description="https://github.com/gitbrent/godot-fps"
 config/version="0.1"
-run/main_scene="uid://brdt8fje6jpt1"
+run/main_scene="uid://dpn8naafdf3iv"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://assets/icon.svg"
 

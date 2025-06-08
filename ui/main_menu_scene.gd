@@ -21,4 +21,5 @@ func _on_button_gallery_pressed() -> void:
 	GameManager.load_weapon_gallery()
 
 func _on_button_enemy_pressed() -> void:
+	# TODO: GameManager.load_enemy_gallery()
 	GameManager.load_level("res://levels/shooting_range/shooting_range.tscn")
