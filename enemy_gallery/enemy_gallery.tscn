@@ -1,6 +1,5 @@
 [gd_scene load_steps=15 format=3 uid="uid://d0dmfh1e8vpfg"]
 
-[ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy/enemy_controller/enemy_controller.tscn" id="1_6csu0"]
 [ext_resource type="Script" uid="uid://bglvnvtc38hr0" path="res://enemy_gallery/enemy_gallery.gd" id="1_b2rjh"]
 [ext_resource type="Texture2D" uid="uid://dx5x2hxuy1dvd" path="res://assets_models/KENNEY_PNG/Dark/texture_08.png" id="1_hyogh"]
 [ext_resource type="Texture2D" uid="uid://bxf0e1afvggun" path="res://weapon_gallery/assets/T_P5_Circle_Light.png" id="2_7ongf"]
@@ -9,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dcyrxjp7oiv2h" path="res://enemy_gallery/assets/tile_wall/broken_tiles_material.glb" id="3_18tem"]
 [ext_resource type="Texture2D" uid="uid://cbdogu3ppgdx8" path="res://weapon_gallery/assets/T_P5_R_X_Light.png" id="4_c18eb"]
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="5_7peos"]
+[ext_resource type="Theme" uid="uid://cl6pvsmqfcp2f" path="res://ui/button_theme.tres" id="5_c18eb"]
 [ext_resource type="PackedScene" uid="uid://dct4bneu5sfyg" path="res://enemy_gallery/assets/red_door/red_door_warehouse.glb" id="5_i1kqe"]
 [ext_resource type="PackedScene" uid="uid://b3g1dhg0yl3lf" path="res://enemy_gallery/assets/wall/damaged_wall.glb" id="6_hyogh"]
 
@@ -100,19 +100,25 @@ text = " Rotate"
 
 [node name="ButtonBack" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/HBox_Btm"]
 layout_mode = 2
+theme = ExtResource("5_c18eb")
+theme_override_font_sizes/font_size = 36
 text = "BACK"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_7peos")
 theme_override_font_sizes/font_size = 60
 text = "ANIMATIONS"
+horizontal_alignment = 1
 
 [node name="AnimationButtonsVBox" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("5_c18eb")
+theme_override_constants/separation = 10
 
 [node name="Ground" type="StaticBody3D" parent="."]
 metadata/_edit_lock_ = true
@@ -156,8 +162,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
 visible = false
 
 [node name="BrokenWall" parent="Background" instance=ExtResource("6_hyogh")]
-transform = Transform3D(0.035, 0, 0, 0, 0.035, 0, 0, 0, 0.035, 0, 0, -0.8)
+transform = Transform3D(0.035, 0, 0, 0, 0.035, 0, 0, 0, 0.035, 0, 0, -1)
 
 [node name="EnemyModelCont" type="Node3D" parent="."]
-
-[node name="EnemyController" parent="EnemyModelCont" instance=ExtResource("1_6csu0")]

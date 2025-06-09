@@ -29,6 +29,7 @@ var _current_level_instance: Node = null
 var spawned_main_menu: Control = null
 var spawned_pause_menu: CanvasLayer = null
 var spawned_weapon_gallery: WeaponGallery = null
+var spawned_enemy_gallery: EnemyGallery = null
 var spawned_player: PlayerController = null
 #endregion
 
@@ -140,6 +141,17 @@ func load_weapon_gallery() -> void:
 	ui_root_node.add_child(spawned_weapon_gallery)
 	spawned_weapon_gallery.set_process_mode(Node.PROCESS_MODE_ALWAYS)
 	spawned_weapon_gallery.load_weapon("res://enemy/enemy_rifle/enemy_rifle.tscn")
+
+func load_enemy_gallery() -> void:
+	# 1:
+	_clear_ui()
+	# 2:
+	set_game_pause_state(true)
+	# 3:
+	spawned_enemy_gallery = enemy_gallery_scene.instantiate()
+	ui_root_node.add_child(spawned_enemy_gallery)
+	spawned_enemy_gallery.set_process_mode(Node.PROCESS_MODE_ALWAYS)
+	spawned_enemy_gallery.load_enemy("res://enemy/enemy_controller/enemy_controller.tscn")
 
 func load_level(level_path: String):
 	#print("[load_level] start: ", level_path)
