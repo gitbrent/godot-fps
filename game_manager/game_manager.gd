@@ -20,6 +20,7 @@ signal level_loaded()
 @export var hud_pause_menu: PackedScene = preload("res://ui/pause_menu.tscn")
 @export var weapon_gallery_scene: PackedScene = preload("res://weapon_gallery/weapon_gallery.tscn")
 @export var shooting_range_scene: PackedScene = preload("res://levels/shooting_range/shooting_range.tscn")
+@export var enemy_gallery_scene: PackedScene = preload("res://enemy_gallery/enemy_gallery.tscn")
 # LOCALS
 var game_over_ui_prefab = null # TODO: FIXME:
 var ui_root_node: CanvasLayer = null
