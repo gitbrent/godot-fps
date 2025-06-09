@@ -1,0 +1,116 @@
+# enemy_gallery.gd
+extends Node3D
+
+signal gallery_closed() # Emit this when the gallery is exited
+
+# UI references (assign these in the Inspector)
+@onready var enemy_model_container: Node3D = $EnemyModelCont
+@onready var animation_buttons_vbox: VBoxContainer = $CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/AnimationButtonsVBox
+@onready var back_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/HBox_Btm/ButtonBack
+
+var _current_enemy_instance: CharacterBody3D = null
+var _current_animation_player: AnimationPlayer = null # To store a reference to the AnimationPlayer
+var _current_animation_name: String = ""
+
+func _ready():
+	back_button.pressed.connect(func(): gallery_closed.emit())
+
+	# Ensure this gallery is processed even when the game is paused
+	set_process_mode(Node.PROCESS_MODE_ALWAYS)
+	set_process_input(true)
+
+	# Optional: Set up initial display or load a default enemy
+	# load_enemy("res://path/to/your/default_enemy_scene.tscn")
+
+# Function to load an enemy model from a path
+func load_enemy(enemy_model_path: String) -> void:
+	_clear_enemy_display() # Clear any previously loaded enemy
+
+	# 1. Load the enemy scene
+	var enemy_prefab = load(enemy_model_path)
+	if not enemy_prefab is PackedScene:
+		printerr("Error: Path '", enemy_model_path, "' does not point to a PackedScene.")
+		return
+
+	_current_enemy_instance = enemy_prefab.instantiate() as CharacterBody3D
+	if not _current_enemy_instance:
+		printerr("Error instantiating enemy from '", enemy_model_path, "'.")
+		return
+
+	# 2. Add the instantiated enemy to the scene
+	enemy_model_container.add_child(_current_enemy_instance)
+
+	# 3. Find the AnimationPlayer within the enemy model
+	# We need to recursively search for the AnimationPlayer as it might not be a direct child
+	_current_animation_player = _find_animation_player(_current_enemy_instance)
+
+	if not _current_animation_player:
+		printerr("Warning: No AnimationPlayer found in the loaded enemy model at '", enemy_model_path, "'.")
+		return
+
+	# 4. Populate animation buttons
+	_populate_animation_buttons()
+
+	# 5. Play the first animation found by default (optional)
+	if not _current_animation_player.get_animation_list().is_empty():
+		var first_anim = _current_animation_player.get_animation_list()[0]
+		play_animation(first_anim)
+
+func _clear_enemy_display() -> void:
+	if _current_enemy_instance and is_instance_valid(_current_enemy_instance):
+		_current_enemy_instance.queue_free()
+		_current_enemy_instance = null
+	_current_animation_player = null
+	_current_animation_name = ""
+	_clear_animation_buttons()
+
+func _clear_animation_buttons() -> void:
+	for child in animation_buttons_vbox.get_children():
+		if child is Button: # Only remove the buttons we added
+			child.queue_free()
+
+# Recursive function to find an AnimationPlayer
+func _find_animation_player(node: Node) -> AnimationPlayer:
+	if node is AnimationPlayer:
+		return node
+	for child in node.get_children():
+		var anim_player = _find_animation_player(child)
+		if anim_player:
+			return anim_player
+	return null
+
+func _populate_animation_buttons() -> void:
+	_clear_animation_buttons() # Clear old buttons first
+
+	if not _current_animation_player:
+		return
+
+	var animation_list = _current_animation_player.get_animation_list()
+	if animation_list.is_empty():
+		var no_anim_label = Label.new()
+		no_anim_label.text = "No Animations Found"
+		animation_buttons_vbox.add_child(no_anim_label)
+		return
+
+	for anim_name in animation_list:
+		var button = Button.new()
+		button.text = anim_name
+		# Connect the button's pressed signal to a lambda function that calls play_animation
+		button.pressed.connect(func(): play_animation(anim_name))
+		animation_buttons_vbox.add_child(button)
+
+func play_animation(anim_name: String) -> void:
+	if _current_animation_player and _current_animation_player.has_animation(anim_name):
+		_current_animation_player.play(anim_name)
+		_current_animation_name = anim_name
+		print("Playing animation: ", anim_name)
+	else:
+		printerr("Animation '", anim_name, "' not found or no AnimationPlayer available.")
+
+# You can add controls for rotation here if needed, similar to your WeaponGallery.
+# For example, in _process if input is handled:
+# func _process(delta):
+#     if Input.is_action_pressed("rotate_right"):
+#         enemy_model_container.rotate_y(deg_to_rad(90) * delta)
+#     if Input.is_action_pressed("rotate_left"):
+#         enemy_model_container.rotate_y(deg_to_rad(-90) * delta)

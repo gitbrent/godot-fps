@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://bqathyrelw8fe"
+path.s3tc="res://.godot/imported/red_door_warehouse_4.png-9bb9e10d0e6bd4cc89ed5fe3b929ed5e.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "59ddafde1d8ec74045b2db9bb61c51b2"
+}
+
+[deps]
+
+source_file="res://enemy_gallery/assets/red_door/red_door_warehouse_4.png"
+dest_files=["res://.godot/imported/red_door_warehouse_4.png-9bb9e10d0e6bd4cc89ed5fe3b929ed5e.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

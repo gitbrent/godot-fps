@@ -26,5 +26,4 @@ func _on_button_range_pressed() -> void:
 	GameManager.load_level("res://levels/shooting_range/shooting_range.tscn")
 
 func _on_button_enemy_pressed() -> void:
-	# TODO: new scene!
-	GameManager.load_level("res://levels/shooting_range/shooting_range.tscn")
+	GameManager.load_level("res://enemy_gallery/enemy_gallery.tscn")

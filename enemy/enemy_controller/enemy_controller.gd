@@ -37,12 +37,12 @@ signal died
 @export_group("Behavior")
 @export var can_patrol: bool = false
 @export_group("DEBUG")
-@export var show_state_debug: bool = true:
+@export var show_state_debug: bool = false:
 	set(value):
 		show_state_debug = value
 		if debug_label_state:
 			debug_label_state.visible = show_state_debug
-@export var show_detection_area_debug: bool = true:
+@export var show_detection_area_debug: bool = false:
 	set(value):
 		show_detection_area_debug = value
 		# Update the mesh visibility immediately
