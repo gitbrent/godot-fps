@@ -1,5 +1,6 @@
 # enemy_gallery.gd
 extends Node3D
+class_name EnemyGallery
 
 signal gallery_closed() # Emit this when the gallery is exited
 
@@ -20,11 +21,11 @@ func _ready():
 	set_process_input(true)
 
 	# Optional: Set up initial display or load a default enemy
-	# load_enemy("res://path/to/your/default_enemy_scene.tscn")
+	load_enemy("res://enemy/enemy_controller/enemy_controller.tscn")
 
 # Function to load an enemy model from a path
 func load_enemy(enemy_model_path: String) -> void:
-	_clear_enemy_display() # Clear any previously loaded enemy
+	_clear_enemy_display()
 
 	# 1. Load the enemy scene
 	var enemy_prefab = load(enemy_model_path)
@@ -52,9 +53,9 @@ func load_enemy(enemy_model_path: String) -> void:
 	_populate_animation_buttons()
 
 	# 5. Play the first animation found by default (optional)
-	if not _current_animation_player.get_animation_list().is_empty():
-		var first_anim = _current_animation_player.get_animation_list()[0]
-		play_animation(first_anim)
+	#if not _current_animation_player.get_animation_list().is_empty():
+	#	var first_anim = _current_animation_player.get_animation_list()[0]
+	#	play_animation(first_anim)
 
 func _clear_enemy_display() -> void:
 	if _current_enemy_instance and is_instance_valid(_current_enemy_instance):
@@ -93,6 +94,9 @@ func _populate_animation_buttons() -> void:
 		return
 
 	for anim_name in animation_list:
+		# Filter out animations containing '/'
+		if "/" in anim_name:
+			continue # Skip this animation and move to the next one
 		var button = Button.new()
 		button.text = anim_name
 		# Connect the button's pressed signal to a lambda function that calls play_animation
