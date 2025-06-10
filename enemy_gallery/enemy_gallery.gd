@@ -2,20 +2,15 @@
 extends Node3D
 class_name EnemyGallery
 
-signal gallery_closed() # Emit this when the gallery is exited
-
 # UI references (assign these in the Inspector)
 @onready var enemy_model_container: Node3D = $EnemyModelCont
 @onready var animation_buttons_vbox: VBoxContainer = $CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/AnimationButtonsVBox
-@onready var back_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/HBox_Btm/ButtonBack
 
 var _current_enemy_instance: CharacterBody3D = null
 var _current_animation_player: AnimationPlayer = null # To store a reference to the AnimationPlayer
 var _current_animation_name: String = ""
 
 func _ready() -> void:
-	back_button.pressed.connect(func(): gallery_closed.emit())
-	
 	# Ensure this gallery is processed even when the game is paused
 	set_process_mode(Node.PROCESS_MODE_ALWAYS)
 	set_process_input(true)
@@ -45,6 +40,11 @@ func load_enemy(enemy_model_path: String) -> void:
 	
 	# 2. Add the instantiated enemy to the scene
 	enemy_model_container.add_child(_current_enemy_instance)
+	# FIXME: model appears at (-1,.2,0)?!
+	_current_enemy_instance.position = Vector3(0,0,0)
+	print(enemy_model_container.position)
+	print(enemy_model_container.global_position)
+	# FIXME: ^^^
 	
 	# 3. Find the AnimationPlayer within the enemy model
 	# We need to recursively search for the AnimationPlayer as it might not be a direct child
@@ -86,18 +86,21 @@ func _find_animation_player(node: Node) -> AnimationPlayer:
 	return null
 
 func _populate_animation_buttons() -> void:
-	_clear_animation_buttons() # Clear old buttons first
-
+	# 1: clear buttons
+	_clear_animation_buttons()
+	# 2: reality check
 	if not _current_animation_player:
 		return
-
+	# 3:
 	var animation_list = _current_animation_player.get_animation_list()
 	if animation_list.is_empty():
 		var no_anim_label = Label.new()
 		no_anim_label.text = "No Animations Found"
 		animation_buttons_vbox.add_child(no_anim_label)
 		return
-
+	# 4: Flag to track if the first valid button has been created
+	var first_button_created = false
+	# 5:
 	for anim_name in animation_list:
 		# Filter out animations containing '/'
 		if "/" in anim_name:
@@ -107,6 +110,10 @@ func _populate_animation_buttons() -> void:
 		# Connect the button's pressed signal to a lambda function that calls play_animation
 		button.pressed.connect(func(): play_animation(anim_name))
 		animation_buttons_vbox.add_child(button)
+		# If this is the first button we've successfully added (after filtering)
+		if not first_button_created:
+			button.grab_focus() # Give focus to this button
+			first_button_created = true # Set the flag so we don't focus subsequent buttons
 
 func play_animation(anim_name: String) -> void:
 	if _current_animation_player and _current_animation_player.has_animation(anim_name):

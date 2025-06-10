@@ -218,7 +218,8 @@ func load_game_over_screen_OLD():
 	#get_tree().change_scene_to_file("res://ui/main_menu_scene.tscn")
 	set_game_pause_state(false) # Unpause if game was paused
 
-# --- Pause/Resume Game ---
+# --- PAUSE MGMT FUNCS ----------------------------------------
+
 func set_game_pause_state(pause: bool) -> void:
 	#print("[set_game_pause_state] paused = ", pause)
 	get_tree().paused = pause

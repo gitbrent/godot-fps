@@ -1,15 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://d0dmfh1e8vpfg"]
+[gd_scene load_steps=12 format=3 uid="uid://d0dmfh1e8vpfg"]
 
 [ext_resource type="Script" uid="uid://bglvnvtc38hr0" path="res://enemy_gallery/enemy_gallery.gd" id="1_b2rjh"]
 [ext_resource type="Texture2D" uid="uid://dx5x2hxuy1dvd" path="res://assets_models/KENNEY_PNG/Dark/texture_08.png" id="1_hyogh"]
 [ext_resource type="Texture2D" uid="uid://bxf0e1afvggun" path="res://weapon_gallery/assets/T_P5_Circle_Light.png" id="2_7ongf"]
-[ext_resource type="PackedScene" uid="uid://bjqfm32fxjeh3" path="res://enemy_gallery/assets/graffiti_alley/graffiti_alley_wall.tscn" id="2_18tem"]
 [ext_resource type="Texture2D" uid="uid://htw2bsmf77dh" path="res://weapon_gallery/assets/T_P5_L_Y_Light.png" id="3_7peos"]
-[ext_resource type="PackedScene" uid="uid://dcyrxjp7oiv2h" path="res://enemy_gallery/assets/tile_wall/broken_tiles_material.glb" id="3_18tem"]
 [ext_resource type="Texture2D" uid="uid://cbdogu3ppgdx8" path="res://weapon_gallery/assets/T_P5_R_X_Light.png" id="4_c18eb"]
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="5_7peos"]
 [ext_resource type="Theme" uid="uid://cl6pvsmqfcp2f" path="res://ui/button_theme.tres" id="5_c18eb"]
-[ext_resource type="PackedScene" uid="uid://dct4bneu5sfyg" path="res://enemy_gallery/assets/red_door/red_door_warehouse.glb" id="5_i1kqe"]
 [ext_resource type="PackedScene" uid="uid://b3g1dhg0yl3lf" path="res://enemy_gallery/assets/wall/damaged_wall.glb" id="6_hyogh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2rjh"]
@@ -98,12 +95,6 @@ theme_override_colors/font_color = Color(0.6256, 0.625596, 0.625596, 1)
 theme_override_font_sizes/font_size = 36
 text = " Rotate"
 
-[node name="ButtonBack" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/HBox_Btm"]
-layout_mode = 2
-theme = ExtResource("5_c18eb")
-theme_override_font_sizes/font_size = 36
-text = "BACK"
-
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
@@ -124,12 +115,11 @@ theme_override_constants/separation = 10
 metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 mesh = SubResource("PlaneMesh_b2rjh")
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
 shape = SubResource("BoxShape3D_6csu0")
 metadata/_edit_lock_ = true
 
@@ -148,18 +138,6 @@ light_energy = 2.0
 spot_range = 10.0
 
 [node name="Background" type="Node3D" parent="."]
-
-[node name="GraffitiAlleyWall" parent="Background" instance=ExtResource("2_18tem")]
-transform = Transform3D(1.09933, 0.0383894, 0, -0.0383894, 1.09933, 0, 0, 0, 1.1, -3.5, -0.2, -1)
-visible = false
-
-[node name="Sketchfab_Scene" parent="Background" instance=ExtResource("3_18tem")]
-transform = Transform3D(-6.55671e-08, 0, -1.5, 0, 1.5, 0, 1.5, 0, -6.55671e-08, 0, 0, -3)
-visible = false
-
-[node name="RedDoorAlley" parent="Background" instance=ExtResource("5_i1kqe")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
-visible = false
 
 [node name="BrokenWall" parent="Background" instance=ExtResource("6_hyogh")]
 transform = Transform3D(0.035, 0, 0, 0, 0.035, 0, 0, 0, 0.035, 0, 0, -1)
