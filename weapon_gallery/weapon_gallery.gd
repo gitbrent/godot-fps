@@ -61,10 +61,11 @@ func _input(event):
 		if loaded_weapon_model:
 			# Rotate around the Y-axis (for left/right horizontal spin)
 			loaded_weapon_model.rotate_object_local(Vector3(0, 1, 0), deg_to_rad(event.relative.x * rotation_speed))
-
+	
 	# Handle "Back" input (e.g., Esc key or O joypad)
 	if Input.is_action_just_pressed("ui_cancel"):
 		GameManager.load_main_menu()
+		get_viewport().set_input_as_handled()
 
 # PUBLIC METHODS -----------------------------------------------
 

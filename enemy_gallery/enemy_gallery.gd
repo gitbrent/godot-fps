@@ -13,45 +13,50 @@ var _current_enemy_instance: CharacterBody3D = null
 var _current_animation_player: AnimationPlayer = null # To store a reference to the AnimationPlayer
 var _current_animation_name: String = ""
 
-func _ready():
+func _ready() -> void:
 	back_button.pressed.connect(func(): gallery_closed.emit())
-
+	
 	# Ensure this gallery is processed even when the game is paused
 	set_process_mode(Node.PROCESS_MODE_ALWAYS)
 	set_process_input(true)
-
+	
 	# Optional: Set up initial display or load a default enemy
 	load_enemy("res://enemy/enemy_controller/enemy_controller.tscn")
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("ui_cancel"):
+		GameManager.load_main_menu()
+		get_viewport().set_input_as_handled() # Consume the input
 
 # Function to load an enemy model from a path
 func load_enemy(enemy_model_path: String) -> void:
 	_clear_enemy_display()
-
+	
 	# 1. Load the enemy scene
 	var enemy_prefab = load(enemy_model_path)
 	if not enemy_prefab is PackedScene:
 		printerr("Error: Path '", enemy_model_path, "' does not point to a PackedScene.")
 		return
-
+	
 	_current_enemy_instance = enemy_prefab.instantiate() as CharacterBody3D
 	if not _current_enemy_instance:
 		printerr("Error instantiating enemy from '", enemy_model_path, "'.")
 		return
-
+	
 	# 2. Add the instantiated enemy to the scene
 	enemy_model_container.add_child(_current_enemy_instance)
-
+	
 	# 3. Find the AnimationPlayer within the enemy model
 	# We need to recursively search for the AnimationPlayer as it might not be a direct child
 	_current_animation_player = _find_animation_player(_current_enemy_instance)
-
+	
 	if not _current_animation_player:
 		printerr("Warning: No AnimationPlayer found in the loaded enemy model at '", enemy_model_path, "'.")
 		return
-
+	
 	# 4. Populate animation buttons
 	_populate_animation_buttons()
-
+	
 	# 5. Play the first animation found by default (optional)
 	#if not _current_animation_player.get_animation_list().is_empty():
 	#	var first_anim = _current_animation_player.get_animation_list()[0]
