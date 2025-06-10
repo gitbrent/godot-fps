@@ -40,8 +40,9 @@ signal died
 @export var show_state_debug: bool = false:
 	set(value):
 		show_state_debug = value
+		# Update the label visibility immediately
 		if debug_label_state:
-			debug_label_state.visible = show_state_debug
+			debug_label_state.visible = value
 @export var show_detection_area_debug: bool = false:
 	set(value):
 		show_detection_area_debug = value
@@ -333,7 +334,7 @@ func find_meshes_in_children(node: Node) -> Array[MeshInstance3D]:
 
 func draw_idle_detection_area_mesh() -> void:
 	var mat := debug_area_mesh.material_override as StandardMaterial3D
-
+	
 	if is_dead:
 		debug_label_dist.visible = false
 		debug_label_gun.visible = false
@@ -348,7 +349,7 @@ func draw_idle_detection_area_mesh() -> void:
 				var distance = global_position.distance_to(player.global_position)
 				debug_label_dist.text = "dist\n"+str(snapped(distance, 0.1))+"m"
 
-	if debug_area_mesh and state_node_idle:
+	if show_detection_area_debug and state_node_idle:
 		var detection_range = state_node_idle.detection_range
 		# The CylinderMesh by default has a radius of 1.0 and height of 1.0.
 		# We need to scale it by the desired radius on the X and Z axes.
@@ -358,18 +359,18 @@ func draw_idle_detection_area_mesh() -> void:
 		# We usually don't need to change the Y scale here.
 		debug_area_mesh.visible = true
 		mat.albedo_color = Color(0.0, 0.0, 1.0, 0.1)  # blue
-	elif debug_area_mesh and state_node_patrol:
+	elif show_detection_area_debug and state_node_patrol:
 		var detection_range = state_node_patrol.detection_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
 		mat.albedo_color = Color(1.0, 1.0, 0.0, 0.1)  # yellow
-	elif debug_area_mesh and state_node_follow:
+	elif show_detection_area_debug and state_node_follow:
 		var detection_range = state_node_follow.follow_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
-	elif debug_area_mesh and state_node_attack:
+	elif show_detection_area_debug and state_node_attack:
 		var detection_range = state_node_attack.attack_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
