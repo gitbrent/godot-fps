@@ -19,21 +19,21 @@ signal level_loaded()
 @export var hud_game_menu: PackedScene = preload("res://ui/main_menu_scene.tscn")
 @export var hud_pause_menu: PackedScene = preload("res://ui/pause_menu.tscn")
 @export var weapon_gallery_scene: PackedScene = preload("res://weapon_gallery/weapon_gallery.tscn")
-@export var shooting_range_scene: PackedScene = preload("res://levels/shooting_range/shooting_range.tscn")
 @export var enemy_gallery_scene: PackedScene = preload("res://enemy_gallery/enemy_gallery.tscn")
+@export var shooting_range_scene: PackedScene = preload("res://levels/shooting_range/shooting_range.tscn")
 # LOCALS
 var game_over_ui_prefab = null # TODO: FIXME:
 var ui_root_node: CanvasLayer = null
 var level_root_node: Node = null
 var _current_level_instance: Node = null
 var spawned_main_menu: Control = null
-var spawned_pause_menu: CanvasLayer = null
+var spawned_pause_menu: Control = null
 var spawned_weapon_gallery: WeaponGallery = null
 var spawned_enemy_gallery: EnemyGallery = null
 var spawned_player: PlayerController = null
 #endregion
 
-func _ready():
+func _ready() -> void:
 	# STEP 1: Wait for the main_root to be added and ready, then get UIRoot and LevelContainer.
 	await self.ready
 	ui_root_node = get_tree().current_scene.get_node("UIRoot")
@@ -62,7 +62,7 @@ func _on_player_died() -> void:
 
 # --- UI FUNCS ------------------------------------------------
 
-func start_btn_pressed():
+func start_btn_pressed() -> void:
 	# Example: Toggle pause menu if game is paused in a level, otherwise go to main menu
 	if get_tree().paused:
 		if spawned_pause_menu and is_instance_valid(spawned_pause_menu):
@@ -80,21 +80,32 @@ func _clear_ui() -> void:
 	spawned_main_menu = null
 	spawned_weapon_gallery = null
 
-# --- UI MGMT FUNCTIONS  ---------------------------
+# --- UI MGMT FUNCTIONS  --------------------------------------
 
 func open_pause_menu() -> void:
 	if spawned_pause_menu and is_instance_valid(spawned_pause_menu):
 		return # Already open
-
+	
 	_clear_ui() # Clear any other UI (like HUD, but *not* the game world)
 	set_game_pause_state(true) # Pause the game
-
+	
 	if not hud_pause_menu:
 		printerr("Pause Menu UI prefab not assigned in GameManager!")
 		return
-
-	spawned_pause_menu = hud_pause_menu.instantiate() as CanvasLayer
+	
+	spawned_pause_menu = hud_pause_menu.instantiate() as Control
 	ui_root_node.add_child(spawned_pause_menu)
+	
+	# --- CONNECT SIGNALS FROM THE PAUSE MENU INSTANCE ---
+	if spawned_pause_menu.has_signal("resume_game"):
+		spawned_pause_menu.resume_game.connect(close_pause_menu)
+	else:
+		printerr("PauseMenu scene does not have 'resume_game' signal!")
+	
+	if spawned_pause_menu.has_signal("quit_game"):
+		spawned_pause_menu.quit_game.connect(load_main_menu)
+	else:
+		printerr("PauseMenu scene does not have 'quit_game' signal!")
 
 func close_pause_menu() -> void:
 	if spawned_pause_menu and is_instance_valid(spawned_pause_menu):
@@ -108,7 +119,6 @@ func close_pause_menu() -> void:
 	# If player HUD is a child of player (and not a separate scene itself)
 	#if _spawned_player_instance and _spawned_player_instance.has_node("HUD_CanvasLayer"):
 		#_spawned_player_instance.get_node("HUD_CanvasLayer").show()
-
 
 # --- SCENE MGMT FUNCS ----------------------------------------
 
@@ -183,7 +193,7 @@ func load_level(level_path: String):
 	level_loaded.emit()
 	#print("[load_level] end: ", level_path)
 
-func load_game_over_screen():
+func load_game_over_screen() -> void:
 	_clear_ui() # Clear current UI (e.g., player HUD)
 	_clear_current_level() # Clear the level
 	set_game_pause_state(true) # Game over screen usually static and paused
@@ -209,7 +219,7 @@ func load_game_over_screen_OLD():
 	set_game_pause_state(false) # Unpause if game was paused
 
 # --- Pause/Resume Game ---
-func set_game_pause_state(pause: bool):
+func set_game_pause_state(pause: bool) -> void:
 	#print("[set_game_pause_state] paused = ", pause)
 	get_tree().paused = pause
 	game_paused_state_changed.emit(pause)
