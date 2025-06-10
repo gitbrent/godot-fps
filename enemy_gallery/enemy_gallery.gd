@@ -6,7 +6,7 @@ class_name EnemyGallery
 @onready var enemy_model_container: Node3D = $EnemyModelCont
 @onready var animation_buttons_vbox: VBoxContainer = $CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/AnimationButtonsVBox
 
-var _current_enemy_instance: CharacterBody3D = null
+var _current_enemy_instance: EnemyController = null
 var _current_animation_player: AnimationPlayer = null # To store a reference to the AnimationPlayer
 var _current_animation_name: String = ""
 
@@ -33,16 +33,18 @@ func load_enemy(enemy_model_path: String) -> void:
 		printerr("Error: Path '", enemy_model_path, "' does not point to a PackedScene.")
 		return
 	
-	_current_enemy_instance = enemy_prefab.instantiate() as CharacterBody3D
+	_current_enemy_instance = enemy_prefab.instantiate() as EnemyController
 	if not _current_enemy_instance:
 		printerr("Error instantiating enemy from '", enemy_model_path, "'.")
 		return
 	
 	# 2. Add the instantiated enemy to the scene
 	enemy_model_container.add_child(_current_enemy_instance)
+	_current_enemy_instance.show_detection_area_debug = false
+	_current_enemy_instance.show_state_debug = false
 	# FIXME: model appears at (-1,.2,0)?!
 	_current_enemy_instance.position = Vector3(0,0,0)
-	print(enemy_model_container.position)
+	print(_current_enemy_instance.position)
 	print(enemy_model_container.global_position)
 	# FIXME: ^^^
 	
