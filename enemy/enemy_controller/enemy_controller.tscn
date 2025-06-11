@@ -17,7 +17,6 @@
 [ext_resource type="PackedScene" uid="uid://6mbl8mtrfbde" path="res://enemy/enemy_rifle/enemy_rifle.tscn" id="13_iwtpe"]
 [ext_resource type="Script" uid="uid://dcmxw1247ny4s" path="res://enemy/enemy_controller/state_patrol.gd" id="14_oeory"]
 [ext_resource type="Script" uid="uid://kk3g1m85urgx" path="res://enemy/enemy_controller/state_yelling.gd" id="15_50015"]
-[ext_resource type="PackedScene" uid="uid://be85ilnmh3re7" path="res://enemy/enemy_rifle/m16_scaled/M16_Rifle_1meter.glb" id="18_0yo6k"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_08ms7"]
 size = Vector3(1, 2.5, 1)
@@ -1008,6 +1007,18 @@ tracks/103/path = NodePath("Armature/Skeleton3D:mixamorig_LeftToe_End")
 tracks/103/interp = 0
 tracks/103/loop_wrap = true
 tracks/103/keys = PackedFloat32Array(0, 1, 4.79524e-06, 10, -1.29221e-06)
+tracks/104/type = "value"
+tracks/104/imported = false
+tracks/104/enabled = true
+tracks/104/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/104/interp = 1
+tracks/104/loop_wrap = true
+tracks/104/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_rwhoc"]
 resource_name = "DYING"
@@ -1761,6 +1772,18 @@ tracks/106/path = NodePath("Armature/Skeleton3D:mixamorig_LeftToeBase")
 tracks/106/interp = 1
 tracks/106/loop_wrap = true
 tracks/106/keys = PackedFloat32Array(0, 1, 0.35727, -0.0341465, -0.00435647, 0.933366, 0.166667, 1, 0.358095, -0.0342592, -0.00436767, 0.933046, 0.2, 1, 0.359885, -0.0345041, -0.00439191, 0.932348, 0.233333, 1, 0.363222, -0.0349608, -0.0044371, 0.931036, 0.266667, 1, 0.368432, -0.0356742, -0.00450769, 0.928959, 0.3, 1, 0.38509, -0.0379583, -0.00473344, 0.922086, 0.333333, 1, 0.406996, -0.0409696, -0.00503066, 0.912497, 0.366667, 1, 0.412835, -0.0417737, -0.00510987, 0.909833, 0.4, 1, 0.397134, -0.0396128, -0.00489683, 0.916892, 0.433333, 1, 0.357106, -0.0365091, -0.00525319, 0.933335, 0.466667, 1, 0.356015, -0.0373404, -0.00560008, 0.933717, 0.5, 1, 0.368722, -0.0463922, -0.00859898, 0.928342, 0.533333, 1, 0.414704, -0.0561154, -0.0112937, 0.908154, 0.566667, 1, 0.447378, -0.0993554, -0.0287444, 0.888344, 0.6, 1, 0.43955, -0.144995, -0.0437699, 0.885357, 0.633333, 1, 0.394267, -0.133203, -0.0362557, 0.908568, 0.666667, 1, 0.366721, -0.0705763, -0.0169891, 0.927495, 0.7, 1, 0.354872, -0.0338184, -0.00432403, 0.934293, 0.733333, 1, 0.358787, -0.0458334, -0.00862178, 0.932254, 0.766667, 1, 0.384956, -0.125101, -0.0331841, 0.913815, 0.8, 1, 0.485699, -0.16952, -0.0552805, 0.855747, 0.833333, 1, 0.546785, -0.0604082, -0.00693421, 0.835063, 0.866667, 1, 0.49147, -0.0526673, -0.00617942, 0.869278, 0.9, 1, 0.471036, -0.0498246, -0.00590089, 0.880686, 0.933333, 1, 0.480294, -0.0511116, -0.00602704, 0.875596, 0.966667, 1, 0.485955, -0.0518993, -0.00610395, 0.87242, 1, 1, 0.484517, -0.051699, -0.00608466, 0.873232, 1.03333, 1, 0.475742, -0.0504785, -0.00596509, 0.878115, 1.06667, 1, 0.464154, -0.0488691, -0.00580734, 0.884386, 1.1, 1, 0.452022, -0.0471872, -0.00564226, 0.89074, 1.13333, 1, 0.441275, -0.0456996, -0.00549618, 0.896191, 1.16667, 1, 0.435243, -0.0448656, -0.00541423, 0.899178, 1.2, 1, 0.433332, -0.0446016, -0.00538833, 0.900114, 1.23333, 1, 0.434372, -0.0447452, -0.00540243, 0.899605, 1.26667, 1, 0.436284, -0.0450094, -0.00542835, 0.898666, 1.3, 1, 0.437443, -0.0451696, -0.00544406, 0.898095, 1.33333, 1, 0.439637, -0.0454731, -0.00547392, 0.897007, 1.36667, 1, 0.43814, -0.045266, -0.00545358, 0.89775, 1.4, 1, 0.431781, -0.0443873, -0.00536724, 0.900869, 1.43333, 1, 0.429811, -0.0441152, -0.00534046, 0.901825, 1.46667, 1, 0.432575, -0.044497, -0.00537795, 0.900483, 1.5, 1, 0.43832, -0.0452909, -0.00545607, 0.897661, 1.53333, 1, 0.445276, -0.046253, -0.0055506, 0.894181, 1.56667, 1, 0.454022, -0.0474641, -0.00566954, 0.889707, 1.6, 1, 0.468617, -0.0494886, -0.0058681, 0.881995, 1.63333, 1, 0.490875, -0.0525843, -0.00617131, 0.86962, 1.66667, 1, 0.517014, -0.0562335, -0.0065276, 0.854103, 1.7, 1, 0.543812, -0.0599905, -0.00689359, 0.837032, 1.73333, 1, 0.567837, -0.0633734, -0.007222, 0.820666, 1.76667, 1, 0.574592, -0.0643271, -0.00731441, 0.815876, 1.8, 1, 0.569191, -0.0635644, -0.00724064, 0.819713, 1.83333, 1, 0.56475, -0.0629379, -0.00717984, 0.822827, 1.86667, 1, 0.556241, -0.0617388, -0.00706339, 0.828695, 1.9, 1, 0.545105, -0.0601722, -0.00691133, 0.836177, 1.93333, 1, 0.533649, -0.0585637, -0.00675463, 0.843649, 1.96667, 1, 0.526816, -0.0576058, -0.00666135, 0.847999, 2, 1, 0.530867, -0.0581735, -0.0067167, 0.845429, 2.03333, 1, 0.547788, -0.0605494, -0.0069479, 0.834394, 2.06667, 1, 0.574738, -0.0643478, -0.00731647, 0.815771, 2.1, 1, 0.606189, -0.0688043, -0.0077477, 0.792301, 2.13333, 1, 0.637314, -0.0732423, -0.00817482, 0.767072, 2.16667, 1, 0.666888, -0.0774867, -0.008582, 0.741069, 2.2, 1, 0.688834, -0.083599, -0.0104988, 0.720006, 2.23333, 1, 0.707447, -0.105182, -0.0196376, 0.69862, 2.26667, 1, 0.725672, -0.142594, -0.0346486, 0.67221, 2.3, 1, 0.474941, -0.210466, -0.0345276, 0.853782, 2.33333, 1, -0.118788, 0.143467, 0.0349334, 0.981879, 2.36667, 1, -0.107407, 0.112238, 0.0300047, 0.987404, 2.4, 1, -0.0968677, 0.0678723, 0.0279077, 0.992588, 2.43333, 1, -0.0802438, 0.0352798, 0.0241772, 0.995857, 2.46667, 1, -0.0614182, 0.0115649, 0.0199693, 0.997845, 2.5, 1, -0.0290342, -0.00469791, 0.0153531, 0.99945, 2.53333, 1, 0.086273, 0.0159144, 0.011149, 0.996082, 2.56667, 1, 0.203672, 0.0392042, 0.0198476, 0.978052, 2.6, 1, 0.216563, 0.0567027, 0.0290875, 0.974186, 2.63333, 1, 0.127554, 0.0800095, 0.0345152, 0.987997, 2.66667, 1, 0.0323689, 0.0915255, 0.0330092, 0.994729, 2.7, 1, -0.0281053, 0.0894452, 0.0290611, 0.995171, 2.73333, 1, -0.0662427, 0.0817344, 0.0257369, 0.994117, 2.76667, 1, -0.0824011, 0.0758224, 0.0241985, 0.993416, 2.8, 1, -0.0848074, 0.0703903, 0.0235905, 0.993628, 2.83333, 1, -0.0835191, 0.0670655, 0.0233802, 0.993972, 2.86667, 1, -0.0805116, 0.065393, 0.0233396, 0.994332, 2.9, 1, -0.0780554, 0.0646945, 0.0233285, 0.994574, 2.93333, 1, -0.0776143, 0.0648637, 0.023302, 0.994598, 2.96667, 1, -0.0744641, 0.0653849, 0.0233277, 0.994804, 3, 1, -0.0677713, 0.0660465, 0.0234094, 0.995237, 3.03333, 1, -0.0575297, 0.067077, 0.0236524, 0.995807, 3.06667, 1, -0.050715, 0.0687065, 0.0239733, 0.996059, 3.1, 1, -0.0514145, 0.0701832, 0.0241468, 0.995916, 3.13333, 1, -0.0516272, 0.0716421, 0.0243472, 0.995796, 3.16667, 1, -0.0513031, 0.0734815, 0.0246386, 0.995671, 3.2, 1, -0.0499103, 0.0759251, 0.0250763, 0.995548, 3.23333, 1, -0.0476773, 0.0786834, 0.0256234, 0.995429, 3.26667, 1, -0.0450112, 0.0811829, 0.0261747, 0.995338, 3.3, 1, -0.042427, 0.0830434, 0.0266335, 0.995286, 3.33333, 1, -0.0410247, 0.0840985, 0.0268977, 0.995249, 3.43333, 1, -0.0418899, 0.0847432, 0.0269553, 0.995157, 3.46667, 1, -0.0411996, 0.0852956, 0.0270871, 0.995135, 3.5, 1, -0.0402411, 0.0861311, 0.0272932, 0.995097, 3.53333, 1, -0.0393626, 0.0870411, 0.0275165, 0.995046, 3.56667, 1, -0.0386836, 0.0877962, 0.0277054, 0.995001, 3.63333, 1, -0.0378125, 0.0883434, 0.0278759, 0.994982, 3.73333, 1, -0.0374407, 0.0882919, 0.0279042, 0.995, 3.76667, 1, -0.0361733, 0.0881588, 0.0279563, 0.995057, 3.8, 1, -0.0354564, 0.0876544, 0.0279044, 0.995129, 3.83333, 1, -0.0360612, 0.0867257, 0.0276965, 0.995194, 3.86667, 1, -0.0370507, 0.0856035, 0.0274353, 0.995262, 3.9, 1, -0.0379315, 0.0845846, 0.027204, 0.995322, 3.96667, 1, -0.0387921, 0.0838082, 0.0270231, 0.99536, 4, 1, -0.0381383, 0.084321, 0.0271529, 0.995338, 4.03333, 1, -0.0368481, 0.0854267, 0.0274297, 0.995285, 4.06667, 1, -0.0356005, 0.0869584, 0.0277941, 0.995188, 4.1, 1, -0.0344904, 0.0886345, 0.0281891, 0.995068, 4.13333, 1, -0.0335533, 0.0901228, 0.028546, 0.994956, 4.16667, 1, -0.0317561, 0.0912879, 0.028899, 0.994898, 4.2, 1, -0.0304287, 0.091906, 0.0291143, 0.994877, 4.36667, 1, -0.0299218, 0.09274, 0.0293171, 0.994809, 4.4, 1, -0.0293086, 0.0937483, 0.029575, 0.994725, 4.43333, 1, -0.0288611, 0.0943884, 0.0297446, 0.994672)
+tracks/107/type = "value"
+tracks/107/imported = false
+tracks/107/enabled = true
+tracks/107/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/107/interp = 1
+tracks/107/loop_wrap = true
+tracks/107/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_iwtpe"]
 resource_name = "FIRING_RIFLE"
@@ -2493,6 +2516,18 @@ tracks/103/path = NodePath("Armature/Skeleton3D:mixamorig_LeftToe_End")
 tracks/103/interp = 0
 tracks/103/loop_wrap = true
 tracks/103/keys = PackedFloat32Array(0, 1, 4.09963e-07, 10, -6.38422e-07)
+tracks/104/type = "value"
+tracks/104/imported = false
+tracks/104/enabled = true
+tracks/104/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/104/interp = 1
+tracks/104/loop_wrap = true
+tracks/104/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_arj2g"]
 resource_name = "HIT_REACTION"
@@ -3246,6 +3281,18 @@ tracks/106/path = NodePath("Armature/Skeleton3D:mixamorig_LeftToeBase")
 tracks/106/interp = 1
 tracks/106/loop_wrap = true
 tracks/106/keys = PackedFloat32Array(0, 1, 0.354872, -0.0338185, -0.00432405, 0.934293, 0.0666667, 1, 0.354872, -0.0338185, -0.00432405, 0.934293, 0.1, 1, 0.378059, -0.0369937, -0.00463819, 0.92503, 0.133333, 1, 0.391506, -0.0388393, -0.00482047, 0.919343, 0.166667, 1, 0.390478, -0.0386982, -0.0048065, 0.919786, 0.2, 1, 0.383154, -0.0376926, -0.00470727, 0.922903, 0.233333, 1, 0.372757, -0.0362668, -0.00456625, 0.927209, 0.266667, 1, 0.362548, -0.0348686, -0.00442792, 0.931302, 0.4, 1, 0.354872, -0.0338186, -0.00432404, 0.934293, 0.466667, 1, 0.354872, -0.0338185, -0.00432405, 0.934293)
+tracks/107/type = "value"
+tracks/107/imported = false
+tracks/107/enabled = true
+tracks/107/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/107/interp = 1
+tracks/107/loop_wrap = true
+tracks/107/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_x8ewe"]
 resource_name = "IDLE_RIFLE"
@@ -3979,6 +4026,18 @@ tracks/103/path = NodePath("Armature/Skeleton3D:mixamorig_LeftToe_End")
 tracks/103/interp = 0
 tracks/103/loop_wrap = true
 tracks/103/keys = PackedFloat32Array(0, 1, 1.57944e-06, 10, -6.27246e-07)
+tracks/104/type = "value"
+tracks/104/imported = false
+tracks/104/enabled = true
+tracks/104/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/104/interp = 1
+tracks/104/loop_wrap = true
+tracks/104/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_2yt5k"]
 resource_name = "RELOADING"
@@ -4711,6 +4770,18 @@ tracks/103/path = NodePath("Armature/Skeleton3D:mixamorig_LeftToe_End")
 tracks/103/interp = 0
 tracks/103/loop_wrap = true
 tracks/103/keys = PackedFloat32Array(0, 1, -8.04878e-07, 10, -6.29108e-07)
+tracks/104/type = "value"
+tracks/104/imported = false
+tracks/104/enabled = true
+tracks/104/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/104/interp = 1
+tracks/104/loop_wrap = true
+tracks/104/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_oeory"]
 resource_name = "RIFLE_DOWN_TO_AIM"
@@ -5450,6 +5521,18 @@ tracks/104/path = NodePath("Armature/Skeleton3D:mixamorig_LeftToe_End")
 tracks/104/interp = 0
 tracks/104/loop_wrap = true
 tracks/104/keys = PackedFloat32Array(0, 1, -3.29972e-07, 10, -6.53323e-07)
+tracks/105/type = "value"
+tracks/105/imported = false
+tracks/105/enabled = true
+tracks/105/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/105/interp = 1
+tracks/105/loop_wrap = true
+tracks/105/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_27s6p"]
 resource_name = "TALKING"
@@ -6190,6 +6273,18 @@ tracks/104/path = NodePath("Armature/Skeleton3D:mixamorig_LeftToe_End")
 tracks/104/interp = 0
 tracks/104/loop_wrap = true
 tracks/104/keys = PackedFloat32Array(0, 1, 4.25732e-06, 10, -6.06757e-07)
+tracks/105/type = "value"
+tracks/105/imported = false
+tracks/105/enabled = true
+tracks/105/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/105/interp = 1
+tracks/105/loop_wrap = true
+tracks/105/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_2ykhu"]
 resource_name = "WALKING"
@@ -6944,6 +7039,18 @@ tracks/106/path = NodePath("Armature/Skeleton3D:mixamorig_LeftToeBase")
 tracks/106/interp = 1
 tracks/106/loop_wrap = true
 tracks/106/keys = PackedFloat32Array(0, 1, 0.383144, -0.0247223, -0.0165764, 0.923209, 0.0333333, 1, 0.383144, -0.0247223, -0.0165764, 0.923209, 0.0666667, 1, 0.390041, -0.0410667, -0.00903678, 0.919837, 0.1, 1, 0.394749, -0.0813591, 0.0124892, 0.915094, 0.133333, 1, 0.392532, -0.0575321, -0.000384467, 0.917937, 0.166667, 1, 0.394139, -0.0513465, -0.00434417, 0.917605, 0.2, 1, 0.399369, -0.0763698, 0.00828929, 0.913566, 0.233333, 1, 0.408929, -0.0968224, 0.0169858, 0.907256, 0.266667, 1, 0.430469, -0.0881983, 0.00717509, 0.898257, 0.3, 1, 0.46403, -0.0940523, 0.00193725, 0.88081, 0.333333, 1, 0.446874, -0.0914665, 0.022646, 0.88962, 0.366667, 1, 0.383408, -0.089656, 0.016237, 0.919074, 0.4, 1, 0.368915, -0.0885777, 0.00958292, 0.925183, 0.433333, 1, 0.372054, -0.0908421, 0.00907446, 0.923711, 0.466667, 1, 0.376115, -0.0910398, 0.00968791, 0.922039, 0.5, 1, 0.37668, -0.0909396, 0.0100944, 0.921813, 0.533333, 1, 0.382531, -0.0914462, 0.0101087, 0.919351, 0.566667, 1, 0.391568, -0.0924306, 0.00981532, 0.915443, 0.6, 1, 0.395652, -0.090068, 0.00889603, 0.91393, 0.633333, 1, 0.39584, -0.0931395, 0.00970554, 0.913532, 0.666667, 1, 0.404204, -0.0940583, 0.00957089, 0.90977, 0.7, 1, 0.435015, -0.0973177, 0.00873624, 0.895106, 0.733333, 1, 0.485251, -0.104168, 0.00756783, 0.868115, 0.766667, 1, 0.542013, -0.112129, 0.00561516, 0.832837, 0.8, 1, 0.566244, -0.116363, 0.00145704, 0.815982, 0.833333, 1, 0.606302, -0.095818, 0.0149315, 0.7893, 0.866667, 1, 0.611823, -0.113296, 0.00284239, 0.782834, 0.9, 1, 0.500242, -0.105296, -0.0234543, 0.859139, 0.933333, 1, 0.418837, -0.0738099, -0.0220558, 0.904788, 0.966667, 1, 0.389654, -0.102804, -0.0189036, 0.91501, 1, 1, 0.373817, -0.109057, -0.0123119, 0.920987, 1.03333, 1, 0.38618, -0.0694816, -0.0140073, 0.919696, 1.06667, 1, 0.383144, -0.0247222, -0.0165764, 0.923209)
+tracks/107/type = "value"
+tracks/107/imported = false
+tracks/107/enabled = true
+tracks/107/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/107/interp = 1
+tracks/107/loop_wrap = true
+tracks/107/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_50015"]
 resource_name = "WALKING_WITH_RIFLE"
@@ -7684,6 +7791,18 @@ tracks/104/path = NodePath("Armature/Skeleton3D:mixamorig_LeftToe_End")
 tracks/104/interp = 0
 tracks/104/loop_wrap = true
 tracks/104/keys = PackedFloat32Array(0, 1, 4.9815e-06, 10, -1.59722e-07)
+tracks/105/type = "value"
+tracks/105/imported = false
+tracks/105/enabled = true
+tracks/105/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/105/interp = 1
+tracks/105/loop_wrap = true
+tracks/105/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_7u60y"]
 resource_name = "YELLING"
@@ -8424,6 +8543,33 @@ tracks/104/path = NodePath("Armature/Skeleton3D:mixamorig_LeftToe_End")
 tracks/104/interp = 0
 tracks/104/loop_wrap = true
 tracks/104/keys = PackedFloat32Array(0, 1, 2.52044e-06, 10, -6.4401e-07)
+tracks/105/type = "value"
+tracks/105/imported = false
+tracks/105/enabled = true
+tracks/105/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/105/interp = 1
+tracks/105/loop_wrap = true
+tracks/105/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_0yo6k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xxps0"]
 _data = {
@@ -8433,6 +8579,7 @@ _data = {
 &"HIT_REACTION": SubResource("Animation_arj2g"),
 &"IDLE_RIFLE": SubResource("Animation_x8ewe"),
 &"RELOADING": SubResource("Animation_2yt5k"),
+&"RESET": SubResource("Animation_0yo6k"),
 &"RIFLE_DOWN_TO_AIM": SubResource("Animation_oeory"),
 &"TALKING": SubResource("Animation_27s6p"),
 &"WALKING": SubResource("Animation_2ykhu"),
@@ -8509,7 +8656,7 @@ bones/6/name = "mixamorig_HeadTop_End"
 bones/6/parent = 5
 bones/6/rest = Transform3D(1, 3.88635e-17, -8.98374e-19, -3.88635e-17, 1, -1.10842e-20, 8.98374e-19, 1.10842e-20, 1, 2.87389e-09, 25.6535, 2.45046)
 bones/6/enabled = true
-bones/6/position = Vector3(7.16267e-07, 25.6535, 2.45046)
+bones/6/position = Vector3(7.92423e-08, 25.6535, 2.45046)
 bones/6/rotation = Quaternion(5.54211e-21, -4.49187e-19, -1.94318e-17, 1)
 bones/6/scale = Vector3(1, 1, 1)
 bones/7/name = "mixamorig_LeftShoulder"
@@ -8880,7 +9027,7 @@ bones/59/name = "mixamorig_RightToe_End"
 bones/59/parent = 58
 bones/59/rest = Transform3D(1, 7.46659e-09, 5.8464e-09, -7.46659e-09, 1, 1.4712e-08, -5.8464e-09, -1.4712e-08, 1, -2.90711e-06, 10, -9.24338e-07)
 bones/59/enabled = true
-bones/59/position = Vector3(-9.99946e-07, 10, -1.05845e-06)
+bones/59/position = Vector3(-9.10074e-07, 10, -8.94535e-07)
 bones/59/rotation = Quaternion(-7.35599e-09, 2.9232e-09, -3.73329e-09, 1)
 bones/59/scale = Vector3(1, 1, 1)
 bones/60/name = "mixamorig_LeftUpLeg"
@@ -8937,12 +9084,8 @@ bone_idx = 34
 metadata/_edit_lock_ = true
 
 [node name="m16_assault_rifle_fixed" parent="Armature/Skeleton3D/BoneAttachment3D" instance=ExtResource("13_iwtpe")]
-transform = Transform3D(2.15986, 74.8852, 3.53923, -11.2643, -3.17635, 74.0812, 74.1178, -2.66495, 11.1556, 0, 0, 0)
-visible = false
+transform = Transform3D(-21.8622, 80.1827, 5.6268, 11.7444, -2.58217, 82.4275, 79.5173, 22.4265, -10.6272, 8.6, 26, 1.915)
 metadata/_edit_lock_ = true
-
-[node name="M16_Rifle_1meter" parent="Armature/Skeleton3D/BoneAttachment3D" instance=ExtResource("18_0yo6k")]
-transform = Transform3D(-21.8837, 80.2136, 5.59776, 11.6908, -2.56574, 82.4694, 79.5543, 22.4421, -10.5794, 8.58456, 26.0176, 1.91488)
 
 [node name="Audio" type="Node" parent="."]
 

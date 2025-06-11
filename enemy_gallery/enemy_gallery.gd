@@ -108,7 +108,7 @@ func _populate_animation_buttons() -> void:
 	# 5:
 	for anim_name in animation_list:
 		# Filter out animations containing '/'
-		if "/" in anim_name:
+		if "/" in anim_name or anim_name.to_lower() == "reset":
 			continue # Skip this animation and move to the next one
 		var button = Button.new()
 		button.text = anim_name

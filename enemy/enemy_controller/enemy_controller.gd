@@ -11,6 +11,9 @@
 # - Character-Wide Effects: 
 #     Handling things like applying damage, playing hit reactions, managing death, 
 #     and potentially applying recoil effects to the whole character or just the arms/weapon rig.
+# WEAPONS
+# - Attach weapons to the `BoneAttachment3D`
+# - Use `AnimationPlayer` Property tracks to hide/show the weapon
 extends CharacterBody3D
 class_name EnemyController
 

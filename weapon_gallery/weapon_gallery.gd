@@ -16,7 +16,7 @@ var loaded_weapon_model: Node3D = null
 var rotation_speed: float = 0.5
 var joystick_rotation_speed: float = 100.0 # (degrees per second)
 var min_zoom_z: float = 0.5 # Closest Z camera can get to origin (weapon)
-var max_zoom_z: float = 2.0 # Farthest Z camera can get from origin
+var max_zoom_z: float = 1.0 # Farthest Z camera can get from origin
 var zoom_speed: float = 1.0 # how fast it zooms
 # Example weapon data (TODO: need to load this from a JSON, CSV, or custom resource)
 var current_weapon_stats: Dictionary = {
@@ -29,7 +29,8 @@ var current_weapon_stats: Dictionary = {
 
 func _ready():
 	# Ensure the camera only renders the "WeaponExamine" layer (20)
-	main_camera.cull_mask = (1 << 19)
+	#main_camera.cull_mask = (1 << 19)
+	pass
 
 func _process(delta: float):
 	# Joystick Input for Rotation

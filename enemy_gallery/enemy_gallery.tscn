@@ -83,8 +83,8 @@ text = "ENEMY"
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
-theme_override_constants/margin_top = 100
-theme_override_constants/margin_bottom = 100
+theme_override_constants/margin_top = 225
+theme_override_constants/margin_bottom = 225
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer"]
 custom_minimum_size = Vector2(450, 0)
@@ -125,11 +125,13 @@ rounded = true
 show_percentage = false
 
 [node name="Label_Damage" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.788235, 0.788235, 1)
 theme_override_fonts/font = ExtResource("5_7peos")
 theme_override_font_sizes/font_size = 48
 text = "DAMAGE"
+vertical_alignment = 2
 
 [node name="ProgBar_Damage" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
@@ -143,11 +145,13 @@ rounded = true
 show_percentage = false
 
 [node name="Label_Speed" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.788235, 0.788235, 1)
 theme_override_fonts/font = ExtResource("5_7peos")
 theme_override_font_sizes/font_size = 48
 text = "SPEED"
+vertical_alignment = 2
 
 [node name="ProgBar_Speed" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
