@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d0dmfh1e8vpfg"]
+[gd_scene load_steps=20 format=3 uid="uid://d0dmfh1e8vpfg"]
 
 [ext_resource type="Script" uid="uid://bglvnvtc38hr0" path="res://enemy_gallery/enemy_gallery.gd" id="1_b2rjh"]
 [ext_resource type="Texture2D" uid="uid://bxf0e1afvggun" path="res://weapon_gallery/assets/T_P5_Circle_Light.png" id="2_7ongf"]
@@ -9,6 +9,26 @@
 [ext_resource type="PackedScene" uid="uid://b3g1dhg0yl3lf" path="res://enemy_gallery/assets/wall/damaged_wall.glb" id="6_hyogh"]
 [ext_resource type="Texture2D" uid="uid://baph1qljd0e77" path="res://assets_models/KENNEY_PNG/Dark/texture_05.png" id="7_twguo"]
 [ext_resource type="PackedScene" uid="uid://c8ugwwmddwn2l" path="res://enemy_gallery/assets/street_lamp/street_lamp.glb" id="8_twguo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_twguo"]
+
+[sub_resource type="Gradient" id="Gradient_dremw"]
+colors = PackedColorArray(1, 1, 1, 0.223529, 0, 0, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7ongf"]
+gradient = SubResource("Gradient_dremw")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twguo"]
+bg_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9, 0.5, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ongf"]
+bg_color = Color(0.9, 0.5, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2rjh"]
 albedo_color = Color(1, 1, 1, 0)
@@ -49,80 +69,170 @@ theme_override_constants/margin_bottom = 50
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer_L" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="TitleLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L"]
 layout_mode = 2
-size_flags_vertical = 2
+size_flags_vertical = 0
 theme_override_font_sizes/font_size = 120
 text = "ENEMY"
 
-[node name="HBox_Btm" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="StatsContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer"]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_twguo")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_7ongf")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Label_Health" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.788235, 0.788235, 0.788235, 1)
+theme_override_fonts/font = ExtResource("5_7peos")
+theme_override_font_sizes/font_size = 48
+text = "HEALTH"
+
+[node name="ProgBar_Health" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme_override_constants/outline_size = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_twguo")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7ongf")
+step = 1.0
+value = 20.0
+rounded = true
+show_percentage = false
+
+[node name="Label_Damage" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.788235, 0.788235, 0.788235, 1)
+theme_override_fonts/font = ExtResource("5_7peos")
+theme_override_font_sizes/font_size = 48
+text = "DAMAGE"
+
+[node name="ProgBar_Damage" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme_override_constants/outline_size = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_twguo")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7ongf")
+step = 1.0
+value = 30.0
+rounded = true
+show_percentage = false
+
+[node name="Label_Speed" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.788235, 0.788235, 0.788235, 1)
+theme_override_fonts/font = ExtResource("5_7peos")
+theme_override_font_sizes/font_size = 48
+text = "SPEED"
+
+[node name="ProgBar_Speed" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme_override_constants/outline_size = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_twguo")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7ongf")
+step = 1.0
+value = 60.0
+rounded = true
+show_percentage = false
+
+[node name="Label_Patrols" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.788235, 0.788235, 0.788235, 1)
+theme_override_fonts/font = ExtResource("5_7peos")
+theme_override_font_sizes/font_size = 48
+text = "CAN PATROL?"
+
+[node name="HBox_Btm" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 8
 theme_override_constants/separation = 30
 
-[node name="HBox1" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2/HBox_Btm"]
+[node name="HBox1" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2/HBox_Btm/HBox1"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox1"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture = ExtResource("2_7ongf")
 expand_mode = 1
 
-[node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2/HBox_Btm/HBox1"]
+[node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox1"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6256, 0.625596, 0.625596, 1)
 theme_override_font_sizes/font_size = 36
 text = "Main Menu"
 
-[node name="HBox2" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2/HBox_Btm"]
+[node name="HBox2" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2/HBox_Btm/HBox2"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox2"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture = ExtResource("3_7peos")
 expand_mode = 1
 
-[node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2/HBox_Btm/HBox2"]
+[node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox2"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6256, 0.625596, 0.625596, 1)
 theme_override_font_sizes/font_size = 36
 text = "Zoom "
 
-[node name="HBox3" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2/HBox_Btm"]
+[node name="HBox3" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2/HBox_Btm/HBox3"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox3"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture = ExtResource("4_c18eb")
 expand_mode = 1
 
-[node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2/HBox_Btm/HBox3"]
+[node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox3"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6256, 0.625596, 0.625596, 1)
 theme_override_font_sizes/font_size = 36
 text = " Rotate"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer_R" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="LabelAnimations" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_R"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.5, 0, 1)
 theme_override_fonts/font = ExtResource("5_7peos")
 theme_override_font_sizes/font_size = 60
 text = "ANIMATIONS"
 horizontal_alignment = 1
 
-[node name="AnimationButtonsVBox" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="AnimationButtonsVBox" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_R"]
 layout_mode = 2
 theme = ExtResource("5_c18eb")
 theme_override_constants/separation = 10

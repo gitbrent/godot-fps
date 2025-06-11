@@ -2,13 +2,15 @@
 extends Node3D
 class_name EnemyGallery
 
-# UI references (assign these in the Inspector)
+#region VARS
 @onready var enemy_model_container: Node3D = $EnemyModelCont
-@onready var animation_buttons_vbox: VBoxContainer = $CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/AnimationButtonsVBox
-
+@onready var animation_buttons_vbox: VBoxContainer = $CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_R/AnimationButtonsVBox
+#
+const ZERO: Vector3 = Vector3(0, 0, 0)
 var _current_enemy_instance: EnemyController = null
 var _current_animation_player: AnimationPlayer = null # To store a reference to the AnimationPlayer
 var _current_animation_name: String = ""
+#endregion
 
 func _ready() -> void:
 	# Ensure this gallery is processed even when the game is paused
@@ -22,6 +24,11 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		GameManager.load_main_menu()
 		get_viewport().set_input_as_handled() # Consume the input
+
+func _physics_process(delta: float) -> void:
+	# NOTE: This is necssary! The enemy loads off zero.
+	if _current_enemy_instance and _current_enemy_instance.position != ZERO:
+		_current_enemy_instance.position = ZERO
 
 # Function to load an enemy model from a path
 func load_enemy(enemy_model_path: String) -> void:
@@ -42,11 +49,6 @@ func load_enemy(enemy_model_path: String) -> void:
 	enemy_model_container.add_child(_current_enemy_instance)
 	_current_enemy_instance.show_detection_area_debug = false
 	_current_enemy_instance.show_state_debug = false
-	# FIXME: model appears at (-1,.2,0)?!
-	_current_enemy_instance.position = Vector3(0,0,0)
-	print(_current_enemy_instance.position)
-	print(enemy_model_container.global_position)
-	# FIXME: ^^^
 	
 	# 3. Find the AnimationPlayer within the enemy model
 	# We need to recursively search for the AnimationPlayer as it might not be a direct child
@@ -74,7 +76,8 @@ func _clear_enemy_display() -> void:
 
 func _clear_animation_buttons() -> void:
 	for child in animation_buttons_vbox.get_children():
-		if child is Button: # Only remove the buttons we added
+		# NOTE: dont remove labels, etc.!
+		if child is Button:
 			child.queue_free()
 
 # Recursive function to find an AnimationPlayer
@@ -121,7 +124,7 @@ func play_animation(anim_name: String) -> void:
 	if _current_animation_player and _current_animation_player.has_animation(anim_name):
 		_current_animation_player.play(anim_name)
 		_current_animation_name = anim_name
-		print("Playing animation: ", anim_name)
+		#print("Playing animation: ", anim_name)
 	else:
 		printerr("Animation '", anim_name, "' not found or no AnimationPlayer available.")
 

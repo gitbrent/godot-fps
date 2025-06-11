@@ -2,3 +2,4 @@
 
 [resource]
 default_font_size = 36
+Button/colors/font_color = Color(0.621525, 0.621523, 0.621524, 1)
