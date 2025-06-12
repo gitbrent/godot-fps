@@ -1,11 +1,11 @@
 [gd_scene load_steps=20 format=3 uid="uid://d0dmfh1e8vpfg"]
 
 [ext_resource type="Script" uid="uid://bglvnvtc38hr0" path="res://enemy_gallery/enemy_gallery.gd" id="1_b2rjh"]
-[ext_resource type="Texture2D" uid="uid://bxf0e1afvggun" path="res://weapon_gallery/assets/T_P5_Circle_Light.png" id="2_7ongf"]
-[ext_resource type="Texture2D" uid="uid://htw2bsmf77dh" path="res://weapon_gallery/assets/T_P5_L_Y_Light.png" id="3_7peos"]
-[ext_resource type="Texture2D" uid="uid://cbdogu3ppgdx8" path="res://weapon_gallery/assets/T_P5_R_X_Light.png" id="4_c18eb"]
+[ext_resource type="Texture2D" uid="uid://lj4tcf4m2jta" path="res://enemy_gallery/assets/T_P5_Circle_Light.png" id="3_twguo"]
+[ext_resource type="Texture2D" uid="uid://b4el5schqgqxc" path="res://enemy_gallery/assets/T_P5_R_Y_Light.png" id="4_7ongf"]
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="5_7peos"]
 [ext_resource type="Theme" uid="uid://cl6pvsmqfcp2f" path="res://ui/button_theme.tres" id="5_c18eb"]
+[ext_resource type="Texture2D" uid="uid://dpv0484le8fab" path="res://enemy_gallery/assets/T_P5_R_X_Light.png" id="5_k3pnr"]
 [ext_resource type="PackedScene" uid="uid://b3g1dhg0yl3lf" path="res://enemy_gallery/assets/wall/damaged_wall.glb" id="6_hyogh"]
 [ext_resource type="Texture2D" uid="uid://baph1qljd0e77" path="res://assets_models/KENNEY_PNG/Dark/texture_05.png" id="7_twguo"]
 [ext_resource type="PackedScene" uid="uid://c8ugwwmddwn2l" path="res://enemy_gallery/assets/street_lamp/street_lamp.glb" id="8_twguo"]
@@ -184,7 +184,7 @@ layout_mode = 2
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox1"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
-texture = ExtResource("2_7ongf")
+texture = ExtResource("3_twguo")
 expand_mode = 1
 
 [node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox1"]
@@ -199,7 +199,7 @@ layout_mode = 2
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox2"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
-texture = ExtResource("3_7peos")
+texture = ExtResource("4_7ongf")
 expand_mode = 1
 
 [node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox2"]
@@ -215,7 +215,7 @@ size_flags_horizontal = 3
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox3"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
-texture = ExtResource("4_c18eb")
+texture = ExtResource("5_k3pnr")
 expand_mode = 1
 
 [node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox3"]

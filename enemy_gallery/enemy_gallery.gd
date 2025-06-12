@@ -10,6 +10,12 @@ const ZERO: Vector3 = Vector3(0, 0, 0)
 var _current_enemy_instance: EnemyController = null
 var _current_animation_player: AnimationPlayer = null # To store a reference to the AnimationPlayer
 var _current_animation_name: String = ""
+#
+var rotation_speed: float = 0.5
+var joystick_rotation_speed: float = 100.0 # (degrees per second)
+var min_zoom_z: float = -0.2 # Closest Z camera can get to origin (weapon)
+var max_zoom_z: float = 0.25 # Farthest Z camera can get from origin
+var zoom_speed: float = 1.0 # how fast it zooms
 #endregion
 
 func _ready() -> void:
@@ -29,6 +35,30 @@ func _physics_process(_delta: float) -> void:
 	# NOTE: This is necssary! The enemy loads off zero.
 	if _current_enemy_instance and _current_enemy_instance.position != ZERO:
 		_current_enemy_instance.position = ZERO
+
+func _process(delta: float):
+	# Joystick Input for Rotation
+	if enemy_model_container:
+		var joystick_x_input = Input.get_axis("move_left", "move_right")
+		if abs(joystick_x_input) > 0.1: # Add a small deadzone
+			# Rotate around the Y-axis based on joystick X input
+			enemy_model_container.rotate_object_local(Vector3(0, 1, 0), deg_to_rad(joystick_x_input * joystick_rotation_speed * delta))
+
+	# Joystick Input for Zoom (Left Stick Up/Down)
+	var joystick_y_input = Input.get_axis("joypad_right_stick_up", "joypad_right_stick_down")
+
+	if abs(joystick_y_input) > 0.1: # Small deadzone
+		# Calculate the change in Z based on input and speed
+		# If joystick_y_input is positive (forward stick), we want Z to DECREASE (move closer)
+		# If joystick_y_input is negative (backward stick), we want Z to INCREASE (move farther)
+		var zoom_delta_z = joystick_y_input * zoom_speed * delta
+		# Apply the change to the camera's Z position
+		var new_camera_z = enemy_model_container.position.z - zoom_delta_z # Subtract to zoom in for positive input
+		# Clamp the new Z position
+		new_camera_z = clamp(new_camera_z, min_zoom_z, max_zoom_z)
+		# Apply the clamped Z position back to the camera
+		# Crucially, we only change the Z component; X and Y remain fixed.
+		enemy_model_container.position.z = new_camera_z
 
 # Function to load an enemy model from a path
 func load_enemy(enemy_model_path: String) -> void:
