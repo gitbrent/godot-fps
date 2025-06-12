@@ -2105,6 +2105,7 @@ transform = Transform3D(0.01, 0, 0, 0, -0.01, 0, 0, 0, -0.01, 0, 0, 0)
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_057_VSS_Vintorez_Stock_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_057"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_3sabr")
 skeleton = NodePath("")
 
@@ -2112,6 +2113,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_060_VSS_Vintorez_Stock_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_060"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_05was")
 skeleton = NodePath("")
 
@@ -2119,6 +2121,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_067_VSS_Vintorez_Stock_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_067"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_4pd4c")
 skeleton = NodePath("")
 
@@ -2126,6 +2129,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0.20239, 0)
 
 [node name="wPlane_068_VSS_Vintorez_Stock_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_068"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_n1ftu")
 skeleton = NodePath("")
 
@@ -2133,6 +2137,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_069_VSS_Vintorez_Stock_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_069"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_233mu")
 skeleton = NodePath("")
 
@@ -2140,6 +2145,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_028_VSS_Vintorez_Stock_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_028"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_jqllh")
 skeleton = NodePath("")
 
@@ -2147,6 +2153,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_029_VSS_Vintorez_Stock_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_029"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_yfhpr")
 skeleton = NodePath("")
 
@@ -2154,6 +2161,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_030_VSS_Vintorez_Stock_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_030"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_4rgxh")
 skeleton = NodePath("")
 
@@ -2161,6 +2169,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_070_VSS_Vintorez_Stock_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_070"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_iip0t")
 skeleton = NodePath("")
 
@@ -2168,6 +2177,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_031_VSS_Vintorez_Stock_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_031"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_ygssa")
 skeleton = NodePath("")
 
@@ -2175,6 +2185,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_032_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_032"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_i3fw8")
 skeleton = NodePath("")
 
@@ -2182,6 +2193,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_071_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_071"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_ltfou")
 skeleton = NodePath("")
 
@@ -2189,6 +2201,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_033_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_033"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_dcyvh")
 skeleton = NodePath("")
 
@@ -2196,6 +2209,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_034_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_034"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_k2f6g")
 skeleton = NodePath("")
 
@@ -2203,6 +2217,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_072_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_072"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_o5afo")
 skeleton = NodePath("")
 
@@ -2210,6 +2225,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_035_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_035"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_a8l2t")
 skeleton = NodePath("")
 
@@ -2217,6 +2233,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_073_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_073"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_bx25w")
 skeleton = NodePath("")
 
@@ -2224,6 +2241,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wRing_020_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_020"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_krt7k")
 skeleton = NodePath("")
 
@@ -2231,6 +2249,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_074_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_074"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_jcr3u")
 skeleton = NodePath("")
 
@@ -2238,6 +2257,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_075_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_075"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_xmvww")
 skeleton = NodePath("")
 
@@ -2245,6 +2265,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_036_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_036"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_vwn8n")
 skeleton = NodePath("")
 
@@ -2252,6 +2273,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_037_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_037"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_4sby6")
 skeleton = NodePath("")
 
@@ -2259,6 +2281,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_038_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_038"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_pfxil")
 skeleton = NodePath("")
 
@@ -2266,6 +2289,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_086_VSS_Vintorez_Barrel_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_086"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_5gool")
 skeleton = NodePath("")
 
@@ -2273,6 +2297,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_039_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_039"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_656ap")
 skeleton = NodePath("")
 
@@ -2280,6 +2305,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_087_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_087"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_sxu81")
 skeleton = NodePath("")
 
@@ -2287,6 +2313,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_088_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_088"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_h7nbh")
 skeleton = NodePath("")
 
@@ -2294,6 +2321,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_040_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_040"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_61kcf")
 skeleton = NodePath("")
 
@@ -2301,6 +2329,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_091_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_091"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_un3w8")
 skeleton = NodePath("")
 
@@ -2308,6 +2337,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_092_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_092"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_crfnf")
 skeleton = NodePath("")
 
@@ -2315,6 +2345,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_093_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_093"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_2g3p1")
 skeleton = NodePath("")
 
@@ -2322,6 +2353,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wRing_021_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_021"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_owdt3")
 skeleton = NodePath("")
 
@@ -2329,6 +2361,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wRing_022_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_022"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_xjr1a")
 skeleton = NodePath("")
 
@@ -2336,6 +2369,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wRing_023_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_023"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_34v7d")
 skeleton = NodePath("")
 
@@ -2343,6 +2377,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_094_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_094"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_ilm5y")
 skeleton = NodePath("")
 
@@ -2350,6 +2385,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_095_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_095"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_b2vfm")
 skeleton = NodePath("")
 
@@ -2357,6 +2393,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_096_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_096"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_aa07i")
 skeleton = NodePath("")
 
@@ -2364,6 +2401,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_097_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_097"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_ey857")
 skeleton = NodePath("")
 
@@ -2371,6 +2409,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_098_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_098"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_73hiw")
 skeleton = NodePath("")
 
@@ -2378,6 +2417,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_099_VSS_Vintorez_Main_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_099"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_tj347")
 skeleton = NodePath("")
 
@@ -2385,6 +2425,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_100_VSS_Vintorez_Mag_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_100"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_u78qp")
 skeleton = NodePath("")
 
@@ -2392,6 +2433,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wTube_041_VSS_Vintorez_Mag_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wTube_041"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_em2do")
 skeleton = NodePath("")
 
@@ -2399,6 +2441,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_101_VSS_Vintorez_Mag_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_101"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_aog7n")
 skeleton = NodePath("")
 
@@ -2406,6 +2449,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_102_VSS_Vintorez_Mag_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_102"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_y4d0y")
 skeleton = NodePath("")
 
@@ -2413,6 +2457,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wRing_024_VSS_Vintorez_Inside_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_024"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_uk1b3")
 skeleton = NodePath("")
 
@@ -2420,6 +2465,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_104_VSS_Vintorez_Inside_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_104"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_x70l1")
 skeleton = NodePath("")
 
@@ -2427,6 +2473,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wRing_026_VSS_Vintorez_Inside_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_026"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_i35a8")
 skeleton = NodePath("")
 
@@ -2434,6 +2481,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wRing_027_VSS_Vintorez_Inside_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_027"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_8ao54")
 skeleton = NodePath("")
 
@@ -2441,6 +2489,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_105_VSS_Vintorez_Inside_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_105"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_7c388")
 skeleton = NodePath("")
 
@@ -2448,6 +2497,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wPlane_106_VSS_Vintorez_Inside_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_106"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_ifa2h")
 skeleton = NodePath("")
 
@@ -2455,6 +2505,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wRing_028_VSS_Vintorez_Inside_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_028"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_ryv7v")
 skeleton = NodePath("")
 
@@ -2462,6 +2513,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.0001, -1.50996e-11, 0, 1.50996e-11, 0.0001, 0, 0, 0, 0.0001, 0, 0, 0)
 
 [node name="wRing_044_VSS_Springs_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_044"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_vw0e6")
 skeleton = NodePath("")
 
@@ -2469,6 +2521,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.01, -1.74846e-09, 0, 1.74846e-09, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 
 [node name="wRing_025_VSS_Vintorez_Inside_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_025"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_eg21k")
 skeleton = NodePath("")
 
@@ -2476,6 +2529,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.01, -1.74846e-09, 0, 1.74846e-09, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 
 [node name="wPlane_103_VSS_Vintorez_Inside_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_103"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_wbnli")
 skeleton = NodePath("")
 
@@ -2483,6 +2537,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.01, -1.74846e-09, 0, 1.74846e-09, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 
 [node name="wRing_029_VSS_Vintorez_Inside_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_029"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_dfp4x")
 skeleton = NodePath("")
 
@@ -2490,6 +2545,7 @@ skeleton = NodePath("")
 transform = Transform3D(0.01, -1.74846e-09, 0, 1.74846e-09, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 
 [node name="wPlane_107_VSS_Vintorez_Inside_tex_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wPlane_107"]
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_ukg4q")
 skeleton = NodePath("")
 
@@ -2500,6 +2556,7 @@ metadata/_edit_lock_ = true
 
 [node name="wRing_040_3x39_cartridge_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_040"]
 visible = false
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_ptq8s")
 skeleton = NodePath("")
 
@@ -2510,5 +2567,6 @@ metadata/_edit_lock_ = true
 
 [node name="wRing_041_3x39_cartridge_0" type="MeshInstance3D" parent="Sketchfab_Scene/Sketchfab_model/ac390bc7a64d401a9a7246dc233fcd69_fbx/RootNode/wRing_041"]
 visible = false
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_d534v")
 skeleton = NodePath("")

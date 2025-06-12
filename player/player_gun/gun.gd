@@ -109,7 +109,10 @@ func shoot_bullet_proj():
 	if is_ads:
 		# IMPORTANT: in ADS mode, we have to add this or the bullet hits player istantly!
 		spawn_offset += 0.4
-	bullet.global_transform.origin = muzzle_point.global_transform.origin + shoot_direction * spawn_offset
+	# set position
+	var bullet_spawn_position = muzzle_point.global_transform.origin + shoot_direction * spawn_offset
+	bullet.global_transform.origin = bullet_spawn_position
+	bullet.look_at(bullet_spawn_position + shoot_direction, Vector3.UP)
 	bullet.setup(shoot_direction) # Pass the camera's forward direction
 	#print("SHOOT DIRECTION: ", shoot_direction)
 
