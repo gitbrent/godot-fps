@@ -70,6 +70,7 @@ func _on_player_controller_player_died() -> void:
 		if is_instance_valid(enemy): # Always check if the instance is still valid before interacting
 			enemy.queue_free()
 	active_enemies.clear() # Clear the array after freeing them
+	GameManager.player_died.emit()
 
 func _on_target_exploded() -> void:
 	#print("target exploded!")
