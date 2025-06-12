@@ -41,7 +41,7 @@ func _on_player_died() -> void:
 
 func spawn_player() -> void:
 	spawned_player = player_scene.instantiate()
-	get_tree().current_scene.add_child(spawned_player)
+	add_child(spawned_player)
 	spawned_player.global_position = Vector3(0,0,10)
 	spawned_player.player_died.connect(_on_player_died)
 
@@ -55,7 +55,7 @@ func spawn_enemy() -> void:
 		spawned_enemy.can_patrol = true
 		spawned_enemy.show_state_debug = true
 		spawned_enemy.show_detection_area_debug = true
-		get_tree().current_scene.add_child(spawned_enemy)
+		add_child(spawned_enemy)
 		spawned_enemy.global_position = Vector3(0.0, 0.0, -10.0)
 		spawned_enemy.state_machine.request_state_change("patrol")
 
