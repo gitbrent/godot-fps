@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://v2woljvw5x6f"
-path="res://.godot/imported/T_groundmark_color.png-f1ba7f219168251b6ec53fda42e7d5bb.ctex"
+path="res://.godot/imported/T_groundmark_color.png-6a76a9111869d63023368ebb7812099a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/T_groundmark_color.png"
-dest_files=["res://.godot/imported/T_groundmark_color.png-f1ba7f219168251b6ec53fda42e7d5bb.ctex"]
+source_file="res://assets/textures/T_groundmark_color.png"
+dest_files=["res://.godot/imported/T_groundmark_color.png-6a76a9111869d63023368ebb7812099a.ctex"]
 
 [params]
 
