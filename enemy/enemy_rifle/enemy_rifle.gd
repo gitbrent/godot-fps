@@ -23,7 +23,7 @@ func _process(delta):
 		if fire_cooldown < 0.0:
 			fire_cooldown = 0.0 # Ensure it doesn't go below zero
 
-func shoot_proj(target_position:Vector3) -> void:
+func _shoot_proj(target_position:Vector3) -> void:
 	#print("[enemy_rifle] shoot_proj: ", target_position)
 	#print("Muzzle Global Position: ", muzzle_point.global_transform.origin)
 
@@ -58,7 +58,7 @@ func request_fire(target_position:Vector3) -> bool:
 	# print("[enemy_rifle] request_fire: ",target_position)
 	# Check if the gun is ready to fire based on cooldown
 	if fire_cooldown <= 0.0:
-		shoot_proj(target_position) # Perform the firing mechanics
+		_shoot_proj(target_position) # Perform the firing mechanics
 		fire_cooldown = 1.0 / fire_rate # Reset cooldown
 		return true # Indicate that a shot was fired
 	return false # Indicate that the gun was not ready to fire
