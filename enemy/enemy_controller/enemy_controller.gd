@@ -32,6 +32,7 @@ signal died
 @onready var state_node_attack: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var m16_rifle: Node3D = $Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed
 @onready var audio_projectile_strike: AudioStreamPlayer = $"Audio/Projectile-strike"
+@onready var blood_particles_3d: GPUParticles3D = $BloodParticles3D
 #
 @export_group("Props")
 @export var health: int = 100
@@ -106,7 +107,7 @@ func _ready() -> void:
 	else:
 		is_initialized = true
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# --- Make the State Display Label Face Camera ---
 	# Only do this if the label exists and the game is running (not in editor physics process)
 	if debug_label_state and !Engine.is_editor_hint():
@@ -218,9 +219,9 @@ func take_damage(amount:int, direction_of_impact: Vector3) -> void:
 ## `show_hit` is called by projectiles if implemented (**DONT RENAME**)
 func show_hit(impact_point: Vector3) -> void:
 	if not is_dead:
-		# TODO: spawn a blood spurt here later
-		print("[enemy_cont] show_hit: ", impact_point)
-		pass
+		#print("[enemy_cont] show_hit: ", impact_point)
+		blood_particles_3d.global_position = impact_point
+		blood_particles_3d.emitting = true
 
 # CLASS-SPECIFIC FUNCS ============================================
 
@@ -346,7 +347,6 @@ func draw_idle_detection_area_mesh() -> void:
 	
 	if show_detection_area_debug:
 		var players = get_tree().get_nodes_in_group("player")
-		var nearest_player: CharacterBody3D = null
 		for player in players:
 			if player is CharacterBody3D:
 				var distance = global_position.distance_to(player.global_position)
