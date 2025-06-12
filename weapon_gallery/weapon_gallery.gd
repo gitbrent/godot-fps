@@ -7,16 +7,16 @@ class_name WeaponGallery
 #region vars
 @onready var weapon_container: Node3D = $WeaponContainer
 @onready var main_camera: Camera3D = $Camera3D
-@onready var stat_row_1: StatRow = $WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow1
-@onready var stat_row_2: StatRow = $WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow2
-@onready var stat_row_3: StatRow = $WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow3
-@onready var stat_row_4: StatRow = $WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow4
+@onready var stat_row_1: StatRow = $CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow1
+@onready var stat_row_2: StatRow = $CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow2
+@onready var stat_row_3: StatRow = $CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow3
+@onready var stat_row_4: StatRow = $CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow4
 #
 var loaded_weapon_model: Node3D = null
 var rotation_speed: float = 0.5
 var joystick_rotation_speed: float = 100.0 # (degrees per second)
-var min_zoom_z: float = 0.5 # Closest Z camera can get to origin (weapon)
-var max_zoom_z: float = 1.0 # Farthest Z camera can get from origin
+var min_zoom_z: float = -0.2 # Closest Z camera can get to origin (weapon)
+var max_zoom_z: float = 0.25 # Farthest Z camera can get from origin
 var zoom_speed: float = 1.0 # how fast it zooms
 # Example weapon data (TODO: need to load this from a JSON, CSV, or custom resource)
 var current_weapon_stats: Dictionary = {
@@ -49,12 +49,12 @@ func _process(delta: float):
 		# If joystick_y_input is negative (backward stick), we want Z to INCREASE (move farther)
 		var zoom_delta_z = joystick_y_input * zoom_speed * delta
 		# Apply the change to the camera's Z position
-		var new_camera_z = main_camera.position.z - zoom_delta_z # Subtract to zoom in for positive input
+		var new_camera_z = weapon_container.position.z - zoom_delta_z # Subtract to zoom in for positive input
 		# Clamp the new Z position
 		new_camera_z = clamp(new_camera_z, min_zoom_z, max_zoom_z)
 		# Apply the clamped Z position back to the camera
 		# Crucially, we only change the Z component; X and Y remain fixed.
-		main_camera.position.z = new_camera_z
+		weapon_container.position.z = new_camera_z
 
 func _input(event):
 	# Mouse drag rotation (Y-axis for left/right spin)
