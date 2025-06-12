@@ -12,11 +12,11 @@
 [x] - fix state thrashing with enemies ("i see him!", "i lost him!")
 [x] - new scene: shooting_range to test effects, enemy states, etc.
 [x] - show bullet splat/blood spurt on enemies when hit
-[ ] - remap inputs to match CoD, rename to new standard
-[ ] - show bullet tracers
-[ ] - add crouch to player controller
-[ ] - blood spurt on hit should be attached to enemy, not bullet_projectile!
-[ ] - NEW: enemy gallery (with state menu buttons)
+[x] - show bullet tracers
+[x] - remap inputs to match CoD, rename to new standard
+[x] - blood spurt on hit should be attached to enemy, not bullet_projectile!
+[x] - NEW: enemy gallery (with state menu buttons)
+[ ] - update player damage flash to use high-quality png with strong edges (e.g., Doom or CoD)
 
 ## FIXME
 
@@ -29,11 +29,10 @@
 ## New Features: Future
 
 [ ] - when paused, show real scene with rotating camera (see `main_menu.tscn`)
-[ ] - setup `AnimationTree` for enemy states, design & test
-[ ] - update player damage flash to use high-quality png with strong edges (e.g., Doom or CoD)
+[ ] - add `AudioManager.gd` to manage "I lost them!" etc. so they dont all cluster
+[ ] - add crouch to player controller
+[ ] - setup `AnimationTree` for enemy states, design & test (gun shown=done)
 [ ] - separate `game_controller.gd` from `TestMap.tscn`; allow mulitple map selection
-[ ] - add: ui > settings > controller with pic of PS5 controller & buttons labeled
+[ ] - add: ui > main_menu > settings > controller with pic of PS5 controller & buttons labeled
 [ ] - add exploding barrels
 [ ] - exploding barrels set enemies on fire
-[ ] - use holodeck-style walls (instead of Kenney checkers)
-[ ] - add `AudioManager.gd` to manage "I lost them!" etc. so they dont all cluster
