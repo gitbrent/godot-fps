@@ -47,7 +47,7 @@ func _ready() -> void:
 	tween.tween_callback(func(): queue_free())
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# --- Make Label3D Face Camera ---
 	# This makes the text always readable by rotating it towards the camera
 	var camera = get_viewport().get_camera_3d()

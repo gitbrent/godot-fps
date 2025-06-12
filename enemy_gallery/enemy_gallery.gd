@@ -20,12 +20,12 @@ func _ready() -> void:
 	# Optional: Set up initial display or load a default enemy
 	load_enemy("res://enemy/enemy_controller/enemy_controller.tscn")
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		GameManager.load_main_menu()
 		get_viewport().set_input_as_handled() # Consume the input
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	# NOTE: This is necssary! The enemy loads off zero.
 	if _current_enemy_instance and _current_enemy_instance.position != ZERO:
 		_current_enemy_instance.position = ZERO

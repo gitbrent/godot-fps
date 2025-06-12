@@ -24,7 +24,7 @@ func update(delta: float) -> void:
 		# If wander time is up, pick a new random direction and time
 		randomize_wander()
 
-func physics_update(delta: float) -> Vector3:
+func physics_update(_delta: float) -> Vector3:
 	var players = get_tree().get_nodes_in_group("player")
 	var nearest_player_distance = INF
 	var nearest_player: CharacterBody3D = null

@@ -19,7 +19,7 @@ func enter() -> void:
 		transitioned.emit(self, "idle")
 
 # Modified: Calculate and return the desired horizontal velocity
-func physics_update(delta: float) -> Vector3:
+func physics_update(_delta: float) -> Vector3:
 	# If we lost our target player, try to find one again
 	if target_player == null or not is_instance_valid(target_player):
 		target_player = find_nearest_player()

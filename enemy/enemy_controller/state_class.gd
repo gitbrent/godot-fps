@@ -13,7 +13,7 @@ func enter() -> void:
 
 ## Called every frame
 ## update() is for non-physics logic like timers and input
-func update(delta: float) -> void:
+func update(_delta: float) -> void:
 	pass # Override in child states
 
 ## Called every physics frame
@@ -23,7 +23,7 @@ func update(delta: float) -> void:
 # It should return the desired horizontal velocity (Vector3.ZERO when standing still)
 # and set the desired_rotation_direction.
 
-func physics_update(delta: float) -> Vector3:
+func physics_update(_delta: float) -> Vector3:
 	# This is the base implementation. Child classes should override this.
 	# By default, return zero velocity if not overridden or if the base function is called.
 	return Vector3.ZERO

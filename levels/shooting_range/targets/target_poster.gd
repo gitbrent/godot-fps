@@ -6,5 +6,5 @@ class_name TargetPoster
 signal poster_hit
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
-	#print("TargetPoster hit by: ", body)
+	print("TargetPoster hit by: ", body)
 	emit_signal("poster_hit")

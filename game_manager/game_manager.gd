@@ -58,7 +58,7 @@ func _on_player_died() -> void:
 	# For a shooting range, you might just restart, or go to a game over screen
 	# Clear the current level and go to game over screen
 	_clear_current_level()
-	load_game_over_screen() # Or load_level("res://scenes/main_menu_scene.tscn
+	load_game_over_screen()
 
 # --- UI FUNCS ------------------------------------------------
 
@@ -125,6 +125,14 @@ func close_pause_menu() -> void:
 func _clear_current_level() -> void:
 	# Removes the current level instance from the LevelContainer
 	if _current_level_instance and is_instance_valid(_current_level_instance):
+		level_root_node.remove_child(_current_level_instance)
+
+		# Clear any CanvasLayers
+		for child in _current_level_instance.get_children():
+			if child is CanvasLayer:
+				child.queue_free()
+				print("BAM!")
+
 		_current_level_instance.queue_free()
 		_current_level_instance = null
 		print("Current level cleared.")
@@ -134,7 +142,11 @@ func load_main_menu() -> void:
 	_clear_ui()
 	_clear_current_level()
 	# 2:
-	set_game_pause_state(true)
+	set_game_pause_state(false)
+	#
+	# FIXME: pause menu > quit shows deathj and twisted camera on restart
+	# but game death resets fine?!
+	get_tree().root.print_tree_pretty()
 	# 3:
 	# NOTE: below wont work with auto-loaders (`get_tree().current_scene is always null)
 	#get_tree().change_scene_to_file("res://ui/main_menu_scene.tscn")
@@ -167,6 +179,7 @@ func load_level(level_path: String):
 	#print("[load_level] start: ", level_path)
 	_clear_ui()
 	_clear_current_level()
+	set_game_pause_state(false) # Ensure game is unpaused for new level to start
 
 	if not level_root_node:
 		printerr("Error: LevelRoot node not found! Cannot load level.")

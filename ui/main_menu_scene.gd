@@ -4,7 +4,7 @@ extends Control
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
 #endregion
 
-func _unhandled_input(event):
+func _unhandled_input(_event):
 	if Input.is_action_just_pressed("ui_accept"):
 		_on_button_start_pressed()
 	elif Input.is_action_just_pressed("ui_select"):

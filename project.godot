@@ -131,6 +131,7 @@ ui_start={
 [layer_names]
 
 3d_render/layer_1="world"
+3d_render/layer_4="VFX"
 3d_render/layer_20="WeaponExamine"
 3d_physics/layer_1="world"
 3d_physics/layer_2="bullets"

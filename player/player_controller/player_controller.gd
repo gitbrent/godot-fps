@@ -156,11 +156,11 @@ func rotate_look(rot_input : Vector2):
 
 # ---------------------------------------------------------
 
-func show_hit(hit_position: Vector3) -> void:
+func show_hit(_hit_position: Vector3) -> void:
 	# blackhole
 	pass
 
-func take_damage(amount: int, direction_of_impact: Vector3) -> void:
+func take_damage(amount: int, _direction_of_impact: Vector3) -> void:
 	#print("Ouch! Player took ", amount, " damage. Health now: ", health)
 	HEALTH = max(HEALTH - amount, 0)
 	health_bar.value = HEALTH

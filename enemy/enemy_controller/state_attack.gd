@@ -52,7 +52,7 @@ func update(delta: float) -> void:
 		var player_target = target_player.global_transform.origin + Vector3.UP * 1.5  # player chest
 		enemy_controller.fire_weapon(player_target)
 
-func physics_update(delta: float) -> Vector3:
+func physics_update(_delta: float) -> Vector3:
 	# 1:
 	target_player = get_tree().get_first_node_in_group("player")
 	# 2:
