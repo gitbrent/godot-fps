@@ -143,10 +143,6 @@ func load_main_menu() -> void:
 	_clear_current_level()
 	# 2:
 	set_game_pause_state(false)
-	#
-	# FIXME: pause menu > quit shows deathj and twisted camera on restart
-	# but game death resets fine?!
-	get_tree().root.print_tree_pretty()
 	# 3:
 	# NOTE: below wont work with auto-loaders (`get_tree().current_scene is always null)
 	#get_tree().change_scene_to_file("res://ui/main_menu_scene.tscn")

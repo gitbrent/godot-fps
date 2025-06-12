@@ -30,13 +30,13 @@ border_color = Color(0.9, 0.5, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ongf"]
 bg_color = Color(0.9, 0.5, 0, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2rjh"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_twguo"]
 albedo_color = Color(1, 1, 1, 0)
 albedo_texture = ExtResource("7_twguo")
 uv1_triplanar = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_b2rjh"]
-material = SubResource("StandardMaterial3D_b2rjh")
+material = SubResource("StandardMaterial3D_twguo")
 size = Vector2(20, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6csu0"]
@@ -225,6 +225,7 @@ theme_override_font_sizes/font_size = 36
 text = " Rotate"
 
 [node name="VBoxContainer_R" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
 [node name="LabelAnimations" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_R"]
