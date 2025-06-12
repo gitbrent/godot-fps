@@ -6,7 +6,6 @@ class_name BulletProjectile
 @export var speed: float = 100.0
 @export var lifetime: float = 3.0
 @export var damage: float = 10.0
-@onready var blood_particles_3d: GPUParticles3D = $BloodParticles3D
 var fire_direction: Vector3
 
 func setup(direction: Vector3) -> void:
@@ -85,12 +84,10 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 	# 2: stop motion/interaction
 	linear_velocity = Vector3(0,0,0)
 	collision_mask = 0
+	freeze = true
 	# STEP 1: damage
 	if body.is_in_group("damageable") and body.has_method("take_damage"):
 		body.take_damage(damage, fire_direction)
-		# NEW: WIP:
-		if body.is_in_group("enemies"):
-			blood_particles_3d.emitting = true
 	# STEP 2: hit
 	if body.is_in_group("damageable") and body.has_method("show_hit"):
 		body.show_hit(global_position)
@@ -101,6 +98,4 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		show_hit_decal(hit_position, hit_normal)
 		#show_red_dot_hit(hit_position, hit_normal)
 	# STEP 3: remove bullet from world
-	if blood_particles_3d.emitting:
-		await blood_particles_3d.finished
 	queue_free()

@@ -42,7 +42,9 @@ func shoot_proj(target_position:Vector3) -> void:
 	# 4: Correctly set the bullet's initial spawn position
 	# Spawn the bullet slightly in front of the muzzle point along the shooting direction
 	var spawn_offset = 0.1 # Small offset
-	bullet.global_transform.origin = muzzle_point.global_transform.origin + shoot_direction * spawn_offset
+	var bullet_spawn_position = muzzle_point.global_transform.origin + shoot_direction * spawn_offset
+	bullet.global_transform.origin = bullet_spawn_position
+	bullet.look_at(bullet_spawn_position + shoot_direction, Vector3.UP)
 	
 	# 5: direct bullet to target direction
 	if bullet.has_method("setup"):

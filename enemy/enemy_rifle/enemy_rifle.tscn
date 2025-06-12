@@ -38,6 +38,36 @@ bullet_scene = ExtResource("2_chuus")
 [node name="M16_Rifle_1meter" parent="." instance=ExtResource("7_fur1n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 
+[node name="BARREL_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/BARREL" index="0"]
+cast_shadow = 0
+
+[node name="BODY_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/BODY" index="0"]
+cast_shadow = 0
+
+[node name="BOLT CARRIER_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/BOLT CARRIER" index="0"]
+cast_shadow = 0
+
+[node name="CHANRIGN HANDLE_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/CHANRIGN HANDLE" index="0"]
+cast_shadow = 0
+
+[node name="DUST COVER_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/DUST COVER" index="0"]
+cast_shadow = 0
+
+[node name="FRONT SIGHT_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/FRONT SIGHT" index="0"]
+cast_shadow = 0
+
+[node name="MAGAZINE_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/MAGAZINE" index="0"]
+cast_shadow = 0
+
+[node name="PISTOL GRIP_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/PISTOL GRIP" index="0"]
+cast_shadow = 0
+
+[node name="RAIL_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/RAIL" index="0"]
+cast_shadow = 0
+
+[node name="REAR SIGHT_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/REAR SIGHT" index="0"]
+cast_shadow = 0
+
 [node name="MuzzlePoint" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.435)
 
@@ -54,3 +84,5 @@ explosiveness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_x2fnv")
 draw_pass_1 = SubResource("QuadMesh_xaer6")
+
+[editable path="M16_Rifle_1meter"]
