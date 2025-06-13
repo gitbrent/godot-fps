@@ -24,6 +24,7 @@ const LAYER_BULLETS = 1 << 1  # Layer 2
 const LAYER_ENEMIES = 1 << 2  # Layer 3
 #
 var fire_cooldown: float = 0.0 # Cooldown starts at 0, ready to fire immediately
+var fire_delay: float = 0.5 # Cooldown starts at 0, ready to fire immediately
 var is_ads: bool = false # aim-down-sights
 var recoil_offset := Vector3.ZERO
 var recoil_rot := Vector3.ZERO
@@ -122,6 +123,6 @@ func request_fire() -> bool:
 	# Check if the gun is ready to fire based on cooldown
 	if fire_cooldown <= 0.0:
 		shoot_proj() # Perform the firing mechanics
-		fire_cooldown = 1.0 / fire_rate # Reset cooldown
+		fire_cooldown = fire_delay / fire_rate # Reset cooldown
 		return true # Indicate that a shot was fired
 	return false # Indicate that the gun was not ready to fire

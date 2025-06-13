@@ -26,8 +26,43 @@ func spawn_impact(hit_position: Vector3, hit_normal: Vector3) -> void:
 	impact.global_transform.origin = hit_position + hit_normal * 0.05
 	impact.look_at(hit_position + hit_normal, Vector3.UP)
 
-## WORKS!
+## NEW!!
 func show_hit_decal(hit_position: Vector3, hit_normal: Vector3) -> void:
+	var decal = bullet_hole_decal.instantiate() as Decal
+	get_tree().current_scene.add_child(decal)
+	
+	# Extremely small offset to prevent z-fighting
+	decal.global_transform.origin = hit_position + hit_normal * 0.0001
+	
+	# Calculate rotation to align with surface
+	var normal = hit_normal.normalized()
+	
+	# Create basis vectors for proper surface alignment
+	var right: Vector3
+	if abs(normal.cross(Vector3.UP).length()) < 0.001:
+		# Handle case where normal is parallel to UP
+		right = Vector3.RIGHT
+	else:
+		right = normal.cross(Vector3.UP).normalized()
+	
+	var up = normal.cross(right).normalized()
+	
+	# Create basis with right, up, and normal vectors
+	decal.global_transform.basis = Basis(right, up, normal)
+	
+	# Apply random rotation only around the normal axis
+	decal.rotate(normal, randf_range(0, TAU))
+	
+	# Make decal slightly smaller to avoid edge artifacts
+	decal.size = Vector3(0.1, 0.1, 0.1)  # Adjust size as needed
+	
+	# Optional: Add fade-out effect
+	var tween = create_tween()
+	tween.tween_property(decal, "modulate:a", 0.0, 4.0)
+	tween.tween_callback(decal.queue_free)
+
+## WORKS!
+func show_hit_decal2(hit_position: Vector3, hit_normal: Vector3) -> void:
 	# 1) instance the Decal
 	var decal = bullet_hole_decal.instantiate() as Decal
 	get_tree().current_scene.add_child(decal)
