@@ -17,6 +17,7 @@
 [x] - blood spurt on hit should be attached to enemy, not bullet_projectile!
 [x] - NEW: enemy gallery (with state menu buttons)
 [ ] - update player damage flash to use high-quality png with strong edges (e.g., Doom or CoD)
+[ ] - create `CoverPoint` scene - work on enemy AI cover
 
 ## FIXME
 
