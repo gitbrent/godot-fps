@@ -353,12 +353,12 @@ text = "Enemy Gallery"
 vertical_alignment = 1
 
 [node name="LabelTitle2" type="Label" parent="CanvasLayer/MainContainer"]
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.515208, 0.515208, 0.515208, 1)
 theme_override_fonts/font = ExtResource("14_bpcjf")
-theme_override_font_sizes/font_size = 72
+theme_override_font_sizes/font_size = 48
 text = "godot engine 4.x | rel v0.1"
 horizontal_alignment = 1
 vertical_alignment = 2
