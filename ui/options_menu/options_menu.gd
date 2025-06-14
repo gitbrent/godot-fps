@@ -4,12 +4,13 @@ extends Control
 signal resume_game
 
 @onready var audio_switch: AudioStreamPlayer = $Audio/AudioSwitch
-@onready var btn_resume: Button = $CanvasLayer/Panel/VBoxContainer/BtnResume
-@onready var invert_look_toggle_button: Button = $CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert/Control/InvertLookToggleButton
-@onready var label_off: Label = $CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert/Control/LabelOff
-@onready var label_on: Label = $CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert/Control/LabelOn
+@onready var btn_resume: Button = $CanvasLayer/Panel/VBoxContainer/MarginContainer/BtnResume
+@onready var invert_look_toggle_button: Button = $CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxInvert/Control/InvertLookToggleButton
+@onready var label_off: Label = $CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxInvert/Control/LabelOff
+@onready var label_on: Label = $CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxInvert/Control/LabelOn
 
 func _ready():
+	#print("[options_menu] FYI: ", SettingsManager.invert_look)
 	btn_resume.pressed.connect(func(): resume_game.emit())
 	# Connect the button's 'pressed' signal
 	invert_look_toggle_button.pressed.connect(_on_invert_look_toggle_button_pressed)

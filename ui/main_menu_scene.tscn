@@ -1,10 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://bhhs3kjln8s2f"]
+[gd_scene load_steps=14 format=3 uid="uid://bhhs3kjln8s2f"]
 
 [ext_resource type="Script" uid="uid://bwmlsmdlr63lo" path="res://ui/main_menu_scene.gd" id="1_xdd34"]
 [ext_resource type="Texture2D" uid="uid://o0llpofd1qj6" path="res://ui/assets/Screenshot 2025-05-24 at 12.59.40.png" id="2_04p6d"]
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="3_04p6d"]
 [ext_resource type="Texture2D" uid="uid://dx5x2hxuy1dvd" path="res://assets_models/KENNEY_PNG/Dark/texture_08.png" id="3_idk7k"]
-[ext_resource type="Texture2D" uid="uid://d6xxiaptr6om" path="res://ui/assets/UI-04.png" id="5_te1gm"]
 [ext_resource type="Texture2D" uid="uid://cgvddjwqdyl4k" path="res://ui/assets/T_P5_Cross_Light.png" id="6_ka6vp"]
 [ext_resource type="Texture2D" uid="uid://ckkg6si6v6k0a" path="res://ui/assets/CGB02-purple_L_btn.png" id="7_ka6vp"]
 [ext_resource type="Texture2D" uid="uid://l5nqkcb2j0o3" path="res://ui/assets/CGB02-green_L_btn.png" id="7_kx7qn"]
@@ -57,7 +56,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LabelTitle1" type="Label" parent="CanvasLayer/MainContainer"]
+[node name="LabelTitle" type="Label" parent="CanvasLayer/MainContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("3_04p6d")
@@ -70,91 +69,12 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="ButtonStart" type="TextureButton" parent="CanvasLayer/MainContainer/VBoxContainer"]
-process_mode = 3
-visible = false
-custom_minimum_size = Vector2(1000, 150)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-focus_neighbor_bottom = NodePath("../ButtonGallery")
-texture_normal = ExtResource("5_te1gm")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonStart"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_right = 125
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonStart/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonStart/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("6_ka6vp")
-
-[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonStart/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("3_04p6d")
-theme_override_font_sizes/font_size = 96
-text = "New Game"
-vertical_alignment = 1
-
-[node name="ButtonGallery" type="TextureButton" parent="CanvasLayer/MainContainer/VBoxContainer"]
-process_mode = 3
-visible = false
-custom_minimum_size = Vector2(1000, 150)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-focus_neighbor_top = NodePath("../ButtonStart")
-texture_normal = ExtResource("5_te1gm")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_right = 25
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("7_rjiop")
-
-[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("3_04p6d")
-theme_override_font_sizes/font_size = 96
-text = "Weapon Gallery"
-vertical_alignment = 1
-
 [node name="BtnStart" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
 process_mode = 3
 custom_minimum_size = Vector2(1000, 175)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
-focus_neighbor_bottom = NodePath("../ButtonGallery")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnStart"]
 layout_mode = 1
@@ -352,7 +272,7 @@ theme_override_font_sizes/font_size = 96
 text = "Enemy Gallery"
 vertical_alignment = 1
 
-[node name="LabelTitle2" type="Label" parent="CanvasLayer/MainContainer"]
+[node name="LabelFooter" type="Label" parent="CanvasLayer/MainContainer"]
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 size_flags_vertical = 1
@@ -364,8 +284,6 @@ horizontal_alignment = 1
 vertical_alignment = 2
 justification_flags = 162
 
-[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/ButtonStart" to="." method="_on_button_start_pressed"]
-[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery" to="." method="_on_button_gallery_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnStart" to="." method="_on_button_start_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnGallery" to="." method="_on_button_gallery_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnRange" to="." method="_on_button_range_pressed"]

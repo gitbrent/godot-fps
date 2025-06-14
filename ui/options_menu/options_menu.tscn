@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dioh0cmj18dpq"]
+[gd_scene load_steps=11 format=3 uid="uid://dioh0cmj18dpq"]
 
 [ext_resource type="Script" uid="uid://vkai28ssj7pm" path="res://ui/options_menu/options_menu.gd" id="1_ibk6l"]
 [ext_resource type="Texture2D" uid="uid://2jvvtm2tlo26" path="res://assets_models/KENNEY_PNG/Dark/texture_02.png" id="2_21oyd"]
@@ -7,6 +7,18 @@
 [ext_resource type="Texture2D" uid="uid://wxmw70cb10mx" path="res://ui/assets/CGB02-red_L_btn.png" id="7_kg7lv"]
 [ext_resource type="Texture2D" uid="uid://cgvddjwqdyl4k" path="res://ui/assets/T_P5_Cross_Light.png" id="8_q7inq"]
 [ext_resource type="AudioStream" uid="uid://8e740x4dx6df" path="res://ui/options_menu/assets/switch2.ogg" id="9_mt34y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1ubxx"]
+
+[sub_resource type="Gradient" id="Gradient_dremw"]
+offsets = PackedFloat32Array(0.1, 1)
+colors = PackedColorArray(0, 0, 0, 0.344, 1, 1, 1, 0.223529)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_21oyd"]
+gradient = SubResource("Gradient_dremw")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0, 0)
 
 [node name="OptionsMenu" type="Control"]
 process_mode = 3
@@ -32,6 +44,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.08, 1.08)
 texture = ExtResource("2_21oyd")
 stretch_mode = 1
 metadata/_edit_lock_ = true
@@ -47,9 +60,15 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -500.0
+offset_right = 500.0
+offset_bottom = 500.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 50
@@ -62,52 +81,75 @@ theme_override_font_sizes/font_size = 144
 text = "OPTIONS"
 horizontal_alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Panel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 100)
+[node name="PanelContOptions" type="PanelContainer" parent="CanvasLayer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
-color = Color(0.048, 0.048, 0.048, 0.691)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1ubxx")
 
-[node name="HBoxInvert" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/ColorRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_21oyd")
 
-[node name="LabelTitle" type="Label" parent="CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxOptions" type="VBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="HBoxInvert" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 50
+
+[node name="LabelTitle" type="Label" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxInvert"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 36
 text = "INVERT LOOK"
 horizontal_alignment = 2
 
-[node name="Control" type="Control" parent="CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert"]
+[node name="Control" type="Control" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxInvert"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LabelOff" type="Label" parent="CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert/Control"]
+[node name="LabelOff" type="Label" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxInvert/Control"]
 custom_minimum_size = Vector2(250, 0)
-layout_mode = 2
-offset_left = 4.0
-offset_top = 25.0
-offset_right = 254.0
-offset_bottom = 75.0
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -25.0
+offset_right = 250.0
+offset_bottom = 25.0
+grow_vertical = 2
 theme_override_font_sizes/font_size = 36
 text = "OFF"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="LabelOn" type="Label" parent="CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert/Control"]
+[node name="LabelOn" type="Label" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxInvert/Control"]
 custom_minimum_size = Vector2(250, 0)
-layout_mode = 2
-offset_left = 258.0
-offset_top = 25.0
-offset_right = 508.0
-offset_bottom = 75.0
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -25.0
+offset_bottom = 25.0
+grow_horizontal = 0
+grow_vertical = 2
 theme_override_font_sizes/font_size = 36
 text = "ON"
+vertical_alignment = 1
 
-[node name="InvertLookToggleButton" type="Button" parent="CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert/Control"]
+[node name="InvertLookToggleButton" type="Button" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxInvert/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -115,15 +157,60 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BtnResume" type="Button" parent="CanvasLayer/Panel/VBoxContainer"]
+[node name="HBoxWIP" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 25
+
+[node name="LabelTitle" type="Label" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxWIP"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 36
+text = "(PLACEHOLDER)"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxWIP"]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxWIP/TextureButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="LabelOff" type="Label" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxWIP/TextureButton/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.43712, 0.43712, 0.43712, 1)
+theme_override_font_sizes/font_size = 36
+text = "OFF"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="LabelOn" type="Label" parent="CanvasLayer/Panel/VBoxContainer/PanelContOptions/MarginContainer/VBoxOptions/HBoxWIP/TextureButton/HBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "ON"
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 200
+
+[node name="BtnResume" type="Button" parent="CanvasLayer/Panel/VBoxContainer/MarginContainer"]
 custom_minimum_size = Vector2(1000, 175)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 theme_override_font_sizes/font_size = 96
 text = "Enemy Gallery"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/Panel/VBoxContainer/BtnResume"]
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/Panel/VBoxContainer/MarginContainer/BtnResume"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -137,7 +224,7 @@ patch_margin_top = 55
 patch_margin_right = 62
 patch_margin_bottom = 50
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/VBoxContainer/BtnResume"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/VBoxContainer/MarginContainer/BtnResume"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -149,17 +236,17 @@ grow_vertical = 2
 theme_override_constants/margin_left = 75
 theme_override_constants/margin_right = 75
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/BtnResume/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/MarginContainer/BtnResume/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Panel/VBoxContainer/BtnResume/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Panel/VBoxContainer/MarginContainer/BtnResume/MarginContainer/HBoxContainer"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("8_q7inq")
 
-[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer/BtnResume/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer/MarginContainer/BtnResume/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("6_6s18u")
