@@ -1,0 +1,304 @@
+[gd_scene load_steps=20 format=3 uid="uid://d0dmfh1e8vpfg"]
+
+[ext_resource type="Script" uid="uid://bglvnvtc38hr0" path="res://enemy_gallery/enemy_gallery.gd" id="1_b2rjh"]
+[ext_resource type="Texture2D" uid="uid://lj4tcf4m2jta" path="res://enemy_gallery/assets/T_P5_Circle_Light.png" id="3_twguo"]
+[ext_resource type="Texture2D" uid="uid://b4el5schqgqxc" path="res://enemy_gallery/assets/T_P5_R_Y_Light.png" id="4_7ongf"]
+[ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="5_7peos"]
+[ext_resource type="Theme" uid="uid://cl6pvsmqfcp2f" path="res://ui/button_theme.tres" id="5_c18eb"]
+[ext_resource type="Texture2D" uid="uid://dpv0484le8fab" path="res://enemy_gallery/assets/T_P5_R_X_Light.png" id="5_k3pnr"]
+[ext_resource type="PackedScene" uid="uid://b3g1dhg0yl3lf" path="res://enemy_gallery/assets/wall/damaged_wall.glb" id="6_hyogh"]
+[ext_resource type="Texture2D" uid="uid://baph1qljd0e77" path="res://assets_models/KENNEY_PNG/Dark/texture_05.png" id="7_twguo"]
+[ext_resource type="PackedScene" uid="uid://c8ugwwmddwn2l" path="res://enemy_gallery/assets/street_lamp/street_lamp.glb" id="8_twguo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_twguo"]
+
+[sub_resource type="Gradient" id="Gradient_dremw"]
+colors = PackedColorArray(1, 1, 1, 0.223529, 0, 0, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7ongf"]
+gradient = SubResource("Gradient_dremw")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twguo"]
+bg_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9, 0.5, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ongf"]
+bg_color = Color(0.9, 0.5, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_twguo"]
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("7_twguo")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_b2rjh"]
+material = SubResource("StandardMaterial3D_twguo")
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6csu0"]
+size = Vector3(2, 0.01, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ongf"]
+albedo_texture = ExtResource("7_twguo")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_7peos"]
+material = SubResource("StandardMaterial3D_7ongf")
+size = Vector3(10, 10, 1)
+
+[node name="EnemyGallery" type="Node3D"]
+script = ExtResource("1_b2rjh")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer_L" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 120
+text = "ENEMY"
+
+[node name="StatsContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+theme_override_constants/margin_top = 225
+theme_override_constants/margin_bottom = 225
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer"]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_twguo")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_7ongf")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Label_Health" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.788235, 0.788235, 0.788235, 1)
+theme_override_fonts/font = ExtResource("5_7peos")
+theme_override_font_sizes/font_size = 48
+text = "HEALTH"
+
+[node name="ProgBar_Health" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme_override_constants/outline_size = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_twguo")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7ongf")
+step = 1.0
+value = 20.0
+rounded = true
+show_percentage = false
+
+[node name="Label_Damage" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.788235, 0.788235, 0.788235, 1)
+theme_override_fonts/font = ExtResource("5_7peos")
+theme_override_font_sizes/font_size = 48
+text = "DAMAGE"
+vertical_alignment = 2
+
+[node name="ProgBar_Damage" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme_override_constants/outline_size = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_twguo")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7ongf")
+step = 1.0
+value = 30.0
+rounded = true
+show_percentage = false
+
+[node name="Label_Speed" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.788235, 0.788235, 0.788235, 1)
+theme_override_fonts/font = ExtResource("5_7peos")
+theme_override_font_sizes/font_size = 48
+text = "SPEED"
+vertical_alignment = 2
+
+[node name="ProgBar_Speed" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme_override_constants/outline_size = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_twguo")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7ongf")
+step = 1.0
+value = 60.0
+rounded = true
+show_percentage = false
+
+[node name="Label_Patrols" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/StatsContainer/PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.788235, 0.788235, 0.788235, 1)
+theme_override_fonts/font = ExtResource("5_7peos")
+theme_override_font_sizes/font_size = 48
+text = "CAN PATROL?"
+
+[node name="HBox_Btm" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 30
+
+[node name="HBox1" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox1"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("3_twguo")
+expand_mode = 1
+
+[node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6256, 0.625596, 0.625596, 1)
+theme_override_font_sizes/font_size = 36
+text = "Main Menu"
+
+[node name="HBox2" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox2"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("4_7ongf")
+expand_mode = 1
+
+[node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6256, 0.625596, 0.625596, 1)
+theme_override_font_sizes/font_size = 36
+text = "Zoom "
+
+[node name="HBox3" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox3"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("5_k3pnr")
+expand_mode = 1
+
+[node name="LabelDesc" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_L/HBox_Btm/HBox3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6256, 0.625596, 0.625596, 1)
+theme_override_font_sizes/font_size = 36
+text = " Rotate"
+
+[node name="VBoxContainer_R" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="LabelAnimations" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_R"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.5, 0, 1)
+theme_override_fonts/font = ExtResource("5_7peos")
+theme_override_font_sizes/font_size = 60
+text = "ANIMATIONS"
+horizontal_alignment = 1
+
+[node name="AnimationButtonsVBox" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer_R"]
+layout_mode = 2
+theme = ExtResource("5_c18eb")
+theme_override_constants/separation = 10
+
+[node name="Ground" type="StaticBody3D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("PlaneMesh_b2rjh")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_6csu0")
+metadata/_edit_lock_ = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871557, 0, -0.0871557, 0.996195, 0, 1.2, 1.7)
+current = true
+metadata/_edit_lock_ = true
+
+[node name="Lighting" type="Node" parent="."]
+
+[node name="CharacterLight3D" type="DirectionalLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 3.5, 3.5)
+visible = false
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3.5, 0)
+visible = false
+light_energy = 3.0
+spot_range = 10.0
+
+[node name="Background" type="Node3D" parent="."]
+visible = false
+
+[node name="Lamp" parent="Background" instance=ExtResource("8_twguo")]
+transform = Transform3D(-0.075, 0, -1.13247e-08, 0, 0.075, 0, 1.13247e-08, 0, -0.075, -1.5, 0, 0)
+visible = false
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Background/Lamp"]
+transform = Transform3D(13.3333, 0, 0, 0, -5.82819e-07, 13.3333, 0, -13.3333, -5.82819e-07, -4.23734, 39.3269, -3.7044e-07)
+light_energy = 5.0
+spot_range = 10.0
+
+[node name="BrokenWall" parent="Background" instance=ExtResource("6_hyogh")]
+transform = Transform3D(0.035, 0, 0, 0, 0.035, 0, 0, 0, 0.035, 0, 0, -1)
+visible = false
+
+[node name="NEW" type="Node" parent="."]
+
+[node name="BackWallMesh3D" type="MeshInstance3D" parent="NEW"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+mesh = SubResource("BoxMesh_7peos")
+skeleton = NodePath("../../Background")
+metadata/_edit_lock_ = true
+
+[node name="SpotLight3D" type="SpotLight3D" parent="NEW"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3.5, 1)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 10.0
+
+[node name="EnemyModelCont" type="Node3D" parent="."]
+metadata/_edit_lock_ = true

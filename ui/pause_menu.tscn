@@ -1,0 +1,216 @@
+[gd_scene load_steps=10 format=3 uid="uid://boxusbumedie2"]
+
+[ext_resource type="Script" uid="uid://bvgdbmeganocf" path="res://ui/pause_menu.gd" id="1_vovkw"]
+[ext_resource type="FontFile" uid="uid://c8rynjlvhun2s" path="res://assets/fonts/Xolonium-Regular.ttf" id="2_npydk"]
+[ext_resource type="Texture2D" uid="uid://2jvvtm2tlo26" path="res://assets_models/KENNEY_PNG/Dark/texture_02.png" id="2_vovkw"]
+[ext_resource type="Texture2D" uid="uid://l5nqkcb2j0o3" path="res://ui/assets/CGB02-green_L_btn.png" id="3_6ap7o"]
+[ext_resource type="Texture2D" uid="uid://gofeoymi1dks" path="res://ui/assets/T_P5_Circle_Light.png" id="4_j3kxr"]
+[ext_resource type="Texture2D" uid="uid://ckkg6si6v6k0a" path="res://ui/assets/CGB02-purple_L_btn.png" id="4_jyvtb"]
+[ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="5_vovkw"]
+[ext_resource type="Texture2D" uid="uid://wxmw70cb10mx" path="res://ui/assets/CGB02-red_L_btn.png" id="6_j3kxr"]
+[ext_resource type="Texture2D" uid="uid://cgvddjwqdyl4k" path="res://ui/assets/T_P5_Cross_Light.png" id="7_vovkw"]
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_vovkw")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Overlay" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.411765)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_vovkw")
+stretch_mode = 1
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_npydk")
+theme_override_font_sizes/font_size = 144
+text = "PAUSE MENU"
+horizontal_alignment = 1
+
+[node name="BtnOptions" type="Button" parent="CanvasLayer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 175)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 96
+text = "Enemy Gallery"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/Panel/VBoxContainer/BtnOptions"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_jyvtb")
+region_rect = Rect2(0, 0, 511.953, 140)
+patch_margin_left = 60
+patch_margin_top = 55
+patch_margin_right = 62
+patch_margin_bottom = 50
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/VBoxContainer/BtnOptions"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 75
+theme_override_constants/margin_right = 75
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/BtnOptions/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Panel/VBoxContainer/BtnOptions/MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_j3kxr")
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer/BtnOptions/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_vovkw")
+theme_override_font_sizes/font_size = 96
+text = "Options"
+vertical_alignment = 1
+
+[node name="BtnResume" type="Button" parent="CanvasLayer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 175)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 96
+text = "Enemy Gallery"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/Panel/VBoxContainer/BtnResume"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_6ap7o")
+region_rect = Rect2(0, 0, 511.953, 140)
+patch_margin_left = 60
+patch_margin_top = 55
+patch_margin_right = 62
+patch_margin_bottom = 50
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/VBoxContainer/BtnResume"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 75
+theme_override_constants/margin_right = 75
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/BtnResume/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Panel/VBoxContainer/BtnResume/MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_j3kxr")
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer/BtnResume/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_vovkw")
+theme_override_font_sizes/font_size = 96
+text = "Resume"
+vertical_alignment = 1
+
+[node name="BtnQuit" type="Button" parent="CanvasLayer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 175)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 96
+text = "Enemy Gallery"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/Panel/VBoxContainer/BtnQuit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_j3kxr")
+region_rect = Rect2(0, 0, 511.953, 140)
+patch_margin_left = 60
+patch_margin_top = 55
+patch_margin_right = 62
+patch_margin_bottom = 50
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/VBoxContainer/BtnQuit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -53.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 75
+theme_override_constants/margin_right = 75
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/BtnQuit/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Panel/VBoxContainer/BtnQuit/MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("7_vovkw")
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer/BtnQuit/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_vovkw")
+theme_override_font_sizes/font_size = 96
+text = "Quit"
+vertical_alignment = 1

@@ -4,21 +4,19 @@
 extends Node3D
 class_name WeaponGallery
 
-signal btn_clicked_close_weapon_gallery
-
 #region vars
 @onready var weapon_container: Node3D = $WeaponContainer
 @onready var main_camera: Camera3D = $Camera3D
-@onready var stat_row_1: StatRow = $WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow1
-@onready var stat_row_2: StatRow = $WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow2
-@onready var stat_row_3: StatRow = $WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow3
-@onready var stat_row_4: StatRow = $WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow4
+@onready var stat_row_1: StatRow = $CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow1
+@onready var stat_row_2: StatRow = $CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow2
+@onready var stat_row_3: StatRow = $CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow3
+@onready var stat_row_4: StatRow = $CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont/StatRow4
 #
 var loaded_weapon_model: Node3D = null
 var rotation_speed: float = 0.5
 var joystick_rotation_speed: float = 100.0 # (degrees per second)
-var min_zoom_z: float = 0.5 # Closest Z camera can get to origin (weapon)
-var max_zoom_z: float = 2.0 # Farthest Z camera can get from origin
+var min_zoom_z: float = -0.2 # Closest Z camera can get to origin (weapon)
+var max_zoom_z: float = 0.25 # Farthest Z camera can get from origin
 var zoom_speed: float = 1.0 # how fast it zooms
 # Example weapon data (TODO: need to load this from a JSON, CSV, or custom resource)
 var current_weapon_stats: Dictionary = {
@@ -31,7 +29,8 @@ var current_weapon_stats: Dictionary = {
 
 func _ready():
 	# Ensure the camera only renders the "WeaponExamine" layer (20)
-	main_camera.cull_mask = (1 << 19)
+	#main_camera.cull_mask = (1 << 19)
+	pass
 
 func _process(delta: float):
 	# Joystick Input for Rotation
@@ -50,12 +49,12 @@ func _process(delta: float):
 		# If joystick_y_input is negative (backward stick), we want Z to INCREASE (move farther)
 		var zoom_delta_z = joystick_y_input * zoom_speed * delta
 		# Apply the change to the camera's Z position
-		var new_camera_z = main_camera.position.z - zoom_delta_z # Subtract to zoom in for positive input
+		var new_camera_z = weapon_container.position.z - zoom_delta_z # Subtract to zoom in for positive input
 		# Clamp the new Z position
 		new_camera_z = clamp(new_camera_z, min_zoom_z, max_zoom_z)
 		# Apply the clamped Z position back to the camera
 		# Crucially, we only change the Z component; X and Y remain fixed.
-		main_camera.position.z = new_camera_z
+		weapon_container.position.z = new_camera_z
 
 func _input(event):
 	# Mouse drag rotation (Y-axis for left/right spin)
@@ -63,10 +62,11 @@ func _input(event):
 		if loaded_weapon_model:
 			# Rotate around the Y-axis (for left/right horizontal spin)
 			loaded_weapon_model.rotate_object_local(Vector3(0, 1, 0), deg_to_rad(event.relative.x * rotation_speed))
-
+	
 	# Handle "Back" input (e.g., Esc key or O joypad)
 	if Input.is_action_just_pressed("ui_cancel"):
-		emit_signal("btn_clicked_close_weapon_gallery")
+		GameManager.load_main_menu()
+		get_viewport().set_input_as_handled()
 
 # PUBLIC METHODS -----------------------------------------------
 
@@ -74,7 +74,7 @@ func load_weapon(weapon_scene_path: String) -> void:
 	if loaded_weapon_model:
 		loaded_weapon_model.queue_free() # Remove previous weapon if any
 		loaded_weapon_model = null
-
+	
 	var weapon_scene = load(weapon_scene_path)
 	if weapon_scene:
 		loaded_weapon_model = weapon_scene.instantiate()

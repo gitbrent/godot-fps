@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://c448kw8pbyx7e"]
 
 [ext_resource type="Script" uid="uid://bgerq1wbs5tk2" path="res://scenes/enemies_chatting/enemies_chatting.gd" id="1_0elav"]
-[ext_resource type="Texture2D" uid="uid://cixjdw6cgqfjs" path="res://models/KENNEY_PNG/Green/texture_01.png" id="1_e777x"]
-[ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy_controller/enemy_controller.tscn" id="2_0elav"]
-[ext_resource type="AudioStream" uid="uid://ds4jo0dcbtvqv" path="res://enemy_controller/audio/chatter/Male_Soldier_Enemy_chatter-1.mp3" id="6_adh55"]
-[ext_resource type="AudioStream" uid="uid://bp6pkgdim3eeh" path="res://enemy_controller/audio/chatter/Male_Soldier_Enemy_chatter-2.mp3" id="7_6u254"]
+[ext_resource type="Texture2D" uid="uid://cixjdw6cgqfjs" path="res://assets_models/KENNEY_PNG/Green/texture_01.png" id="1_e777x"]
+[ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy/enemy_controller/enemy_controller.tscn" id="2_0elav"]
+[ext_resource type="AudioStream" uid="uid://coggxfdtlwmax" path="res://enemy/enemy_controller/audio/Male_Soldier_Enemy_chatter-1.mp3" id="6_adh55"]
+[ext_resource type="AudioStream" uid="uid://b8tmnk8u1ys7t" path="res://enemy/enemy_controller/audio/Male_Soldier_Enemy_chatter-2.mp3" id="7_6u254"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_45v1t"]
 albedo_texture = ExtResource("1_e777x")

@@ -1,43 +1,38 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbckvmseeosda"]
+[gd_scene load_steps=14 format=3 uid="uid://bbckvmseeosda"]
 
 [ext_resource type="Script" uid="uid://dndptuk5hmp6x" path="res://weapon_gallery/weapon_gallery.gd" id="1_uhmw4"]
-[ext_resource type="PackedScene" uid="uid://6mbl8mtrfbde" path="res://enemy_rifle/enemy_rifle.tscn" id="2_a3ypu"]
+[ext_resource type="PackedScene" uid="uid://6mbl8mtrfbde" path="res://enemy/enemy_rifle/enemy_rifle.tscn" id="2_a3ypu"]
 [ext_resource type="Environment" uid="uid://ba3rstpkpxccv" path="res://weapon_gallery/environment_weapon_gallery.tres" id="2_ljudm"]
 [ext_resource type="Texture2D" uid="uid://bxf0e1afvggun" path="res://weapon_gallery/assets/T_P5_Circle_Light.png" id="3_sajid"]
 [ext_resource type="Texture2D" uid="uid://htw2bsmf77dh" path="res://weapon_gallery/assets/T_P5_L_Y_Light.png" id="4_sajid"]
 [ext_resource type="Texture2D" uid="uid://cbdogu3ppgdx8" path="res://weapon_gallery/assets/T_P5_R_X_Light.png" id="5_2lx15"]
 [ext_resource type="PackedScene" uid="uid://dg6rp5v38p7ld" path="res://weapon_gallery/stat_row.tscn" id="7_2lx15"]
+[ext_resource type="Texture2D" uid="uid://baph1qljd0e77" path="res://assets_models/KENNEY_PNG/Dark/texture_05.png" id="8_66obc"]
+[ext_resource type="Texture2D" uid="uid://2jvvtm2tlo26" path="res://assets_models/KENNEY_PNG/Dark/texture_02.png" id="8_w6klt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_66obc"]
+albedo_texture = ExtResource("8_w6klt")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_w6klt"]
+material = SubResource("StandardMaterial3D_66obc")
+size = Vector3(10, 8, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2rjh"]
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("8_66obc")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_f4g4u"]
+material = SubResource("StandardMaterial3D_b2rjh")
+size = Vector2(20, 20)
 
 [node name="WeaponGallery" type="Node3D"]
 script = ExtResource("1_uhmw4")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource("2_ljudm")
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 3, 1.5)
-layers = 524288
-light_energy = 2.0
-shadow_enabled = true
-metadata/_edit_lock_ = true
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)
-cull_mask = 524288
-environment = ExtResource("2_ljudm")
-current = true
-metadata/_edit_lock_ = true
-
-[node name="WeaponContainer" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-
-[node name="FYI_Rifle" parent="WeaponContainer" instance=ExtResource("2_a3ypu")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -0.5)
-visible = false
-
-[node name="CanvasLayer" type="CanvasLayer" parent="WeaponContainer"]
-
-[node name="ColorRect" type="ColorRect" parent="WeaponContainer/CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 visible = false
 anchors_preset = 10
 anchor_right = 1.0
@@ -45,7 +40,7 @@ offset_bottom = 300.0
 grow_horizontal = 2
 color = Color(0.00820202, 0.00820202, 0.00820202, 1)
 
-[node name="MainUIMarginContainer" type="MarginContainer" parent="WeaponContainer/CanvasLayer"]
+[node name="MainUIMarginContainer" type="MarginContainer" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -56,124 +51,165 @@ theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 50
 
-[node name="HBox_Top" type="HBoxContainer" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer"]
+[node name="HBox_Top" type="HBoxContainer" parent="CanvasLayer/MainUIMarginContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 metadata/_edit_lock_ = true
 
-[node name="LabelTitle" type="Label" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBox_Top"]
+[node name="LabelTitle" type="Label" parent="CanvasLayer/MainUIMarginContainer/HBox_Top"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 144
 text = "M16"
 
-[node name="LabelDesc" type="Label" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBox_Top"]
+[node name="LabelDesc" type="Label" parent="CanvasLayer/MainUIMarginContainer/HBox_Top"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.487662, 0.487662, 0.487662, 1)
 theme_override_font_sizes/font_size = 64
 text = "Semi-Auto Assault Rifle"
 
-[node name="HBox_Btm" type="HBoxContainer" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer"]
+[node name="HBox_Btm" type="HBoxContainer" parent="CanvasLayer/MainUIMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_constants/separation = 30
 metadata/_edit_lock_ = true
 
-[node name="HBox1" type="HBoxContainer" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBox_Btm"]
+[node name="HBox1" type="HBoxContainer" parent="CanvasLayer/MainUIMarginContainer/HBox_Btm"]
 layout_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox1"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox1"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture = ExtResource("3_sajid")
 expand_mode = 1
 
-[node name="LabelDesc" type="Label" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox1"]
+[node name="LabelDesc" type="Label" parent="CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox1"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6256, 0.625596, 0.625596, 1)
 theme_override_font_sizes/font_size = 36
 text = "Main Menu"
 
-[node name="HBox2" type="HBoxContainer" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBox_Btm"]
+[node name="HBox2" type="HBoxContainer" parent="CanvasLayer/MainUIMarginContainer/HBox_Btm"]
 layout_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox2"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox2"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture = ExtResource("4_sajid")
 expand_mode = 1
 
-[node name="LabelDesc" type="Label" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox2"]
+[node name="LabelDesc" type="Label" parent="CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox2"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6256, 0.625596, 0.625596, 1)
 theme_override_font_sizes/font_size = 36
 text = "Zoom "
 
-[node name="HBox3" type="HBoxContainer" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBox_Btm"]
+[node name="HBox3" type="HBoxContainer" parent="CanvasLayer/MainUIMarginContainer/HBox_Btm"]
 layout_mode = 2
 size_flags_horizontal = 3
 metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox3"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox3"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture = ExtResource("5_2lx15")
 expand_mode = 1
 
-[node name="LabelDesc" type="Label" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox3"]
+[node name="LabelDesc" type="Label" parent="CanvasLayer/MainUIMarginContainer/HBox_Btm/HBox3"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6256, 0.625596, 0.625596, 1)
 theme_override_font_sizes/font_size = 36
 text = " Rotate"
 
-[node name="HBoxStats" type="HBoxContainer" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer"]
+[node name="HBoxStats" type="HBoxContainer" parent="CanvasLayer/MainUIMarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_constants/separation = 20
 
-[node name="StatsTableCont" type="VBoxContainer" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats"]
+[node name="StatsTableCont" type="VBoxContainer" parent="CanvasLayer/MainUIMarginContainer/HBoxStats"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="StatRow1" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont" instance=ExtResource("7_2lx15")]
+[node name="StatRow1" parent="CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont" instance=ExtResource("7_2lx15")]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="StatRow2" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont" instance=ExtResource("7_2lx15")]
+[node name="StatRow2" parent="CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont" instance=ExtResource("7_2lx15")]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="StatRow3" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont" instance=ExtResource("7_2lx15")]
+[node name="StatRow3" parent="CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont" instance=ExtResource("7_2lx15")]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="StatRow4" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont" instance=ExtResource("7_2lx15")]
+[node name="StatRow4" parent="CanvasLayer/MainUIMarginContainer/HBoxStats/StatsTableCont" instance=ExtResource("7_2lx15")]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="VBoxBig" type="VBoxContainer" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats"]
+[node name="VBoxBig" type="VBoxContainer" parent="CanvasLayer/MainUIMarginContainer/HBoxStats"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="Label1" type="Label" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/VBoxBig"]
+[node name="Label1" type="Label" parent="CanvasLayer/MainUIMarginContainer/HBoxStats/VBoxBig"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.913725, 0.913725, 0.913725, 1)
 theme_override_font_sizes/font_size = 48
 text = "ROUNDS"
 
-[node name="Label2" type="Label" parent="WeaponContainer/CanvasLayer/MainUIMarginContainer/HBoxStats/VBoxBig"]
+[node name="Label2" type="Label" parent="CanvasLayer/MainUIMarginContainer/HBoxStats/VBoxBig"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.913725, 0.913725, 0.913725, 1)
 theme_override_font_sizes/font_size = 108
 text = "16"
 horizontal_alignment = 1
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 3, 1.5)
+visible = false
+layers = 524288
+light_energy = 2.0
+shadow_enabled = true
+metadata/_edit_lock_ = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5)
+cull_mask = 524289
+environment = ExtResource("2_ljudm")
+current = true
+
+[node name="WeaponContainer" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="FYI_Rifle" parent="WeaponContainer" instance=ExtResource("2_a3ypu")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+visible = false
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.5, 0)
+light_energy = 2.0
+
+[node name="NEW" type="Node" parent="."]
+
+[node name="MeshWall" type="MeshInstance3D" parent="NEW"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+mesh = SubResource("BoxMesh_w6klt")
+
+[node name="MeshFloor" type="MeshInstance3D" parent="NEW"]
+visible = false
+mesh = SubResource("PlaneMesh_f4g4u")
+metadata/_edit_lock_ = true
+
+[node name="SpotLight3D" type="SpotLight3D" parent="NEW"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3.5, 1)
+shadow_enabled = true
+spot_range = 10.0

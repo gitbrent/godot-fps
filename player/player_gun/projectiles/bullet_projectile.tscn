@@ -1,0 +1,114 @@
+[gd_scene load_steps=18 format=3 uid="uid://7f8yov8g563i"]
+
+[ext_resource type="Script" uid="uid://ccycqti6r0fak" path="res://player/player_gun/projectiles/bullet_projectile.gd" id="1_ojvds"]
+[ext_resource type="PackedScene" uid="uid://d8hpw0xro6xg" path="res://player/player_gun/fx/hit_spark.tscn" id="2_wpa0b"]
+[ext_resource type="PackedScene" uid="uid://bk650qds30823" path="res://levels/shooting_range/bullet_hole_decal.tscn" id="3_lnq0e"]
+[ext_resource type="Texture2D" uid="uid://bpgfsc1ddoll5" path="res://player/player_gun/projectiles/tracer01.png" id="4_g338r"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_64nip"]
+radius = 0.025
+height = 0.05
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_64nip"]
+radius = 0.0375
+height = 0.075
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wpa0b"]
+size = Vector3(0.0463715, 0.0506515, 0.0485687)
+
+[sub_resource type="Gradient" id="Gradient_lnq0e"]
+colors = PackedColorArray(1, 0.180392, 0.164706, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4wwn3"]
+gradient = SubResource("Gradient_lnq0e")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gps5w"]
+gravity = Vector3(0, 0, 1)
+color_ramp = SubResource("GradientTexture1D_4wwn3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lnq0e"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.121569, 0.113725, 1)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_lnq0e"]
+material = SubResource("StandardMaterial3D_lnq0e")
+size = Vector2(0.02, 0.02)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4wwn3"]
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_gps5w"]
+orientation = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_8u0x4"]
+size = Vector3(0.05, 0.05, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g338r"]
+albedo_color = Color(1, 0.835294, 0.156863, 1)
+emission_enabled = true
+emission = Color(0.605632, 0.0187848, 9.62615e-07, 1)
+emission_energy_multiplier = 5.0
+emission_texture = ExtResource("4_g338r")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wwe0v"]
+transparency = 1
+shading_mode = 0
+
+[node name="BulletProjectile" type="RigidBody3D"]
+collision_layer = 2
+collision_mask = 21
+mass = 0.1
+gravity_scale = 0.0
+continuous_cd = true
+script = ExtResource("1_ojvds")
+impact_scene = ExtResource("2_wpa0b")
+bullet_hole_decal = ExtResource("3_lnq0e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_64nip")
+metadata/_edit_lock_ = true
+
+[node name="PingPongBall" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("CapsuleMesh_64nip")
+metadata/_edit_lock_ = true
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 21
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00181293, 0.00105256, 0.000679035)
+shape = SubResource("BoxShape3D_wpa0b")
+
+[node name="Tracers_WIP" type="GPUParticles3D" parent="."]
+visible = false
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_gps5w")
+draw_pass_1 = SubResource("QuadMesh_lnq0e")
+
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+visible = false
+size = Vector3(8, 0.5, 8)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+visible = false
+process_material = SubResource("ParticleProcessMaterial_4wwn3")
+draw_pass_1 = SubResource("QuadMesh_gps5w")
+
+[node name="TracerMesh3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, -1.19209e-07, 0, 1.19209e-07, -1, 0, 0, 0, 1, 0, 0, -0.25)
+mesh = SubResource("BoxMesh_8u0x4")
+surface_material_override/0 = SubResource("StandardMaterial3D_g338r")
+metadata/_edit_lock_ = true
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+visible = false
+material_override = SubResource("StandardMaterial3D_wwe0v")
+pixel_size = 0.001
+axis = 0
+texture = ExtResource("4_g338r")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

@@ -1,0 +1,88 @@
+[gd_scene load_steps=10 format=3 uid="uid://6mbl8mtrfbde"]
+
+[ext_resource type="Script" uid="uid://cfl1wy0u1eq5t" path="res://enemy/enemy_rifle/enemy_rifle.gd" id="1_ohxoj"]
+[ext_resource type="PackedScene" uid="uid://7f8yov8g563i" path="res://player/player_gun/projectiles/bullet_projectile.tscn" id="2_chuus"]
+[ext_resource type="Texture2D" uid="uid://bug8csdyy0l5b" path="res://player/player_gun/textures/spiral_12.png" id="5_imu0b"]
+[ext_resource type="PackedScene" uid="uid://be85ilnmh3re7" path="res://enemy/enemy_rifle/m16_scaled/M16_Rifle_1meter.glb" id="7_fur1n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_og67c"]
+shading_mode = 0
+albedo_color = Color(1, 0.858824, 0.72549, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_chuus"]
+material = SubResource("StandardMaterial3D_og67c")
+size = Vector2(0.2, 0.2)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x2fnv"]
+direction = Vector3(0, 0, -1)
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gp1hk"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+specular_mode = 2
+albedo_color = Color(1, 0.823529, 0.541176, 0.666667)
+albedo_texture = ExtResource("5_imu0b")
+
+[sub_resource type="QuadMesh" id="QuadMesh_xaer6"]
+material = SubResource("StandardMaterial3D_gp1hk")
+size = Vector2(0.1, 0.1)
+
+[node name="EnemyRifle" type="Node3D"]
+script = ExtResource("1_ohxoj")
+bullet_scene = ExtResource("2_chuus")
+
+[node name="M16_Rifle_1meter" parent="." instance=ExtResource("7_fur1n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+
+[node name="BARREL_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/BARREL" index="0"]
+cast_shadow = 0
+
+[node name="BODY_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/BODY" index="0"]
+cast_shadow = 0
+
+[node name="BOLT CARRIER_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/BOLT CARRIER" index="0"]
+cast_shadow = 0
+
+[node name="CHANRIGN HANDLE_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/CHANRIGN HANDLE" index="0"]
+cast_shadow = 0
+
+[node name="DUST COVER_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/DUST COVER" index="0"]
+cast_shadow = 0
+
+[node name="FRONT SIGHT_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/FRONT SIGHT" index="0"]
+cast_shadow = 0
+
+[node name="MAGAZINE_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/MAGAZINE" index="0"]
+cast_shadow = 0
+
+[node name="PISTOL GRIP_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/PISTOL GRIP" index="0"]
+cast_shadow = 0
+
+[node name="RAIL_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/RAIL" index="0"]
+cast_shadow = 0
+
+[node name="REAR SIGHT_M16A3_0" parent="M16_Rifle_1meter/Sketchfab_model/4b0f25d6688b4cb69cb23d4050b237c1_fbx/RootNode/REAR SIGHT" index="0"]
+cast_shadow = 0
+
+[node name="MuzzlePoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.435)
+
+[node name="MuzzleFlash" type="MeshInstance3D" parent="MuzzlePoint"]
+transform = Transform3D(1, 0, 0, 0, 5.21541e-08, 1, 0, -1, 5.21541e-08, 0, 0, 0)
+visible = false
+mesh = SubResource("PlaneMesh_chuus")
+
+[node name="MuzzleParticles" type="GPUParticles3D" parent="MuzzlePoint"]
+emitting = false
+lifetime = 0.05
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_x2fnv")
+draw_pass_1 = SubResource("QuadMesh_xaer6")
+
+[editable path="M16_Rifle_1meter"]
