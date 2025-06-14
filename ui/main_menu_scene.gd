@@ -2,7 +2,12 @@ extends Control
 
 #region vars
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
+@onready var label_footer: Label = $CanvasLayer/MainContainer/LabelFooter
 #endregion
+
+func _ready() -> void:
+	var version_string = ProjectSettings.get_setting("application/config/version")
+	label_footer.text = "godot engine 4.x | rel v" + version_string
 
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("ui_accept"):
