@@ -1,0 +1,173 @@
+[gd_scene load_steps=8 format=3 uid="uid://dioh0cmj18dpq"]
+
+[ext_resource type="Script" uid="uid://vkai28ssj7pm" path="res://ui/options_menu/options_menu.gd" id="1_ibk6l"]
+[ext_resource type="Texture2D" uid="uid://2jvvtm2tlo26" path="res://assets_models/KENNEY_PNG/Dark/texture_02.png" id="2_21oyd"]
+[ext_resource type="FontFile" uid="uid://c8rynjlvhun2s" path="res://assets/fonts/Xolonium-Regular.ttf" id="3_mt34y"]
+[ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="6_6s18u"]
+[ext_resource type="Texture2D" uid="uid://wxmw70cb10mx" path="res://ui/assets/CGB02-red_L_btn.png" id="7_kg7lv"]
+[ext_resource type="Texture2D" uid="uid://cgvddjwqdyl4k" path="res://ui/assets/T_P5_Cross_Light.png" id="8_q7inq"]
+[ext_resource type="AudioStream" uid="uid://8e740x4dx6df" path="res://ui/options_menu/assets/switch2.ogg" id="9_mt34y"]
+
+[node name="OptionsMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ibk6l")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Overlay" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.411765)
+metadata/_edit_lock_ = true
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_21oyd")
+stretch_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="LabelTitle" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_mt34y")
+theme_override_font_sizes/font_size = 144
+text = "OPTIONS"
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+color = Color(0.048, 0.048, 0.048, 0.691)
+
+[node name="HBoxInvert" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelTitle" type="Label" parent="CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 36
+text = "INVERT LOOK"
+horizontal_alignment = 2
+
+[node name="Control" type="Control" parent="CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelOff" type="Label" parent="CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert/Control"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+offset_left = 4.0
+offset_top = 25.0
+offset_right = 254.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 36
+text = "OFF"
+horizontal_alignment = 1
+
+[node name="LabelOn" type="Label" parent="CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert/Control"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+offset_left = 258.0
+offset_top = 25.0
+offset_right = 508.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 36
+text = "ON"
+
+[node name="InvertLookToggleButton" type="Button" parent="CanvasLayer/Panel/VBoxContainer/ColorRect/HBoxInvert/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BtnResume" type="Button" parent="CanvasLayer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 175)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 96
+text = "Enemy Gallery"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/Panel/VBoxContainer/BtnResume"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_kg7lv")
+region_rect = Rect2(0, 0, 511.953, 140)
+patch_margin_left = 60
+patch_margin_top = 55
+patch_margin_right = 62
+patch_margin_bottom = 50
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/VBoxContainer/BtnResume"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -53.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 75
+theme_override_constants/margin_right = 75
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Panel/VBoxContainer/BtnResume/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Panel/VBoxContainer/BtnResume/MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("8_q7inq")
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer/BtnResume/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("6_6s18u")
+theme_override_font_sizes/font_size = 96
+text = "Back"
+vertical_alignment = 1
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="AudioSwitch" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("9_mt34y")
