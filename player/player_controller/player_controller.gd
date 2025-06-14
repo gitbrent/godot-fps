@@ -147,9 +147,9 @@ func rotate_look(rot_input: Vector2):
 	## Base of controller rotates around y (left/right). Head rotates around x (up/down).
 	## Modifies look_rotation based on rot_input, then resets basis and rotates by look_rotation.
 	if SettingsManager.invert_look:
-		look_rotation.x += rot_input.y * LOOK_SPEED
-	else:
 		look_rotation.x -= rot_input.y * LOOK_SPEED
+	else:
+		look_rotation.x += rot_input.y * LOOK_SPEED
 	look_rotation.x = clamp(look_rotation.x, deg_to_rad(-85), deg_to_rad(85))
 	look_rotation.y -= rot_input.x * LOOK_SPEED
 	transform.basis = Basis()
