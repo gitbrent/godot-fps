@@ -33,6 +33,7 @@ signal died
 @onready var m16_rifle: Node3D = $Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed
 @onready var audio_projectile_strike: AudioStreamPlayer = $"Audio/Projectile-strike"
 @onready var blood_particles_3d: GPUParticles3D = $BloodParticles3D
+@onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
 #
 @export_group("Props")
 @export var health: int = 100
@@ -264,10 +265,16 @@ func spawn_damage_popup(amount: int) -> void:
 	get_tree().root.add_child(popup)
 
 func handle_died():
+	# 1: flag & stop
 	is_dead = true
 	velocity = Vector3.ZERO
+	# 2: set collision to only world (so they dont fall thru the floor)
+	self.set_collision_mask(1)
+	self.set_collision_layer(0)
+	# 3: update state & signal
 	state_machine.request_state_change("dead")
 	emit_signal("died")
+	# LAST: free
 	m16_rifle.queue_free()
 	#await animation_player.animation_finished
 	#_play_anim_blocking("DYING", func():is_reacting=false)

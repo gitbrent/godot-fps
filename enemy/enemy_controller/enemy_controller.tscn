@@ -20,7 +20,7 @@
 [ext_resource type="Script" uid="uid://kk3g1m85urgx" path="res://enemy/enemy_controller/state_yelling.gd" id="15_50015"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_08ms7"]
-size = Vector3(1, 2.5, 1)
+size = Vector3(1, 2.06885, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1e4we"]
 resource_name = "VanguardBodyMat"
@@ -8627,8 +8627,9 @@ script = ExtResource("1_wilww")
 health = 20
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03442, 0)
 shape = SubResource("BoxShape3D_08ms7")
+metadata/_edit_lock_ = true
 
 [node name="Armature" type="Node3D" parent="."]
 transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0)
