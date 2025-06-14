@@ -1,23 +1,24 @@
 # TODO
 
-## New Features: Current
+## CHANGELOG: Version-0.1
 
-[x] - respawn enemies in main controller
-[x] - fade/queue_free enemy on death
-[x] - enemy moves toward direction shot from
-[x] - add main menu HUD; start button; enable restart after die
-[x] - maximizing window skews Main Menu labels/buttons
-[x] - start button has 3-sec delay before spawning enemiesl shows 3-2-1 countdown
-[x] - add new scene to show weapons (allow rotate around z-axis)
-[x] - fix state thrashing with enemies ("i see him!", "i lost him!")
-[x] - new scene: shooting_range to test effects, enemy states, etc.
-[x] - show bullet splat/blood spurt on enemies when hit
-[x] - show bullet tracers
-[x] - remap inputs to match CoD, rename to new standard
-[x] - blood spurt on hit should be attached to enemy, not bullet_projectile!
-[x] - NEW: enemy gallery (with state menu buttons)
-[ ] - update player damage flash to use high-quality png with strong edges (e.g., Doom or CoD)
-[ ] - create `CoverPoint` scene - work on enemy AI cover
+[x] - ADDED: respawn enemies in main controller
+[x] - ADDED: fade/queue_free enemy on death
+[x] - ADDED: enemy moves toward direction shot from
+[x] - ADDED:  main menu HUD; start button; enable restart after die
+[x] - FIXED: maximizing window skews Main Menu labels/buttons
+[x] - ADDED: start button has 3-sec delay before spawning enemiesl shows 3-2-1 countdown
+[x] - ADDED: new scene to show weapons (allow rotate around z-axis)
+[x] - FIXED: state thrashing with enemies ("i see him!", "i lost him!")
+[x] - ADDED: new scene: shooting_range to test effects, enemy states, etc.
+[x] - ADDED: show bullet splat/blood spurt on enemies when hit
+[x] - ADDED: show bullet tracers
+[x] - ADDED: remap inputs to match CoD, rename to new standard
+[x] - FIXED: blood spurt on hit should be attached to enemy, not bullet_projectile!
+[x] - ADDED: enemy gallery (with state menu buttons)
+[x] - ADDED: ui:main_menu:options with "Invert Look" option; save/read player settings
+[ ] - UPDATED: player damage flash to use high-quality png with strong edges (e.g., Doom or CoD)
+[ ] - ADDED: create `CoverPoint` scene - work on enemy AI cover
 
 ## FIXME
 
