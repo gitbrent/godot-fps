@@ -28,8 +28,7 @@ func _load_settings() -> void:
 	# You can add more settings here:
 	# master_volume = config.get_value("Audio", "master_volume", 1.0)
 	# fullscreen_mode = config.get_value("Display", "fullscreen", true)
-
-	print("Settings loaded: Invert Look = ", invert_look)
+	#print("[FYI] Settings loaded: Invert Look = ", invert_look)
 
 func _save_settings() -> void:
 	# Clear existing sections to prevent old, unused settings from lingering
@@ -45,11 +44,11 @@ func _save_settings() -> void:
 	var error = config.save(SETTINGS_FILE_PATH)
 	if error != OK:
 		printerr("Could not save settings file to ", SETTINGS_FILE_PATH, ". Error: ", error)
-	else:
-		print("Settings saved successfully to ", SETTINGS_FILE_PATH)
+	#else:
+	#	print("[FYI] Settings saved successfully to ", SETTINGS_FILE_PATH)
 
 func _set_default_settings() -> void:
-	print("Setting default settings...")
+	#print("[FYI] Setting default settings...")
 	invert_look = false
 	# master_volume = 1.0
 	# fullscreen_mode = true
