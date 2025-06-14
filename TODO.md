@@ -29,6 +29,7 @@
 
 ## New Features: Future
 
+[ ] - PlayerController uses both `_unhandled_input` and `_physics_process` for Inputs - refactor to best practice
 [ ] - when paused, show real scene with rotating camera (see `main_menu.tscn`)
 [ ] - add `AudioManager.gd` to manage "I lost them!" etc. so they dont all cluster
 [ ] - add crouch to player controller

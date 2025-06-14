@@ -1,12 +1,14 @@
 extends RigidBody3D
 class_name BulletProjectile
 
+#region vars
 @export var impact_scene: PackedScene
 @export var bullet_hole_decal: PackedScene
 @export var speed: float = 100.0
 @export var lifetime: float = 3.0
 @export var damage: float = 10.0
 var fire_direction: Vector3
+#endregion
 
 func setup(direction: Vector3) -> void:
 	fire_direction = direction

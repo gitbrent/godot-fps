@@ -16,17 +16,17 @@ var can_spawn_enemies = false
 func _ready() -> void:
 	# STEP 1: assert
 	if !player_scene or !enemy_scene:
-		print("ASSERT FAILED")
+		print("[TestMap] SCENE ASSERTS FAILED")
 		return
 	# STEP 2:
-	do_start_game()
+	_do_start_game()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if can_spawn_enemies:
 		var enemies = get_tree().get_nodes_in_group("enemies")
 		if enemies.size() < max_enemies:
-			spawn_enemy()
+			_spawn_enemy()
 
 # PLAYER FUNCS -----------------------------------------------
 
@@ -39,7 +39,7 @@ func _on_player_died() -> void:
 	GameManager.player_died.emit()
 	spawned_player.queue_free()
 
-func spawn_player() -> void:
+func _spawn_player() -> void:
 	spawned_player = player_scene.instantiate()
 	add_child(spawned_player)
 	spawned_player.global_position = Vector3(0,0,10)
@@ -47,7 +47,7 @@ func spawn_player() -> void:
 
 # ENEMY FUNCS -----------------------------------------------
 
-func spawn_enemy() -> void:
+func _spawn_enemy() -> void:
 	if enemy_scene:
 		#print("[test_map] spawning enemy...")
 		spawned_enemy = enemy_scene.instantiate()
@@ -61,7 +61,7 @@ func spawn_enemy() -> void:
 
 # CORE FUNCS -----------------------------------------------
 
-func do_start_game() -> void:
+func _do_start_game() -> void:
 	# 1: cleanup
 	if spawned_player:
 		spawned_player.queue_free()
@@ -69,7 +69,7 @@ func do_start_game() -> void:
 		for node in get_tree().get_nodes_in_group("enemies"):
 			node.queue_free()
 	# 2:
-	spawn_player()
+	_spawn_player()
 	# 3: show "3..2..1.." on the screen
 	countdown_label.visible = true
 	countdown_label.show_321_countdown()

@@ -17,7 +17,7 @@ signal player_died
 @export var JUMP_VELOCITY = 4.5
 # INPUT VARS
 var mouse_captured = false
-var look_rotation : Vector2
+var look_rotation: Vector2
 var move_speed = 0.0
 var joy_look = Vector2.ZERO
 var joy_look_speed = 1000
@@ -27,7 +27,7 @@ var is_crouched: bool = false
 #var total_kills = 0 # TODO: need gun/bullet feedback (listener?)
 var total_shots = 0
 # ONREADY VARS
-@onready var head: Node3D = $Head
+@onready var head: Node3D = $Head # AKA: camera pivot
 @onready var collider: CollisionShape3D = $Collider
 @onready var camera: Camera3D = $Head/Camera3D
 @onready var damage_flash: ColorRect = $HUD_CanvasLayer/DamageFlash
@@ -142,11 +142,14 @@ func release_mouse():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	mouse_captured = false
 
-func rotate_look(rot_input : Vector2):
+func rotate_look(rot_input: Vector2):
 	## NOTE Rotate us to look around.
 	## Base of controller rotates around y (left/right). Head rotates around x (up/down).
 	## Modifies look_rotation based on rot_input, then resets basis and rotates by look_rotation.
-	look_rotation.x -= rot_input.y * LOOK_SPEED
+	if SettingsManager.invert_look:
+		look_rotation.x += rot_input.y * LOOK_SPEED
+	else:
+		look_rotation.x -= rot_input.y * LOOK_SPEED
 	look_rotation.x = clamp(look_rotation.x, deg_to_rad(-85), deg_to_rad(85))
 	look_rotation.y -= rot_input.x * LOOK_SPEED
 	transform.basis = Basis()
