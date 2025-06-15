@@ -13,21 +13,26 @@
 extends EnemyState
 class_name EnemyAttack
 
-#region vsars
+#region vars
+# EXPORTS
 @export var attack_range: float = 20.0
 @export var attack_cooldown: float = 0.5
-#
+@export var seek_cover_health_threshold_percent: float = 0.9 # Go to cover if health is below 40%
+@export var min_distance_to_seek_cover: float = 0.5 # Don't seek cover if player is too close
+@export var cover_check_interval: float = 0.5 # How often to check for cover
+# ONREADY
 @onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
 @onready var audio_enemy_spotted: AudioStreamPlayer = $"../../Audio/Contact!"
 @onready var audio_enemy_lost: AudioStreamPlayer = $"../../Audio/I-lost-hem!"
-#
-var target_player: CharacterBody3D = null
+# VARS
 var distance_to_player: float = INF
 var has_line_of_sight: bool = false
 var time_since_last_attack: float = 0.0
+var _cover_check_timer: float = 0.0
 #endregion
 
 func enter() -> void:
+	_cover_check_timer = 0.0 # Reset timer on entry
 	# 1: Be ready to fire immediately on entering (or add a delay)
 	time_since_last_attack = attack_cooldown
 	# 1: show corresponding animation
@@ -36,8 +41,8 @@ func enter() -> void:
 	animation_player.play("FIRING_RIFLE")
 	audio_enemy_spotted.play()
 	# 2: When entering, try to find a target player immediately
-	target_player = find_nearest_player()
-	if target_player == null:
+	var player = enemy_controller.get_target_player()
+	if player == null:
 		# If no player found on entering, transition back to idle
 		transitioned.emit(self, "idle")
 
@@ -49,19 +54,36 @@ func update(delta: float) -> void:
 		# 2-1: Reset cooldown
 		time_since_last_attack = 0.0
 		# 2-2: Call the fire_weapon method on the enemy_controller, passing target position
-		var player_target = target_player.global_transform.origin + Vector3.UP * 1.5  # player chest
+		var player = enemy_controller.get_target_player()
+		var player_target = player.global_transform.origin + Vector3.UP * 1.5  # player chest
 		enemy_controller.fire_weapon(player_target)
+	# 3: check for cover periodically
+	_cover_check_timer += delta
+	if _cover_check_timer >= cover_check_interval:
+		_cover_check_timer = 0.0
+		_check_and_seek_cover()
 
 func physics_update(_delta: float) -> Vector3:
-	# 1:
-	target_player = get_tree().get_first_node_in_group("player")
+	var desired_horizontal_velocity = Vector3.ZERO
+	var player = enemy_controller.get_target_player()
+	
+	## 1: Check for nearest player and transition to chase if found within range
+	#if player and is_instance_valid(player):
+		#var distance = enemy_controller.global_position.distance_to(player.global_position)
+		#if distance <= attack_range:
+			## WIP: NEW: 
+			## FIXME: causes thrashing - check for cover first
+			#print("Player detected within range! Transitioning to cover.")
+			#transitioned.emit(self, "cover")
+			#return desired_horizontal_velocity # Return current velocity before state change
+	
 	# 2:
-	if target_player and is_instance_valid(target_player):
-		distance_to_player = enemy_controller.global_position.distance_to(target_player.global_position)
-		has_line_of_sight = enemy_controller.can_see(target_player)
+	if player and is_instance_valid(player):
+		distance_to_player = enemy_controller.global_position.distance_to(player.global_position)
+		has_line_of_sight = enemy_controller.can_see(player)
 		# --- Determine Desired Facing Direction ---
 		# Set the desired rotation direction towards the target player
-		var direction_to_player = target_player.global_position - enemy_controller.global_position
+		var direction_to_player = player.global_position - enemy_controller.global_position
 		direction_to_player.y = 0 # Ignore vertical difference for horizontal facing
 		if direction_to_player.length_squared() > 0.001:
 			desired_rotation_direction = direction_to_player.normalized()
@@ -76,7 +98,7 @@ func physics_update(_delta: float) -> Vector3:
 	var next_state_name = "" # Variable to hold the name of the state to transition to
 
 	# Condition 1: Player is lost (null or invalid instance)
-	if target_player == null or !is_instance_valid(target_player):
+	if player == null or !is_instance_valid(player):
 		next_state_name = "patrol" # Default transition if target is lost
 
 	# Condition 2: Player moved out of attack range
@@ -104,39 +126,34 @@ func physics_update(_delta: float) -> Vector3:
 		transitioned.emit(self, next_state_name)
 		
 		# Reset state-specific variables on transition out
-		target_player = null
 		distance_to_player = INF
 		has_line_of_sight = false
 
 	# --- Return Desired Velocity ---
 	# The enemy stands still while attacking, so return zero velocity
-	return Vector3.ZERO
+	return desired_horizontal_velocity
 
 func exit() -> void:
 	#print("[ENEMY-STATE] ATTACK -> ?")
 	audio_enemy_lost.play()
-	target_player = null
 
 # CLASS CUSTOM FUNCS -----------------------------------------------
 
-# New helper function to find the nearest player in the "player" group
-func find_nearest_player() -> CharacterBody3D:
-	# Use the stored enemy_controller reference
-	if !enemy_controller: return null
-
-	var players = get_tree().get_nodes_in_group("player")
-	var nearest_player: CharacterBody3D = null
-	var shortest_distance = INF # Initialize with a very large number
-
-	for player in players:
-		if player is CharacterBody3D:
-			var distance = enemy_controller.global_position.distance_to(player.global_position)
-			if distance < shortest_distance:
-				shortest_distance = distance
-				nearest_player = player
-
-	# You could add a check here to only return a player if they are within a certain initial range
-	# if shortest_distance > initial_detection_range:
-	#     return null
-
-	return nearest_player
+func _check_and_seek_cover() -> void:
+	var player = enemy_controller.get_target_player()
+	
+	if not player or not is_instance_valid(player):
+		return # No player to interact with
+	
+	var current_health_percent = float(enemy_controller.current_health) / enemy_controller.max_health
+	var distance_to_player = enemy_controller.global_position.distance_to(player.global_position)
+	
+	# Conditions to seek cover:
+	if current_health_percent < seek_cover_health_threshold_percent and distance_to_player > min_distance_to_seek_cover:
+		print("[state_attack] find_and_go_to_cover!")
+		enemy_controller.find_and_go_to_cover(enemy_controller.name)
+		# If find_and_go_to_cover successfully found and reserved cover,
+		# it will automatically request the state change.
+		#print("Enemy ", enemy_controller.name, " successfully initiated cover search.")
+	# else:
+		# print("Enemy ", enemy_controller.name, " did not seek cover. Health: ", current_health_percent, ", Distance: ", distance_to_player)

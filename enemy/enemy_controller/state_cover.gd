@@ -1,7 +1,7 @@
 extends EnemyState
 class_name EnemyCover
 
-#region vsars
+#region vars
 # EXPORTS
 @export var cover_arrival_tolerance: float = 0.5 # How close enemy needs to be to cover spot
 @export var cover_peek_duration: float = 2.0 # How long to peek out
@@ -16,7 +16,7 @@ var _time_since_last_shot_from_cover: float = 0.0
 #endregion
 
 func enter() -> void:
-	print("Enemy entered Cover state.")
+	print("[EnemyCover] entered state...")
 	_is_peeking = false
 	_current_peek_timer = 0.0
 	_current_hide_timer = 0.0
@@ -28,25 +28,32 @@ func enter() -> void:
 		printerr("EnemyCoverState: No valid cover transform assigned! Transitioning back to patrol.")
 		transitioned.emit(self, "patrol")
 		return
-
+	
 	# Start moving towards the cover position
+	# TODO: 20250615: use tween and AnimationPlayer!
 	enemy_controller.global_position = _target_cover_transform.origin # Snap to position for simplicity, or Tween for smooth
-	enemy_controller.look_at(_target_cover_transform.origin + _target_cover_transform.basis.z, Vector3.UP) # Look in cover direction
-
-	# You might also want to set the enemy's animation to a "cover_idle" pose.
+	# Look in cover direction
+	enemy_controller.look_at(_target_cover_transform.origin + _target_cover_transform.basis.z, Vector3.UP) 
+	
+	# TODO: set the enemy's animation to a "cover_idle" pose.
+	
+	# WIP: wish.com crouch mechanism
+	#enemy_controller.global_position = Vector3(_target_cover_transform.origin.x, _target_cover_transform.origin.y-2, _target_cover_transform.origin.z)
 
 func update(delta: float) -> void:
+	var player = enemy_controller.get_target_player()
+
 	# This function handles the logic while in cover (e.g., peeking, shooting)
 	_time_since_last_shot_from_cover += delta
 
 	if _is_peeking:
 		_current_peek_timer += delta
 		# Face player while peeking
-		enemy_controller.look_at(enemy_controller.player.global_position, Vector3.UP)
+		enemy_controller.look_at(player.global_position, Vector3.UP)
 
 		if _time_since_last_shot_from_cover >= shoot_from_cover_cooldown:
 			# Shoot while peeking
-			var player_target = enemy_controller.player.global_transform.origin + Vector3.UP * 1.5
+			var player_target = player.global_transform.origin + Vector3.UP * 1.5
 			enemy_controller.fire_weapon(player_target)
 			_time_since_last_shot_from_cover = 0.0
 
@@ -69,7 +76,7 @@ func update(delta: float) -> void:
 	# --- State Transition Logic from Cover ---
 	# Example conditions to leave cover:
 	# 1. Player is too close (flanked)
-	var distance_to_player = enemy_controller.global_position.distance_to(enemy_controller.player.global_position)
+	var distance_to_player = enemy_controller.global_position.distance_to(player.global_position)
 	if distance_to_player < enemy_controller.melee_attack_range: # Assuming melee_attack_range is a property
 		transitioned.emit(self, "chase") # Or "melee_attack"
 		return

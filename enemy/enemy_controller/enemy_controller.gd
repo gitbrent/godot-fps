@@ -20,6 +20,27 @@ class_name EnemyController
 signal died
 
 #region vars
+# EXPORTS
+@export_group("Props")
+@export var max_health: int = 100
+@export var rotation_speed := 15.0
+@export var fade_out_duration = 1.5 # (seconds)
+@export_group("Behavior")
+@export var can_patrol: bool = false
+@export var melee_attack_range: float = 0.1 # TODO: FUTURE:
+@export_group("DEBUG")
+@export var show_state_debug: bool = false:
+	set(value):
+		show_state_debug = value
+		# Update the label visibility immediately
+		if debug_label_state:
+			debug_label_state.visible = value
+@export var show_detection_area_debug: bool = false:
+	set(value):
+		show_detection_area_debug = value
+		# Update the mesh visibility immediately
+		if debug_area_mesh:
+			debug_area_mesh.visible = value
 # ONREADY
 @onready var state_machine = $StateMachine
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -42,27 +63,11 @@ var _is_in_cover: bool = false
 @onready var debug_label_dist: Label3D = $DEBUG/LabelDist
 @onready var debug_label_gun: Label3D = $DEBUG/LabelGun
 @onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
-# EXPORTS
-@export_group("Props")
-@export var health: int = 100
-@export var rotation_speed := 15.0
-@export var fade_out_duration = 1.5 # (seconds)
-@export_group("Behavior")
-@export var can_patrol: bool = false
-@export_group("DEBUG")
-@export var show_state_debug: bool = false:
-	set(value):
-		show_state_debug = value
-		# Update the label visibility immediately
-		if debug_label_state:
-			debug_label_state.visible = value
-@export var show_detection_area_debug: bool = false:
-	set(value):
-		show_detection_area_debug = value
-		# Update the mesh visibility immediately
-		if debug_area_mesh:
-			debug_area_mesh.visible = value
 # VARS
+var _player_detection_interval: float = 0.5 # (in seconds)
+var _target_player: CharacterBody3D = null
+var _player_detection_timer: float = 0.0
+var current_health: int = 100
 var is_dead := false
 var is_initialized = false
 var last_known_threat_direction: Vector3 = Vector3.INF
@@ -71,6 +76,9 @@ var total_shots_fired = 0
 #endregion
 
 func _ready() -> void:
+	# init vars
+	current_health = max_health
+
 	# Connect the StateMachine's 'state_changed' signal
 	state_machine.state_changed.connect(_on_state_transitioned)
 	
@@ -91,7 +99,7 @@ func _ready() -> void:
 	elif state_machine.has_node("Attack"):
 		state_node_attack = state_machine.get_node("Attack") as EnemyState
 	elif state_machine.has_node("Cover"):
-		state_node_attack = state_machine.get_node("Cover") as EnemyState
+		state_node_cover = state_machine.get_node("Cover") as EnemyState
 
 	# Trigger the initial state transition to set the label text and run enter()
 	if state_machine.current_state:
@@ -136,7 +144,7 @@ func _physics_process(delta: float) -> void:
 	# STEP 1: Add the gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
+	
 	# STEP 2:
 	var desired_horizontal_velocity = Vector3.ZERO
 	if is_initialized and state_machine.current_state:
@@ -145,7 +153,7 @@ func _physics_process(delta: float) -> void:
 	# STEP 3:
 	velocity.x = desired_horizontal_velocity.x
 	velocity.z = desired_horizontal_velocity.z
-
+	
 	# STEP 4: Handle Rotation
 	var current_move_direction_horizontal = Vector3(velocity.x, 0, velocity.z)
 	var direction_to_face = current_move_direction_horizontal # Default to using movement direction
@@ -175,7 +183,13 @@ func _physics_process(delta: float) -> void:
 	
 	# STEP 5:
 	_draw_idle_detection_area_mesh()
-	
+
+	# STEP 6: Update player target periodically
+	_player_detection_timer += delta
+	if _player_detection_timer >= _player_detection_interval:
+		_player_detection_timer = 0.0
+		_update_target_player()
+		
 	# LAST: Perform the final move and slide calculation once
 	move_and_slide()
 
@@ -210,10 +224,10 @@ func take_damage(amount:int, direction_of_impact: Vector3) -> void:
 	if is_dead:
 		return
 	# 2:
-	health -= amount
+	current_health -= amount
 	_spawn_damage_popup(amount)
 	# 3:
-	if health <= 0:
+	if current_health <= 0:
 		_handle_died()
 	else:
 		animation_player.play("HIT_REACTION")
@@ -236,6 +250,10 @@ func show_hit(impact_point: Vector3) -> void:
 		#print("[enemy_cont] show_hit: ", impact_point)
 		blood_particles_3d.global_position = impact_point
 		blood_particles_3d.emitting = true
+
+# Property to get the player from any state (read-only)
+func get_target_player() -> CharacterBody3D:
+	return _target_player
 
 # CLASS-SPECIFIC FUNCS ============================================
 
@@ -399,6 +417,12 @@ func _draw_idle_detection_area_mesh() -> void:
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
 		mat.albedo_color = Color(1.0, 0.0, 0.0, 0.1)  # red
+	elif show_detection_area_debug and state_node_cover:
+		var detection_range = 1 # state_node_cover.attack_range
+		debug_area_mesh.scale.x = detection_range * 2
+		debug_area_mesh.scale.z = detection_range * 2
+		debug_area_mesh.visible = true
+		mat.albedo_color = Color(0.0, 0.0, 1.0, 0.1)  # green
 	else:
 		debug_area_mesh.visible = false
 
@@ -410,24 +434,27 @@ func find_and_go_to_cover(requester_id: String, search_radius: float = 30.0) -> 
 	var nearest_cover_point: CoverPoint = null
 	var nearest_cover_transform: Transform3D = Transform3D()
 	var shortest_distance_to_cover_spot = INF
-
+	
 	for cp_node in potential_cover_points:
 		if cp_node is CoverPoint and cp_node.is_available_for_use:
 			var potential_spot_transform = cp_node.get_nearest_available_spot_transform(global_position)
-			if potential_spot_transform != Transform3D(): # Check if it returned a valid transform
+			if potential_spot_transform != Transform3D():
 				var dist = global_position.distance_to(potential_spot_transform.origin)
 				if dist < shortest_distance_to_cover_spot and dist <= search_radius:
 					shortest_distance_to_cover_spot = dist
 					nearest_cover_point = cp_node
 					nearest_cover_transform = potential_spot_transform
-
+	
 	if nearest_cover_point:
+		print("FYI: nearest_cover_point: ", nearest_cover_point)
 		# Request and reserve the spot from the actual CoverPoint instance
 		_current_cover_point = nearest_cover_point
 		_current_cover_spot_transform = _current_cover_point.request_nearest_cover_position(requester_id, global_position)
 		if _current_cover_spot_transform != Transform3D():
-			state_machine.request_state_change("cover") # Transition to cover state
+			state_machine.request_state_change("cover")
 			return true
+	
+	# LAST:
 	return false
 
 func leave_cover(requester_id: String) -> void:
@@ -439,3 +466,18 @@ func leave_cover(requester_id: String) -> void:
 
 func get_current_cover_spot_transform() -> Transform3D:
 	return _current_cover_spot_transform
+
+func _update_target_player() -> void:
+	var players = get_tree().get_nodes_in_group("player")
+	var nearest_player_distance = INF
+	var nearest_found_player: CharacterBody3D = null
+
+	for player_node in players:
+		if player_node is CharacterBody3D:
+			var distance = global_position.distance_to(player_node.global_position)
+			if distance < nearest_player_distance:
+				nearest_player_distance = distance
+				nearest_found_player = player_node
+	
+	_target_player = nearest_found_player
+	#print(name, " updated target player: ", _target_player.name if _target_player else "None")
