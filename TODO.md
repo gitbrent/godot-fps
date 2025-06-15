@@ -22,7 +22,7 @@
 
 ## FIXME
 
-[ ] - 
+[ ] - give enemies their own bullet Layer (so they dont shoot themselves)
 
 ## Questions
 
