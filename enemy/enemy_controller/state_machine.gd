@@ -15,6 +15,7 @@ func _ready() -> void:
 	if get_parent() is CharacterBody3D:
 		enemy_controller_ref = get_parent()
 	
+	# Give states a reference back to the state machine and the enemy controller
 	for child in get_children():
 		if child is EnemyState:
 			states[child.name.to_lower()] = child
