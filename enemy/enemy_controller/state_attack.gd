@@ -23,7 +23,7 @@ class_name EnemyAttack
 # ONREADY
 @onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
 @onready var audio_enemy_spotted: AudioStreamPlayer = $"../../Audio/Contact!"
-@onready var audio_enemy_lost: AudioStreamPlayer = $"../../Audio/I-lost-hem!"
+@onready var audio_enemy_lost: AudioStreamPlayer = $"../../Audio/IveLostThem"
 # VARS
 var distance_to_player: float = INF
 var has_line_of_sight: bool = false
@@ -135,7 +135,8 @@ func physics_update(_delta: float) -> Vector3:
 
 func exit() -> void:
 	#print("[ENEMY-STATE] ATTACK -> ?")
-	audio_enemy_lost.play()
+	#audio_enemy_lost.play() # <-- this is annoying, lol
+	pass
 
 # CLASS CUSTOM FUNCS -----------------------------------------------
 

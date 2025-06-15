@@ -42,15 +42,20 @@ signal died
 		if debug_area_mesh:
 			debug_area_mesh.visible = value
 # ONREADY
-@onready var state_machine = $StateMachine
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var m16_rifle: Node3D = $Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed
+# ONREADY: state-machine
+@onready var state_machine = $StateMachine
 @onready var state_node_idle: EnemyState = null # Get a reference to the Idle state node so we can access its detection_range. Initialize to null
 @onready var state_node_patrol: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_follow: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_attack: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_cover: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
-@onready var m16_rifle: Node3D = $Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed
-@onready var audio_projectile_strike: AudioStreamPlayer = $"Audio/Projectile-strike"
+# ONREADY: audio
+@onready var audio_projectile_strike: AudioStreamPlayer = $Audio/ProjectileStrike
+@onready var audio_death_yell: AudioStreamPlayer = $Audio/DeathYell
+@onready var audio_taking_cover: AudioStreamPlayer = $Audio/TakingCover
+# ONREADY: FX
 @onready var blood_particles_3d: GPUParticles3D = $BloodParticles3D
 @onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
 # WIP:
@@ -106,19 +111,17 @@ func _ready() -> void:
 		_on_state_transitioned(state_machine.current_state, state_machine.current_state.name)
 	
 	# Set initial visibility for debugs
-	if debug_label_state:
-		debug_label_state.visible = show_state_debug
-		debug_label_dist.visible = show_state_debug
-		debug_label_gun.visible = show_state_debug
+	debug_label_state.visible = show_state_debug
+	debug_label_dist.visible = show_state_debug
+	debug_label_gun.visible = show_state_debug
 		
-	if debug_area_mesh:
-		debug_area_mesh.visible = show_detection_area_debug
-		# make material unique or the prior enemy who faded_out, set the shared resource albedo.a to 0.0!
-		var original_material = debug_area_mesh.get_active_material(0)
-		if original_material:
-			debug_area_mesh.set_material_override(original_material.duplicate())
-		# Set the initial scale of the mesh based on the detection range
-		_draw_idle_detection_area_mesh()
+	debug_area_mesh.visible = show_detection_area_debug
+	# make material unique or the prior enemy who faded_out, set the shared resource albedo.a to 0.0!
+	var original_material = debug_area_mesh.get_active_material(0)
+	if original_material:
+		debug_area_mesh.set_material_override(original_material.duplicate())
+	# Set the initial scale of the mesh based on the detection range
+	_draw_idle_detection_area_mesh()
 	
 	if not Engine.is_editor_hint():
 		await get_tree().physics_frame
@@ -304,6 +307,7 @@ func _handle_died():
 	self.set_collision_layer(0)
 	# 3: update state & signal
 	state_machine.request_state_change("dead")
+	audio_death_yell.play()
 	emit_signal("died")
 	# LAST: free
 	m16_rifle.queue_free()
@@ -376,6 +380,7 @@ func _find_meshes_in_children(node: Node) -> Array[MeshInstance3D]:
 
 func _draw_idle_detection_area_mesh() -> void:
 	var mat := debug_area_mesh.material_override as StandardMaterial3D
+	var player = get_target_player()
 	
 	if is_dead:
 		debug_label_dist.visible = false
@@ -383,12 +388,9 @@ func _draw_idle_detection_area_mesh() -> void:
 		debug_area_mesh.visible = false
 		return
 	
-	if show_detection_area_debug:
-		var players = get_tree().get_nodes_in_group("player")
-		for player in players:
-			if player is CharacterBody3D:
-				var distance = global_position.distance_to(player.global_position)
-				debug_label_dist.text = "dist\n"+str(snapped(distance, 0.1))+"m"
+	if show_detection_area_debug and player:
+		var distance = global_position.distance_to(player.global_position)
+		debug_label_dist.text = "dist\n"+str(snapped(distance, 0.1))+"m"
 
 	if show_detection_area_debug and state_node_idle:
 		var detection_range = state_node_idle.detection_range

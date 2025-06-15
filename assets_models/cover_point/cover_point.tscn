@@ -83,7 +83,7 @@ font_size = 48
 outline_size = 6
 
 [node name="CoverPosition_Left" type="Marker3D" parent="."]
-transform = Transform3D(1.19209e-07, 0, 1, 0, 1, 0, -1, 0, 1.19209e-07, 0.8, 0, -0.6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, -0.6)
 
 [node name="CoverArea" type="Area3D" parent="."]
 collision_layer = 128

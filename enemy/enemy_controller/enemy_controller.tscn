@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=4 uid="uid://d4bx7rm4wb2ax"]
+[gd_scene load_steps=48 format=4 uid="uid://d4bx7rm4wb2ax"]
 
 [ext_resource type="Script" uid="uid://bfgdoh0wqbpwu" path="res://enemy/enemy_controller/enemy_controller.gd" id="1_wilww"]
 [ext_resource type="Texture2D" uid="uid://dvcivjkfrehtp" path="res://enemy/enemy_controller/test3/Test03_vanguard_diffuse1.png" id="2_0jppv"]
@@ -10,6 +10,8 @@
 [ext_resource type="Script" uid="uid://cwed87lihuouf" path="res://enemy/enemy_controller/state_follow.gd" id="5_cdg0o"]
 [ext_resource type="AnimationLibrary" uid="uid://b3v0nimf8t7r1" path="res://enemy/enemy_controller/animations-test05.res" id="5_nm63k"]
 [ext_resource type="AudioStream" uid="uid://xjr0drm6ter1" path="res://enemy/enemy_controller/audio/voice1/i-lost-hem!.mp3" id="5_oeory"]
+[ext_resource type="AudioStream" uid="uid://skh5cninng6q" path="res://enemy/enemy_controller/audio/voice1/enemy-death-yell.mp3" id="5_ulxmb"]
+[ext_resource type="AudioStream" uid="uid://cjdqaig7mstt2" path="res://enemy/enemy_controller/audio/voice1/enemy-taking-cover.mp3" id="6_mc36b"]
 [ext_resource type="Script" uid="uid://bvykkb0bedomi" path="res://enemy/enemy_controller/state_dead.gd" id="7_gvooo"]
 [ext_resource type="AudioStream" uid="uid://cnx8yqdpw4etj" path="res://enemy/enemy_controller/audio/projectile-strike.mp3" id="7_oeory"]
 [ext_resource type="Shader" uid="uid://x6q8qlh636pb" path="res://player/player_gun/projectiles/blood.tres" id="11_0yo6k"]
@@ -9104,7 +9106,7 @@ skin = SubResource("Skin_7hmpb")
 metadata/_edit_lock_ = true
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
-transform = Transform3D(0.294325, -0.204269, 0.93362, 0.908617, 0.362667, -0.207094, -0.29629, 0.909256, 0.292344, -29.0216, 0.369584, -97.5638)
+transform = Transform3D(0.294325, -0.204269, 0.933621, 0.908617, 0.362667, -0.207094, -0.29629, 0.909256, 0.292344, -29.0216, 0.369574, -97.5638)
 bone_name = "mixamorig_RightHand"
 bone_idx = 34
 metadata/_edit_lock_ = true
@@ -9115,19 +9117,25 @@ metadata/_edit_lock_ = true
 
 [node name="Audio" type="Node" parent="."]
 
+[node name="DeathYell" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("5_ulxmb")
+
+[node name="TakingCover" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("6_mc36b")
+
 [node name="ARGH" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("5_27s6p")
 
 [node name="Contact!" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("4_e5gnd")
 
-[node name="I-lost-hem!" type="AudioStreamPlayer" parent="Audio"]
+[node name="IveLostThem" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("5_oeory")
 
 [node name="Ow-right-in-the-fkn-nuts" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("4_oeory")
 
-[node name="Projectile-strike" type="AudioStreamPlayer" parent="Audio"]
+[node name="ProjectileStrike" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("7_oeory")
 volume_db = -2.0
 pitch_scale = 0.8
