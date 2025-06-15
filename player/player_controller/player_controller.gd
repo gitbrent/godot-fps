@@ -30,13 +30,12 @@ var total_shots = 0
 @onready var head: Node3D = $Head # AKA: camera pivot
 @onready var collider: CollisionShape3D = $Collider
 @onready var camera: Camera3D = $Head/Camera3D
-@onready var damage_flash: ColorRect = $HUD_CanvasLayer/DamageFlash
-@onready var health_bar: ProgressBar = $HUD_CanvasLayer/HealthBar
 @onready var death_message: Label = $HUD_CanvasLayer/DeathMessage
+@onready var damage_flash: ColorRect = $HUD_CanvasLayer/DamageFlash
 @onready var gun_instance: Node3D
+@onready var health_bar: ProgressBar = $HUD_CanvasLayer/MarginContainer/HBoxContainer/HealthBar
 @onready var sound_argh: AudioStreamPlayer = $"Audio/Sound-argh"
-@onready var label_2: Label = $HUD_CanvasLayer/VBoxContainer/Label2
-@onready var hud_canvas_layer: CanvasLayer = $HUD_CanvasLayer
+@onready var label_2: Label = $HUD_CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/Label2
 #endregion
 
 # ---------------------------------------------------------
