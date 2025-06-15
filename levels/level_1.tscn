@@ -99,6 +99,7 @@ shadow_mesh = SubResource("ArrayMesh_7ckqa")
 script = ExtResource("1_oqlok")
 player_scene = ExtResource("2_7nvrk")
 enemy_scene = ExtResource("3_jkxa6")
+max_enemies = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_t8dge")
@@ -124,7 +125,7 @@ debug_fill = false
 metadata/_edit_lock_ = true
 
 [node name="MeshSpawnArea" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -5)
 mesh = SubResource("BoxMesh_lrvbd")
 
 [node name="Label3D" type="Label3D" parent="MeshSpawnArea"]

@@ -1,14 +1,16 @@
 extends Node3D
 
 #region vars
+# EXPORT
 @export var player_scene: PackedScene
 @export var enemy_scene: PackedScene
-#
+@export var max_enemies: int = 3
+@export var show_enemy_debug: bool = true
+# ONREADY
 @onready var countdown_label: CanvasLayer = $CountdownLabel
-#
+# VAR
 var spawned_player: PlayerController = null
 var spawned_enemy: EnemyController = null
-var max_enemies = 3
 var can_spawn_enemies = false
 #endregion
 
@@ -53,8 +55,8 @@ func _spawn_enemy() -> void:
 		spawned_enemy = enemy_scene.instantiate()
 		# IMPORTANT: these props are used in `_ready()`, so set before add_child!
 		spawned_enemy.can_patrol = true
-		spawned_enemy.show_state_debug = true
-		spawned_enemy.show_detection_area_debug = true
+		spawned_enemy.show_state_debug = show_enemy_debug
+		spawned_enemy.show_detection_area_debug = show_enemy_debug
 		add_child(spawned_enemy)
 		var rand_x = randf_range(-5.0,  5.0)
 		var rand_z = randf_range( 0.0,-10.0)
