@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://brdt8fje6jpt1"]
+[gd_scene load_steps=30 format=4 uid="uid://brdt8fje6jpt1"]
 
 [ext_resource type="Script" uid="uid://cte556yo33bge" path="res://levels/level_1.gd" id="1_oqlok"]
 [ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player/player_controller/player_controller.tscn" id="2_7nvrk"]
@@ -14,7 +14,9 @@
 [ext_resource type="PackedScene" uid="uid://jot5kky01ygo" path="res://assets_models/kenney_cubes/kcube_2x1x2.tscn" id="13_pnpm1"]
 [ext_resource type="PackedScene" uid="uid://b5ry7d7084r21" path="res://assets_models/kenney_cubes/kcube_2x2x2_g.tscn" id="14_06ecp"]
 [ext_resource type="PackedScene" uid="uid://dn46gu4t35ngu" path="res://assets_models/kenney_cubes/kcube_1x1x1.tscn" id="15_ohjdc"]
+[ext_resource type="PackedScene" uid="uid://cv2boqllfbnyy" path="res://assets_models/cover_point/cover_point.tscn" id="16_bgw3c"]
 [ext_resource type="PackedScene" uid="uid://wbwjnb34fu2e" path="res://assets_models/kenney_cubes/kcube_wall.tscn" id="16_e5brb"]
+[ext_resource type="Texture2D" uid="uid://c6ph0p6042kkb" path="res://assets_models/KENNEY_PNG/Red/texture_01.png" id="17_lrvbd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4wuf8"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -39,6 +41,14 @@ size = Vector2(100, 100)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ssfg1"]
 size = Vector3(100, 0.1, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bgw3c"]
+albedo_texture = ExtResource("17_lrvbd")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_lrvbd"]
+material = SubResource("StandardMaterial3D_bgw3c")
+size = Vector3(10, 0.01, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bu3ac"]
 albedo_texture = ExtResource("8_ntdhj")
@@ -97,6 +107,9 @@ environment = SubResource("Environment_t8dge")
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 14, 0)
 shadow_enabled = true
 
+[node name="CountdownLabel" parent="." instance=ExtResource("6_i6od7")]
+visible = false
+
 [node name="Ground" type="StaticBody3D" parent="."]
 metadata/_edit_lock_ = true
 
@@ -110,15 +123,22 @@ shape = SubResource("BoxShape3D_ssfg1")
 debug_fill = false
 metadata/_edit_lock_ = true
 
-[node name="CountdownLabel" parent="." instance=ExtResource("6_i6od7")]
-visible = false
+[node name="MeshSpawnArea" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -5)
+mesh = SubResource("BoxMesh_lrvbd")
+
+[node name="Label3D" type="Label3D" parent="MeshSpawnArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+text = "SPAWN AREA"
+font_size = 96
 
 [node name="SHAPES" type="Node3D" parent="."]
 
-[node name="Barrels" type="Node" parent="SHAPES"]
+[node name="Barrels" type="Node3D" parent="SHAPES"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
 
 [node name="Barrel1" parent="SHAPES/Barrels" groups=["damageable"] instance=ExtResource("7_ryfpa")]
-transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -7, 0, -5.30145)
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -9, 0, -8.30145)
 
 [node name="Barrel2" parent="SHAPES/Barrels" groups=["damageable"] instance=ExtResource("7_ryfpa")]
 transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -7, 0, -8.3015)
@@ -359,3 +379,6 @@ metadata/_edit_lock_ = true
 [node name="KcubeWall2" parent="SHAPES/WALLS" instance=ExtResource("16_e5brb")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -24, 0, -11)
 metadata/_edit_lock_ = true
+
+[node name="CoverPoint_WIP" parent="." instance=ExtResource("16_bgw3c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -0.05, -6)

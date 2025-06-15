@@ -56,7 +56,9 @@ func _spawn_enemy() -> void:
 		spawned_enemy.show_state_debug = true
 		spawned_enemy.show_detection_area_debug = true
 		add_child(spawned_enemy)
-		spawned_enemy.global_position = Vector3(0.0, 0.0, -10.0)
+		var rand_x = randf_range(-5.0,  5.0)
+		var rand_z = randf_range( 0.0,-10.0)
+		spawned_enemy.global_position = Vector3(rand_x, 0.0, rand_z)
 		spawned_enemy.state_machine.request_state_change("patrol")
 
 # CORE FUNCS -----------------------------------------------
