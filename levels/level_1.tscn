@@ -382,3 +382,6 @@ metadata/_edit_lock_ = true
 
 [node name="CoverPoint_WIP" parent="." instance=ExtResource("16_bgw3c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -0.05, -6)
+
+[node name="CoverPoint_WIP2" parent="." instance=ExtResource("16_bgw3c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.05, -4)
