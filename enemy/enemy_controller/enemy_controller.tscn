@@ -1,8 +1,7 @@
-[gd_scene load_steps=45 format=4 uid="uid://d4bx7rm4wb2ax"]
+[gd_scene load_steps=46 format=4 uid="uid://d4bx7rm4wb2ax"]
 
 [ext_resource type="Script" uid="uid://bfgdoh0wqbpwu" path="res://enemy/enemy_controller/enemy_controller.gd" id="1_wilww"]
 [ext_resource type="Texture2D" uid="uid://dvcivjkfrehtp" path="res://enemy/enemy_controller/test3/Test03_vanguard_diffuse1.png" id="2_0jppv"]
-[ext_resource type="Script" uid="uid://b240sr7xljqv2" path="res://enemy/enemy_controller/state_machine.gd" id="3_cdg0o"]
 [ext_resource type="Texture2D" uid="uid://brho4063gnup4" path="res://enemy/enemy_controller/test3/Test03_vanguard_normal.png" id="3_gvooo"]
 [ext_resource type="AudioStream" uid="uid://djwtd60ecxc8c" path="res://enemy/enemy_controller/audio/voice1/contact!.mp3" id="4_e5gnd"]
 [ext_resource type="AudioStream" uid="uid://yh8pnd28oe7a" path="res://enemy/enemy_controller/audio/voice1/ow-right-in-the-fkn-nuts.mp3" id="4_oeory"]
@@ -14,6 +13,8 @@
 [ext_resource type="Script" uid="uid://bvykkb0bedomi" path="res://enemy/enemy_controller/state_dead.gd" id="7_gvooo"]
 [ext_resource type="AudioStream" uid="uid://cnx8yqdpw4etj" path="res://enemy/enemy_controller/audio/projectile-strike.mp3" id="7_oeory"]
 [ext_resource type="Shader" uid="uid://x6q8qlh636pb" path="res://player/player_gun/projectiles/blood.tres" id="11_0yo6k"]
+[ext_resource type="Script" uid="uid://cvwum2yk4wdfe" path="res://enemy/enemy_controller/state_cover.gd" id="12_0yo6k"]
+[ext_resource type="Script" uid="uid://b240sr7xljqv2" path="res://enemy/enemy_controller/state_machine.gd" id="12_qx36h"]
 [ext_resource type="Script" uid="uid://bt431jtlyatvr" path="res://enemy/enemy_controller/state_attack.gd" id="12_x8ewe"]
 [ext_resource type="PackedScene" uid="uid://6mbl8mtrfbde" path="res://enemy/enemy_rifle/enemy_rifle.tscn" id="13_iwtpe"]
 [ext_resource type="Script" uid="uid://dcmxw1247ny4s" path="res://enemy/enemy_controller/state_patrol.gd" id="14_oeory"]
@@ -8622,7 +8623,7 @@ height = 0.01
 
 [node name="EnemyController" type="CharacterBody3D" groups=["damageable", "enemies"]]
 collision_layer = 4
-collision_mask = 21
+collision_mask = 149
 script = ExtResource("1_wilww")
 health = 20
 
@@ -9147,13 +9148,16 @@ one_shot = true
 process_material = SubResource("ParticleProcessMaterial_ulxmb")
 draw_pass_1 = SubResource("QuadMesh_mc36b")
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
-script = ExtResource("3_cdg0o")
-initial_state = NodePath("Idle")
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("12_qx36h")
 
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("4_x6dxp")
 metadata/_custom_type_script = "uid://pdw1m7tkdt"
+
+[node name="Cover" type="Node" parent="StateMachine"]
+script = ExtResource("12_0yo6k")
+metadata/_custom_type_script = "uid://bk4bnnvg75snr"
 
 [node name="Attack" type="Node" parent="StateMachine"]
 script = ExtResource("12_x8ewe")

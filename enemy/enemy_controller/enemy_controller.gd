@@ -20,21 +20,29 @@ class_name EnemyController
 signal died
 
 #region vars
+# ONREADY
 @onready var state_machine = $StateMachine
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var debug_label_state: Label3D = $DEBUG/LabelState
-@onready var debug_label_dist: Label3D = $DEBUG/LabelDist
-@onready var debug_label_gun: Label3D = $DEBUG/LabelGun
-@onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
 @onready var state_node_idle: EnemyState = null # Get a reference to the Idle state node so we can access its detection_range. Initialize to null
 @onready var state_node_patrol: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_follow: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_attack: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
+@onready var state_node_cover: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var m16_rifle: Node3D = $Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed
 @onready var audio_projectile_strike: AudioStreamPlayer = $"Audio/Projectile-strike"
 @onready var blood_particles_3d: GPUParticles3D = $BloodParticles3D
 @onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
-#
+# WIP:
+# New properties for cover management
+var _current_cover_point: CoverPoint = null
+var _current_cover_spot_transform: Transform3D = Transform3D()
+var _is_in_cover: bool = false
+# vars-debug
+@onready var debug_label_state: Label3D = $DEBUG/LabelState
+@onready var debug_label_dist: Label3D = $DEBUG/LabelDist
+@onready var debug_label_gun: Label3D = $DEBUG/LabelGun
+@onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
+# EXPORTS
 @export_group("Props")
 @export var health: int = 100
 @export var rotation_speed := 15.0
@@ -54,7 +62,7 @@ signal died
 		# Update the mesh visibility immediately
 		if debug_area_mesh:
 			debug_area_mesh.visible = value
-#
+# VARS
 var is_dead := false
 var is_initialized = false
 var last_known_threat_direction: Vector3 = Vector3.INF
@@ -82,6 +90,8 @@ func _ready() -> void:
 		state_node_follow = state_machine.get_node("Follow") as EnemyState
 	elif state_machine.has_node("Attack"):
 		state_node_attack = state_machine.get_node("Attack") as EnemyState
+	elif state_machine.has_node("Cover"):
+		state_node_attack = state_machine.get_node("Cover") as EnemyState
 
 	# Trigger the initial state transition to set the label text and run enter()
 	if state_machine.current_state:
@@ -100,7 +110,7 @@ func _ready() -> void:
 		if original_material:
 			debug_area_mesh.set_material_override(original_material.duplicate())
 		# Set the initial scale of the mesh based on the detection range
-		draw_idle_detection_area_mesh()
+		_draw_idle_detection_area_mesh()
 	
 	if not Engine.is_editor_hint():
 		await get_tree().physics_frame
@@ -164,7 +174,7 @@ func _physics_process(delta: float) -> void:
 		rotation.y = new_angle
 	
 	# STEP 5:
-	draw_idle_detection_area_mesh()
+	_draw_idle_detection_area_mesh()
 	
 	# LAST: Perform the final move and slide calculation once
 	move_and_slide()
@@ -180,6 +190,7 @@ func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
 	state_node_follow = null
 	state_node_patrol = null
 	state_node_attack = null
+	state_node_cover = null
 	if new_state_name.to_lower() == "idle":
 		state_node_idle = state
 	elif new_state_name.to_lower() == "patrol":
@@ -188,6 +199,8 @@ func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
 		state_node_follow = state
 	elif new_state_name.to_lower() == "attack":
 		state_node_attack = state
+	elif new_state_name.to_lower() == "cover":
+		state_node_cover = state
 
 # STANDARD GAME FUNCS ==========================================
 
@@ -198,10 +211,10 @@ func take_damage(amount:int, direction_of_impact: Vector3) -> void:
 		return
 	# 2:
 	health -= amount
-	spawn_damage_popup(amount)
+	_spawn_damage_popup(amount)
 	# 3:
 	if health <= 0:
-		handle_died()
+		_handle_died()
 	else:
 		animation_player.play("HIT_REACTION")
 	# 4:
@@ -240,8 +253,6 @@ func fire_weapon(target_position: Vector3) -> void:
 	#debug_label_gun.text = "FIRE AT\n"+str(target_position)
 	debug_label_gun.text = "shots\n"+str(total_shots_fired)
 
-# Private funcs
-
 func can_see(target: Node3D, eye_offset := Vector3.UP * 1.5) -> bool:
 	if not is_instance_valid(target):
 		return false
@@ -258,13 +269,15 @@ func can_see(target: Node3D, eye_offset := Vector3.UP * 1.5) -> bool:
 	var result = space_state.intersect_ray(query)
 	return result and result.collider == target
 
-func spawn_damage_popup(amount: int) -> void:
+# PRIVATE FUNCS ==================================================
+
+func _spawn_damage_popup(amount: int) -> void:
 	var popup_scene = preload("res://ui/damage_popup.tscn")
 	var popup = popup_scene.instantiate()
 	popup.set_popup_data(amount, global_transform.origin + Vector3.UP * 2.0)
 	get_tree().root.add_child(popup)
 
-func handle_died():
+func _handle_died():
 	# 1: flag & stop
 	is_dead = true
 	velocity = Vector3.ZERO
@@ -292,7 +305,7 @@ func _on_fade_out_requested() -> void:
 	# if $CollisionShape3D: $CollisionShape3D.disabled = true # Adjust path if needed
 
 	# Find all MeshInstance3D nodes that are children (recursive search needed)
-	var mesh_nodes = find_meshes_in_children(self) # Use the helper function below
+	var mesh_nodes = _find_meshes_in_children(self) # Use the helper function below
 
 	var tween = create_tween()
 	var meshes_found = false # Flag to track if we found meshes to fade
@@ -332,18 +345,18 @@ func _on_fade_out_requested() -> void:
 
 # --- Add the helper function to recursively find meshes ---
 # This function helps find MeshInstance3D nodes nested within the enemy's children (e.g., inside the imported model scene)
-func find_meshes_in_children(node: Node) -> Array[MeshInstance3D]:
+func _find_meshes_in_children(node: Node) -> Array[MeshInstance3D]:
 	var meshes: Array[MeshInstance3D] = []
 	for child in node.get_children():
 		if child is MeshInstance3D:
 			meshes.append(child)
 		# Recursively search in children
-		meshes.append_array(find_meshes_in_children(child))
+		meshes.append_array(_find_meshes_in_children(child))
 	return meshes
 
 # DEBUG/FYI FUNCS ==================================================
 
-func draw_idle_detection_area_mesh() -> void:
+func _draw_idle_detection_area_mesh() -> void:
 	var mat := debug_area_mesh.material_override as StandardMaterial3D
 	
 	if is_dead:
@@ -388,3 +401,41 @@ func draw_idle_detection_area_mesh() -> void:
 		mat.albedo_color = Color(1.0, 0.0, 0.0, 0.1)  # red
 	else:
 		debug_area_mesh.visible = false
+
+# NEW!!! @@@@@@@@@@@@@@@!!!!!!!!!!!!!!!~~~~~~~~~~~~~~~~~~~
+
+# Call this from your states (e.g., Patrol, Chase) when enemy needs cover
+func find_and_go_to_cover(requester_id: String, search_radius: float = 30.0) -> bool:
+	var potential_cover_points = get_tree().get_nodes_in_group("cover_points")
+	var nearest_cover_point: CoverPoint = null
+	var nearest_cover_transform: Transform3D = Transform3D()
+	var shortest_distance_to_cover_spot = INF
+
+	for cp_node in potential_cover_points:
+		if cp_node is CoverPoint and cp_node.is_available_for_use:
+			var potential_spot_transform = cp_node.get_nearest_available_spot_transform(global_position)
+			if potential_spot_transform != Transform3D(): # Check if it returned a valid transform
+				var dist = global_position.distance_to(potential_spot_transform.origin)
+				if dist < shortest_distance_to_cover_spot and dist <= search_radius:
+					shortest_distance_to_cover_spot = dist
+					nearest_cover_point = cp_node
+					nearest_cover_transform = potential_spot_transform
+
+	if nearest_cover_point:
+		# Request and reserve the spot from the actual CoverPoint instance
+		_current_cover_point = nearest_cover_point
+		_current_cover_spot_transform = _current_cover_point.request_nearest_cover_position(requester_id, global_position)
+		if _current_cover_spot_transform != Transform3D():
+			state_machine.request_state_change("cover") # Transition to cover state
+			return true
+	return false
+
+func leave_cover(requester_id: String) -> void:
+	if _current_cover_point and is_instance_valid(_current_cover_point):
+		_current_cover_point.release_cover_position(requester_id)
+		_current_cover_point = null
+		_current_cover_spot_transform = Transform3D()
+		_is_in_cover = false # Update flag
+
+func get_current_cover_spot_transform() -> Transform3D:
+	return _current_cover_spot_transform
