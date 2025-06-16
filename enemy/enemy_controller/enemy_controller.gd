@@ -26,18 +26,19 @@ signal died
 @export var rotation_speed := 15.0
 @export var fade_out_duration = 1.5 # (seconds)
 @export_group("Behavior")
-@export var can_patrol: bool = false
+@export var can_patrol: bool = true
+@export var can_change_state: bool = true
 @export var melee_attack_range: float = 0.1 # TODO: FUTURE:
 @export_group("DEBUG")
-@export var show_state_debug: bool = false:
+@export var debug_show_state: bool = false:
 	set(value):
-		show_state_debug = value
+		debug_show_state = value
 		# Update the label visibility immediately
 		if debug_label_state:
 			debug_label_state.visible = value
-@export var show_detection_area_debug: bool = false:
+@export var debug_show_detect_area: bool = false:
 	set(value):
-		show_detection_area_debug = value
+		debug_show_detect_area = value
 		# Update the mesh visibility immediately
 		if debug_area_mesh:
 			debug_area_mesh.visible = value
@@ -111,11 +112,11 @@ func _ready() -> void:
 		_on_state_transitioned(state_machine.current_state, state_machine.current_state.name)
 	
 	# Set initial visibility for debugs
-	debug_label_state.visible = show_state_debug
-	debug_label_dist.visible = show_state_debug
-	debug_label_gun.visible = show_state_debug
+	debug_label_state.visible = debug_show_state
+	debug_label_dist.visible = debug_show_state
+	debug_label_gun.visible = debug_show_state
 		
-	debug_area_mesh.visible = show_detection_area_debug
+	debug_area_mesh.visible = debug_show_detect_area
 	# make material unique or the prior enemy who faded_out, set the shared resource albedo.a to 0.0!
 	var original_material = debug_area_mesh.get_active_material(0)
 	if original_material:
@@ -200,7 +201,7 @@ func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
 	#print("[enemy_cont] on_state_tr: ", new_state_name)
 	#
 	# 1: Update the text of the Label3D node to show the new state name
-	if debug_label_state and show_state_debug:
+	if debug_label_state and debug_show_state:
 		debug_label_state.text = new_state_name
 	# 2:
 	state_node_idle = null
@@ -388,11 +389,11 @@ func _draw_idle_detection_area_mesh() -> void:
 		debug_area_mesh.visible = false
 		return
 	
-	if show_detection_area_debug and player:
+	if debug_show_detect_area and player:
 		var distance = global_position.distance_to(player.global_position)
 		debug_label_dist.text = "dist\n"+str(snapped(distance, 0.1))+"m"
 
-	if show_detection_area_debug and state_node_idle:
+	if debug_show_detect_area and state_node_idle:
 		var detection_range = state_node_idle.detection_range
 		# The CylinderMesh by default has a radius of 1.0 and height of 1.0.
 		# We need to scale it by the desired radius on the X and Z axes.
@@ -402,24 +403,24 @@ func _draw_idle_detection_area_mesh() -> void:
 		# We usually don't need to change the Y scale here.
 		debug_area_mesh.visible = true
 		mat.albedo_color = Color(0.0, 0.0, 1.0, 0.1)  # blue
-	elif show_detection_area_debug and state_node_patrol:
+	elif debug_show_detect_area and state_node_patrol:
 		var detection_range = state_node_patrol.detection_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
 		mat.albedo_color = Color(1.0, 1.0, 0.0, 0.1)  # yellow
-	elif show_detection_area_debug and state_node_follow:
+	elif debug_show_detect_area and state_node_follow:
 		var detection_range = state_node_follow.follow_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
-	elif show_detection_area_debug and state_node_attack:
+	elif debug_show_detect_area and state_node_attack:
 		var detection_range = state_node_attack.attack_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
 		mat.albedo_color = Color(1.0, 0.0, 0.0, 0.1)  # red
-	elif show_detection_area_debug and state_node_cover:
+	elif debug_show_detect_area and state_node_cover:
 		var detection_range = 1 # state_node_cover.attack_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2

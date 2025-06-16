@@ -42,12 +42,12 @@ size = Vector2(100, 100)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ssfg1"]
 size = Vector3(100, 0.1, 100)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bgw3c"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lrvbd"]
 albedo_texture = ExtResource("17_lrvbd")
 uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_lrvbd"]
-material = SubResource("StandardMaterial3D_bgw3c")
+material = SubResource("StandardMaterial3D_lrvbd")
 size = Vector3(10, 0.01, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bu3ac"]

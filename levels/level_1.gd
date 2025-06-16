@@ -55,8 +55,8 @@ func _spawn_enemy() -> void:
 		spawned_enemy = enemy_scene.instantiate()
 		# IMPORTANT: these props are used in `_ready()`, so set before add_child!
 		spawned_enemy.can_patrol = true
-		spawned_enemy.show_state_debug = show_enemy_debug
-		spawned_enemy.show_detection_area_debug = show_enemy_debug
+		spawned_enemy.debug_show_state = show_enemy_debug
+		spawned_enemy.debug_show_detect_area = show_enemy_debug
 		add_child(spawned_enemy)
 		var rand_x = randf_range(-5.0,  5.0)
 		var rand_z = randf_range( 0.0,-10.0)

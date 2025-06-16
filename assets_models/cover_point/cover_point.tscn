@@ -82,12 +82,19 @@ text = "CoverPoint"
 font_size = 48
 outline_size = 6
 
-[node name="CoverPosition_Left" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, -0.6)
-
 [node name="CoverArea" type="Area3D" parent="."]
 collision_layer = 128
 collision_mask = 0
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CoverArea"]
 shape = SubResource("BoxShape3D_w7hda")
+metadata/_edit_lock_ = true
+
+[node name="CoverPosition_Left" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, -0.6)
+metadata/_edit_lock_ = true
+
+[node name="CoverPosition_Right" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0, -0.6)
+metadata/_edit_lock_ = true
