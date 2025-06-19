@@ -24,10 +24,10 @@ class_name EnemyCover
 # WIP: CURRENT: Animation Names (can be exported for easier tweaking in editor)
 @export var anim_move_to_cover: String = "RUNNING" # e.g., a crouching run or quick movement
 @export var anim_taking_cover: String = "STAND_TO_CROUCH_RIFLE"   # This might be the initial crouch down
-@export var anim_crouch_idle: String = "crouch_idle"     # While fully hidden/crouched
-@export var anim_peek_up: String = "crouch_peek"         # Transition from hide to peek
+@export var anim_crouch_idle: String = "CROUCH_IDLE"     # While fully hidden/crouched
+@export var anim_peek_up: String = "CROUCH_TO_STAND_RIFLE"         # Transition from hide to peek
 @export var anim_aim_down_rifle: String = "FIRING_RIFLE" # When fully peeked and shooting
-@export var anim_hide_down: String = "crouch_hide"       # Transition from peek to hide
+@export var anim_hide_down: String = "STAND_TO_CROUCH_RIFLE"       # Transition from peek to hide
 @export var anim_stand_up: String = "CROUCH_TO_STAND_RIFLE"           # When leaving cover
 # ONREADY
 @onready var audio_taking_cover: AudioStreamPlayer = $"../../Audio/TakingCover"
@@ -90,11 +90,6 @@ func enter() -> void:
 func update(delta: float) -> void:
 	var target = enemy_controller.get_current_target()
 	
-	# FIXME: we need to find the best place to always set Y to zero
-	if enemy_controller and enemy_controller.position.y != 0:
-		#print("FIXME: ", enemy_controller.position.y)
-		pass
-
 	_time_since_last_shot_from_cover += delta
 	
 	# NOTE: stay fixed by design (we want to "fix" certain enemies in place on future maps)
@@ -106,16 +101,11 @@ func update(delta: float) -> void:
 	if _is_peeking:
 		_current_peek_timer += delta
 		
-		# Ensure enemy is at standing height for peeking
-		var stand_y = _target_cover_transform.origin.y
-		if not _is_approximately_equal_float(enemy_controller.global_position.y, stand_y, 0.01):
-			# FIXME: ^^^ WTF does this do?
-			enemy_controller.play_animation(anim_stand_up)
-			enemy_controller.set_collision_to_standing()
-		else:
-			# If already at stand height, play aiming animation
-			enemy_controller.play_animation(anim_aim_down_rifle)
-			enemy_controller.set_collision_to_standing()
+		# --- Animation and Collision while peeking ---
+		# Assume that when _is_peeking is true, the enemy is either animating UP
+		# or is already at the standing height and should be aiming.
+		enemy_controller.play_animation(anim_aim_down_rifle)
+		enemy_controller.set_collision_to_standing()
 		
 		# Face target while peeking
 		if target and is_instance_valid(target):
@@ -143,12 +133,8 @@ func update(delta: float) -> void:
 		_current_hide_timer += delta
 		
 		# Ensure enemy is at crouched height for hiding
-		var crouch_y = _target_cover_transform.origin.y - crouch_height_offset
-		if not _is_approximately_equal_float(enemy_controller.global_position.y, crouch_y, 0.01):
-			enemy_controller.play_animation(anim_taking_cover)
-		else:
-			# If already at crouched height, play crouch idle
-			enemy_controller.play_animation(anim_crouch_idle)
+		enemy_controller.play_animation(anim_crouch_idle)
+		enemy_controller.set_collision_to_crouch()
 		
 		# Face the cover point's forward direction when hiding (ensure this is always updated)
 		# Assuming cover point's +basis.z is INTO cover
@@ -161,6 +147,7 @@ func update(delta: float) -> void:
 			print("[EnemyCover] ... enemy PEEKING from cover.")
 			# Animation: Start peeking up
 			enemy_controller.play_animation(anim_peek_up)
+			enemy_controller.set_collision_to_standing()
 		
 		# Face the cover point's forward direction when hiding
 		# If cover point's +basis.z is INTO cover, and enemy's +Z is its forward, this should be fine.
@@ -191,10 +178,6 @@ func exit() -> void:
 	enemy_controller.set_collision_to_standing()
 
 # CLASS-SPECIFIC =========================================
-
-func _is_approximately_equal_float(a: float, b: float, tolerance: float) -> bool:
-	# Helper function for float comparison (to avoid floating point inaccuracies)
-	return abs(a - b) < tolerance
 
 func _start_crouch_animation() -> void:
 	# Ensure the Y position is based on the target cover transform for consistency
