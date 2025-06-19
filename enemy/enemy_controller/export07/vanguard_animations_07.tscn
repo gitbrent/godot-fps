@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://caie2sfb2ioc7"]
 
-[ext_resource type="PackedScene" uid="uid://rsn3p3xygrpi" path="res://enemy/enemy_controller/export7/VanguardAnimations07.glb" id="1_pqwui"]
+[ext_resource type="PackedScene" uid="uid://rsn3p3xygrpi" path="res://enemy/enemy_controller/export07/VanguardAnimations07.glb" id="1_pqwui"]
 
 [sub_resource type="Animation" id="Animation_pqwui"]
 resource_name = "Armature|mixamo_com|Layer0"

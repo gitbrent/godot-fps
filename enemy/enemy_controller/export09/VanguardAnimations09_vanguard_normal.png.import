@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr3is4spfupef"
-path.s3tc="res://.godot/imported/VanguardAnimations07_vanguard_normal.png-ecd98f081c2f50ce521fc36b4eb14ef4.s3tc.ctex"
+uid="uid://clykra7imr7qm"
+path.s3tc="res://.godot/imported/VanguardAnimations09_vanguard_normal.png-03ea48d603faa983eed5d3d451f85ac7.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://enemy/enemy_controller/export7/VanguardAnimations07_vanguard_normal.png"
-dest_files=["res://.godot/imported/VanguardAnimations07_vanguard_normal.png-ecd98f081c2f50ce521fc36b4eb14ef4.s3tc.ctex"]
+source_file="res://enemy/enemy_controller/export09/VanguardAnimations09_vanguard_normal.png"
+dest_files=["res://.godot/imported/VanguardAnimations09_vanguard_normal.png-03ea48d603faa983eed5d3d451f85ac7.s3tc.ctex"]
 
 [params]
 
@@ -28,7 +28,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://enemy_controller/export7/VanguardAnimations07_vanguard_normal.png"
+roughness/src_normal="res://enemy/enemy_controller/export9/VanguardAnimations09_vanguard_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

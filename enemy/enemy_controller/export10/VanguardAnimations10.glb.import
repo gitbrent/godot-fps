@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bgapj8x2wl1fw"
-path="res://.godot/imported/VanguardAnimations09.glb-830862a4c82122f2e9a201af880e1693.scn"
+uid="uid://c3io4t6rnbijo"
+path="res://.godot/imported/VanguardAnimations10.glb-c8c7c068d02913289afee9624c22f5be.scn"
 
 [deps]
 
-source_file="res://enemy/enemy_controller/export9/VanguardAnimations09.glb"
-dest_files=["res://.godot/imported/VanguardAnimations09.glb-830862a4c82122f2e9a201af880e1693.scn"]
+source_file="res://enemy/enemy_controller/export10/VanguardAnimations10.glb"
+dest_files=["res://.godot/imported/VanguardAnimations10.glb-c8c7c068d02913289afee9624c22f5be.scn"]
 
 [params]
 
