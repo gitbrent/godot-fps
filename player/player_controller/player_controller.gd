@@ -31,7 +31,8 @@ var total_shots = 0
 @onready var collider: CollisionShape3D = $Collider
 @onready var camera: Camera3D = $Head/Camera3D
 @onready var death_message: Label = $HUD_CanvasLayer/DeathMessage
-@onready var damage_flash: ColorRect = $HUD_CanvasLayer/DamageFlash
+#@onready var damage_flash: ColorRect = $HUD_CanvasLayer/DamageFlash
+@onready var damage_flash: TextureRect = $HUD_CanvasLayer/TextureRect
 @onready var gun_instance: Node3D
 @onready var health_bar: ProgressBar = $HUD_CanvasLayer/MarginContainer/HBoxContainer/HealthBar
 @onready var sound_argh: AudioStreamPlayer = $"Audio/Sound-argh"
@@ -45,8 +46,9 @@ func _ready() -> void:
 	# 1: canmera
 	look_rotation.y = rotation.y
 	look_rotation.x = head.rotation.x
-	# 2: messages
+	# 2: ux
 	death_message.visible = false
+	damage_flash.visible = false
 	# SETUP
 	health_bar.max_value = HEALTH
 	health_bar.value = HEALTH

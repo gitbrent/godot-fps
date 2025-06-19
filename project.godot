@@ -24,8 +24,8 @@ SettingsManager="*res://game_manager/settings_manager.gd"
 
 [display]
 
-window/size/viewport_width=2160
-window/size/viewport_height=1398
+window/size/viewport_width=2400
+window/size/viewport_height=1500
 window/stretch/mode="canvas_items"
 
 [global_group]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbid026m80sb"]
+[gd_scene load_steps=9 format=3 uid="uid://dbid026m80sb"]
 
 [ext_resource type="Script" uid="uid://ch1ft8by16a4u" path="res://player/player_controller/player_controller.gd" id="1_f0yg5"]
 [ext_resource type="PackedScene" uid="uid://dj028bfrwe8p3" path="res://player/player_gun/gun.tscn" id="2_5s87f"]
 [ext_resource type="AudioStream" uid="uid://c3ccclta6ikdj" path="res://player/player_controller/assets/sound-argh.mp3" id="3_h00al"]
 [ext_resource type="FontFile" uid="uid://c8rynjlvhun2s" path="res://assets/fonts/Xolonium-Regular.ttf" id="3_u00sh"]
+[ext_resource type="Texture2D" uid="uid://rg83f7ddma8d" path="res://player/ui_damage_flash.png" id="4_cjafj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
 albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
@@ -54,6 +55,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0, 0, 0.5)
+metadata/_edit_lock_ = true
+
+[node name="TextureRect" type="TextureRect" parent="HUD_CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_cjafj")
 metadata/_edit_lock_ = true
 
 [node name="DeathMessage" type="Label" parent="HUD_CanvasLayer"]
