@@ -59,6 +59,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="LabelTitle" type="Label" parent="CanvasLayer/MainContainer"]
+custom_minimum_size = Vector2(0, 600)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("3_04p6d")
@@ -331,7 +332,7 @@ vertical_alignment = 1
 [node name="LabelFooter" type="Label" parent="CanvasLayer/MainContainer"]
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
-size_flags_vertical = 1
+size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.515208, 0.515208, 0.515208, 1)
 theme_override_fonts/font = ExtResource("14_bpcjf")
 theme_override_font_sizes/font_size = 48

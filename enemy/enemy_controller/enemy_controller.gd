@@ -314,6 +314,13 @@ func can_see(target: Node3D, eye_offset := Vector3.UP * 1.5) -> bool:
 	var result = space_state.intersect_ray(query)
 	return result and result.collider == target
 
+## Method to play animations from states
+func play_animation(anim_name: String, blend_time: float = -1.0, custom_speed: float = 1.0) -> void:
+	if animation_player and animation_player.has_animation(anim_name):
+		animation_player.play(anim_name, blend_time, custom_speed)
+	else:
+		printerr(name, ": Animation '", anim_name, "' not found or AnimationPlayer not valid.")
+
 # PRIVATE FUNCS ==================================================
 
 func _spawn_damage_popup(amount: int) -> void:
