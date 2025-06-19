@@ -40,8 +40,17 @@ signal died
 	set(value):
 		debug_show_state = value
 		if debug_label_state:
-			# Update the label visibility immediately
-			debug_label_state.visible = value
+			debug_label_state.visible = value # update visibility immediately
+@export var debug_show_shots: bool = false:
+	set(value):
+		debug_show_shots = value
+		if debug_label_shots:
+			debug_label_shots.visible = value # update visibility immediately
+@export var debug_show_dist: bool = false:
+	set(value):
+		debug_show_dist = value
+		if debug_label_dist:
+			debug_label_dist.visible = value # update visibility immediately
 @export var debug_show_position: bool = false:
 	set(value):
 		debug_show_position = value
@@ -131,8 +140,8 @@ func _ready() -> void:
 	# 6: debug inits
 	debug_area_mesh.visible = debug_show_detect_area
 	debug_label_state.visible = debug_show_state
-	debug_label_dist.visible = debug_show_state
-	debug_label_shots.visible = debug_show_state
+	debug_label_dist.visible = debug_show_dist
+	debug_label_shots.visible = debug_show_shots
 	debug_label_pos.visible = debug_show_position
 	debug_label_state.text = ""
 	debug_label_dist.text = ""
@@ -226,6 +235,9 @@ func _physics_process(delta: float) -> void:
 			_update_automatic_target() # New function for automatic detection
 		
 	# LAST: Perform the final move and slide calculation once
+	# --- IMPORTANT: Do NOT manually set position.y = 0 here ---
+	# Allowing move_and_slide() to manage the CharacterBody3D's position.y is crucial.
+	# It will automatically snap to the floor/slopes as long as velocity.y accounts for gravity.
 	move_and_slide()
 
 # CLASS FUNCS =============================================
