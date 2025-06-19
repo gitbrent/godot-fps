@@ -13,10 +13,11 @@ extends Node3D
 @export_group("Full-Auto")
 @export var fire_rate: float = 4.0 # Bullets per second
 #
+@onready var gun = $Node3D
+@onready var gun_bullet_ejector: Node3D = $Node3D/GunBulletEjector
 @onready var muzzle_flash: MeshInstance3D = $Node3D/MuzzlePoint/MuzzleFlash
 @onready var muzzle_point: Node3D = $Node3D/MuzzlePoint
-@onready var gun_bullet_ejector: Node3D = $Node3D/GunBulletEjector
-@onready var gun = $Node3D
+@onready var laser_sight: MeshInstance3D = $LaserSight
 #
 # TODO: make these ARGS - These are physics layers, keep them for collision setup
 const LAYER_WORLD = 1 << 0    # Layer 1
@@ -73,14 +74,17 @@ func _process(delta):
 		is_ads = false
 		#$ScopeOverlay.visible = false
 		$Crosshair.visible = true
+	#
+	# WIP: NEW:
+	#_show_laser_sight()
 
-func shoot_proj() -> void:
+func _shoot_proj() -> void:
 	# 1: FX
-	shoot_show_fx()
+	_shoot_show_fx()
 	# 2: projectile
-	shoot_bullet_proj()
+	_shoot_bullet_proj()
 
-func shoot_show_fx():
+func _shoot_show_fx():
 	# 4: muzzle-flash
 	$Node3D/MuzzlePoint/MuzzleParticles.restart()
 	# 1: audio
@@ -94,7 +98,7 @@ func shoot_show_fx():
 	else:
 		$AnimationPlayer.play("fire_normal")
 
-func shoot_bullet_proj():
+func _shoot_bullet_proj():
 	#Engine.time_scale = 0.1
 	#print("CAMERA POSITION: ", get_viewport().get_camera_3d().global_transform.origin)
 	#print("MUZZLE POSITION: ", muzzle_point.global_transform.origin)
@@ -117,12 +121,32 @@ func shoot_bullet_proj():
 	bullet.setup(shoot_direction) # Pass the camera's forward direction
 	#print("SHOOT DIRECTION: ", shoot_direction)
 
+# [20250618]: this doesnt work :(
+func _show_laser_sight() -> void:
+	var start_pos = muzzle_point.global_position
+	var end_pos = start_pos + muzzle_point.global_transform.basis.z * 100.0 # Default max length
+	#
+	var space_state = get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.new()
+	query.from = start_pos
+	query.to = start_pos + muzzle_point.global_transform.basis.z * 1000.0 # Long ray for hit detection
+	query.collide_with_areas = true # Adjust as needed
+	query.collide_with_bodies = true # Adjust as needed
+	# query.exclude = [self] # Exclude the gun itself from the raycast if necessary
+	var result = space_state.intersect_ray(query)
+	if result:
+		end_pos = result.position
+	# Call a function on your laser_sight_node to update its line
+	laser_sight.draw_laser_line(start_pos, end_pos)
+	print("start_pos: ", start_pos)
+	print("end_pos..: ", end_pos)
+
 # PUBLIC METHODS ==========================================
 
 func request_fire() -> bool:
 	# Check if the gun is ready to fire based on cooldown
 	if fire_cooldown <= 0.0:
-		shoot_proj() # Perform the firing mechanics
+		_shoot_proj() # Perform the firing mechanics
 		fire_cooldown = fire_delay / fire_rate # Reset cooldown
 		return true # Indicate that a shot was fired
 	return false # Indicate that the gun was not ready to fire

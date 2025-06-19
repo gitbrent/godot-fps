@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2omlgp27y0cv"]
+
+[ext_resource type="Script" uid="uid://civyt0x5mpl7t" path="res://player/laser_sight/laser_sight.gd" id="1_8wyww"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8wyww"]
+size = Vector3(0.025, 0.025, 0.025)
+
+[node name="LaserSight" type="MeshInstance3D"]
+script = ExtResource("1_8wyww")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_8wyww")
