@@ -16,8 +16,10 @@ func _unhandled_input(_event):
 		_on_button_gallery_pressed()
 	elif Input.is_action_just_pressed("ui_cancel"):
 		_on_button_enemy_pressed()
-	elif Input.is_action_just_pressed("shooter_reload"):
+	elif Input.is_action_just_pressed("joypad_l2"):
 		_on_button_range_pressed()
+	elif Input.is_action_just_pressed("joypad_r2"):
+		_on_btn_cover_pressed()
 
 # HANDLERS ================================================
 
@@ -33,3 +35,6 @@ func _on_button_range_pressed() -> void:
 func _on_button_enemy_pressed() -> void:
 	#GameManager.load_level("res://enemy_gallery/enemy_gallery.tscn")
 	GameManager.load_enemy_gallery()
+
+func _on_btn_cover_pressed() -> void:
+	GameManager.load_level("res://levels/cover_range/cover_range.tscn")
