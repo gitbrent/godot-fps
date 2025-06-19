@@ -1,6 +1,16 @@
-# state_cover.gd
+## state_cover.gd
+## DESIGN: 
+## - use animations to move the model via croush/stand (aka: dont manipulate the y-axis via code)
+## - adjust the height of the Hitbox/CollisionShape3D to align with char model via code
 extends EnemyState
 class_name EnemyCover
+
+## this animation sequence works!
+# CROUCH_RAPID_FIRE > CROUCH_TO_STAND_RIFLE > FIRING_RIFLE > (RELOADING)
+# > STAND_TO_CROUCH_RIFLE [then repeat above]
+
+# simple fire loop:
+# > STAND_TO_CROUCH_RIFLE > CROUCH_RAPID_FIRE > CROUCH_TO_STAND_RIFLE > FIRING_RIFLE
 
 #region vars
 # EXPORT
@@ -27,7 +37,6 @@ var _current_peek_timer: float = 0.0
 var _current_hide_timer: float = 0.0
 var _is_peeking: bool = false
 var _time_since_last_shot_from_cover: float = 0.0
-var _crouch_target_y: float # The Y-coordinate for the current crouch/stand state
 var _movement_tween: Tween = null
 var _crouch_tween: Tween = null
 #endregion
@@ -95,7 +104,8 @@ func update(delta: float) -> void:
 		# Ensure enemy is at standing height for peeking
 		var stand_y = _target_cover_transform.origin.y
 		if not _is_approximately_equal_float(enemy_controller.global_position.y, stand_y, 0.01):
-			_animate_crouch(stand_y) # Raise to stand
+			# FIXME: ^^^ WTF does this do?
+			enemy_controller.play_animation(anim_stand_up)
 		else:
 			# If already at stand height, play aiming animation
 			enemy_controller.play_animation(anim_aim_down_rifle)
@@ -119,7 +129,7 @@ func update(delta: float) -> void:
 			print("[EnemyCover] ... enemy HIDING behind cover.")
 			# Face the cover point's forward direction when hiding
 			enemy_controller.look_at(_target_cover_transform.origin + _target_cover_transform.basis.z, Vector3.UP)
-			_animate_crouch(_target_cover_transform.origin.y - crouch_height_offset) # Crouch back down
+			enemy_controller.play_animation(anim_taking_cover)
 	
 	else: # Hiding behind cover
 		_current_hide_timer += delta
@@ -127,7 +137,7 @@ func update(delta: float) -> void:
 		# Ensure enemy is at crouched height for hiding
 		var crouch_y = _target_cover_transform.origin.y - crouch_height_offset
 		if not _is_approximately_equal_float(enemy_controller.global_position.y, crouch_y, 0.01):
-			_animate_crouch(crouch_y) # Crouch down
+			enemy_controller.play_animation(anim_taking_cover)
 		else:
 			# If already at crouched height, play crouch idle
 			enemy_controller.play_animation(anim_crouch_idle)
@@ -142,7 +152,7 @@ func update(delta: float) -> void:
 			# Play animation to peek out
 			print("[EnemyCover] ... enemy PEEKING from cover.")
 			# Animation: Start peeking up
-			_animate_crouch(_target_cover_transform.origin.y, anim_peek_up) # Start raising, play peek up animation
+			enemy_controller.play_animation(anim_peek_up)
 		
 		# Face the cover point's forward direction when hiding
 		# If cover point's +basis.z is INTO cover, and enemy's +Z is its forward, this should be fine.
@@ -168,7 +178,7 @@ func exit() -> void:
 	if _crouch_tween and _crouch_tween.is_running():
 		_crouch_tween.kill()
 	if not _is_approximately_equal_float(enemy_controller.global_position.y, _target_cover_transform.origin.y, 0.01):
-		_animate_crouch(_target_cover_transform.origin.y) # Stand up
+		enemy_controller.play_animation(anim_stand_up)
 	else:
 		enemy_controller.play_animation(anim_stand_up) # Play stand up if already at stand height
 
@@ -180,23 +190,4 @@ func _is_approximately_equal_float(a: float, b: float, tolerance: float) -> bool
 
 func _start_crouch_animation() -> void:
 	# Ensure the Y position is based on the target cover transform for consistency
-	_crouch_target_y = _target_cover_transform.origin.y - crouch_height_offset
-	_animate_crouch(_crouch_target_y, anim_taking_cover)
-	# TODO: Play "crouch_idle" animation
-
-func _animate_crouch(target_y: float, anim_to_play: String = "") -> void:
-	if _crouch_tween and _crouch_tween.is_running():
-		_crouch_tween.kill()
-	
-	_crouch_tween = create_tween()
-	_crouch_tween.set_trans(Tween.TRANS_SINE)
-	_crouch_tween.set_ease(Tween.EASE_OUT)
-	_crouch_tween.tween_property(enemy_controller, "global_position:y", target_y, crouch_tween_duration)
-	
-	if not anim_to_play.is_empty():
-		enemy_controller.play_animation(anim_to_play)
-	
-	# After crouch tween finishes, if it's going down, go to crouch_idle
-	if target_y < enemy_controller.global_position.y: # Going down
-		_crouch_tween.tween_callback(func(): enemy_controller.play_animation(anim_crouch_idle))
-	# If going up, no specific idle after, the update loop will handle aim_down_rifle
+	enemy_controller.play_animation(anim_taking_cover)

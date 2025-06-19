@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cj3mt62j1q2aq"]
+[gd_scene load_steps=30 format=3 uid="uid://cj3mt62j1q2aq"]
 
 [ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://assets_models/KENNEY_PNG/Dark/texture_01.png" id="1_xk5ea"]
 [ext_resource type="Script" uid="uid://cycgeg57dbvev" path="res://levels/cover_range/cover_range.gd" id="1_xta38"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://c6ph0p6042kkb" path="res://assets_models/KENNEY_PNG/Red/texture_01.png" id="9_adlp7"]
 [ext_resource type="Texture2D" uid="uid://ch51dmhahotid" path="res://levels/cover_range/assets/wanted_poster.jpg" id="12_vjq2j"]
 [ext_resource type="PackedScene" uid="uid://w07wnlucu3st" path="res://levels/cover_range/enemy_target_poster/enemy_target_poster.tscn" id="13_ak7qu"]
+[ext_resource type="Texture2D" uid="uid://b4fillb7nvjj2" path="res://assets_models/KENNEY_PNG/Green/texture_09.png" id="14_70vph"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xk5ea"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -66,6 +67,12 @@ size = Vector3(0.1, 2, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_vjq2j"]
 size = Vector3(0.2, 2, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wrf4p"]
+albedo_texture = ExtResource("14_70vph")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yytuu"]
+material = SubResource("StandardMaterial3D_wrf4p")
+
 [node name="CoverRange" type="Node3D"]
 script = ExtResource("1_xta38")
 enemy_scene = ExtResource("2_yi52m")
@@ -76,6 +83,11 @@ environment = SubResource("Environment_xta38")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 8.2, 0)
 shadow_enabled = true
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 6, 0)
+light_energy = 0.3
+metadata/_edit_lock_ = true
 
 [node name="Ground" type="StaticBody3D" parent="."]
 metadata/_edit_lock_ = true
@@ -90,7 +102,7 @@ shape = SubResource("BoxShape3D_1o0i1")
 metadata/_edit_lock_ = true
 
 [node name="PlayerController" parent="." instance=ExtResource("3_xta38")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.5, 0, -4.75)
 
 [node name="FloatingLabel" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -11)
@@ -179,6 +191,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.8)
 [node name="MeshSpawnArea" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -2)
 mesh = SubResource("BoxMesh_iw10q")
+metadata/_edit_lock_ = true
 
 [node name="Label3D" type="Label3D" parent="MeshSpawnArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -0.4)
@@ -186,6 +199,7 @@ text = "SPAWN AREA"
 font_size = 48
 
 [node name="MarkerEnemySpawn" type="Marker3D" parent="MeshSpawnArea"]
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.9, 1.5, 6)
@@ -205,5 +219,10 @@ shape = SubResource("BoxShape3D_vjq2j")
 
 [node name="EnemyTargetPoster" parent="." instance=ExtResource("13_ak7qu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.75, -3)
+
+[node name="MeshObservation" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.01, -5)
+mesh = SubResource("PlaneMesh_yytuu")
+metadata/_edit_lock_ = true
 
 [connection signal="body_entered" from="MeshInstance3D/Area3D" to="." method="_on_area_3d_body_entered"]
