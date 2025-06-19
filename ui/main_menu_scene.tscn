@@ -3,16 +3,16 @@
 [ext_resource type="Script" uid="uid://bwmlsmdlr63lo" path="res://ui/main_menu_scene.gd" id="1_xdd34"]
 [ext_resource type="Texture2D" uid="uid://o0llpofd1qj6" path="res://ui/assets/Screenshot 2025-05-24 at 12.59.40.png" id="2_04p6d"]
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="3_04p6d"]
-[ext_resource type="Texture2D" uid="uid://dx5x2hxuy1dvd" path="res://assets_models/KENNEY_PNG/Dark/texture_08.png" id="3_idk7k"]
-[ext_resource type="Texture2D" uid="uid://d6xxiaptr6om" path="res://ui/assets/UI-04.png" id="5_te1gm"]
+[ext_resource type="Texture2D" uid="uid://2jvvtm2tlo26" path="res://assets_models/KENNEY_PNG/Dark/texture_02.png" id="3_vkcbo"]
 [ext_resource type="Texture2D" uid="uid://cgvddjwqdyl4k" path="res://ui/assets/T_P5_Cross_Light.png" id="6_ka6vp"]
 [ext_resource type="Texture2D" uid="uid://ckkg6si6v6k0a" path="res://ui/assets/CGB02-purple_L_btn.png" id="7_ka6vp"]
 [ext_resource type="Texture2D" uid="uid://l5nqkcb2j0o3" path="res://ui/assets/CGB02-green_L_btn.png" id="7_kx7qn"]
 [ext_resource type="Texture2D" uid="uid://514kfpddwdpo" path="res://ui/assets/T_P5_Triangle_Light.png" id="7_rjiop"]
-[ext_resource type="Texture2D" uid="uid://ouqi57voki70" path="res://ui/assets/T_P5_Square_Light.png" id="8_rjiop"]
 [ext_resource type="Texture2D" uid="uid://d00rra6j5tx8a" path="res://ui/assets/CGB02-blue_L_btn.png" id="8_t8xrk"]
 [ext_resource type="Texture2D" uid="uid://cyxqkutxcpq5j" path="res://ui/assets/CGB02-orange_L_btn.png" id="10_vkcbo"]
+[ext_resource type="Texture2D" uid="uid://tegv6kirn3uf" path="res://ui/assets/T_P5_L2_Light.png" id="12_bpcjf"]
 [ext_resource type="Texture2D" uid="uid://gofeoymi1dks" path="res://ui/assets/T_P5_Circle_Light.png" id="13_bpcjf"]
+[ext_resource type="Texture2D" uid="uid://c6nbbxov8qw3x" path="res://ui/assets/T_P5_R2_Light.png" id="13_vor8i"]
 [ext_resource type="FontFile" uid="uid://bnm1ivlvdbra5" path="res://assets/fonts/SourceCodePro-Regular.ttf" id="14_bpcjf"]
 
 [node name="MainMenuScene" type="Control"]
@@ -33,16 +33,17 @@ texture = ExtResource("2_04p6d")
 centered = false
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_idk7k")
+scale = Vector2(1.07, 1.07)
+texture = ExtResource("3_vkcbo")
 stretch_mode = 1
 
 [node name="Overlay" type="ColorRect" parent="CanvasLayer"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -57,7 +58,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LabelTitle1" type="Label" parent="CanvasLayer/MainContainer"]
+[node name="LabelTitle" type="Label" parent="CanvasLayer/MainContainer"]
+custom_minimum_size = Vector2(0, 600)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("3_04p6d")
@@ -70,91 +72,12 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="ButtonStart" type="TextureButton" parent="CanvasLayer/MainContainer/VBoxContainer"]
-process_mode = 3
-visible = false
-custom_minimum_size = Vector2(1000, 150)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-focus_neighbor_bottom = NodePath("../ButtonGallery")
-texture_normal = ExtResource("5_te1gm")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonStart"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_right = 125
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonStart/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonStart/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("6_ka6vp")
-
-[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonStart/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("3_04p6d")
-theme_override_font_sizes/font_size = 96
-text = "New Game"
-vertical_alignment = 1
-
-[node name="ButtonGallery" type="TextureButton" parent="CanvasLayer/MainContainer/VBoxContainer"]
-process_mode = 3
-visible = false
-custom_minimum_size = Vector2(1000, 150)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-focus_neighbor_top = NodePath("../ButtonStart")
-texture_normal = ExtResource("5_te1gm")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_right = 25
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("7_rjiop")
-
-[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("3_04p6d")
-theme_override_font_sizes/font_size = 96
-text = "Weapon Gallery"
-vertical_alignment = 1
-
 [node name="BtnStart" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
 process_mode = 3
 custom_minimum_size = Vector2(1000, 175)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
-focus_neighbor_bottom = NodePath("../ButtonGallery")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnStart"]
 layout_mode = 1
@@ -196,15 +119,18 @@ theme_override_font_sizes/font_size = 96
 text = "New Game"
 vertical_alignment = 1
 
-[node name="BtnGallery" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
-custom_minimum_size = Vector2(1000, 175)
+[node name="HBoxGallery" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+theme_override_constants/separation = 50
+
+[node name="BtnGallery" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery"]
+custom_minimum_size = Vector2(1000, 175)
+layout_mode = 2
 theme_override_font_sizes/font_size = 96
 text = "Enemy Gallery"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnGallery"]
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnGallery"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -219,7 +145,7 @@ patch_margin_right = 62
 patch_margin_bottom = 50
 metadata/_edit_lock_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnGallery"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnGallery"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -231,16 +157,16 @@ grow_vertical = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 25
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnGallery/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnGallery/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnGallery/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnGallery/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("7_rjiop")
 
-[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/BtnGallery/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnGallery/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("3_04p6d")
@@ -248,67 +174,13 @@ theme_override_font_sizes/font_size = 96
 text = "Weapon Gallery"
 vertical_alignment = 1
 
-[node name="BtnRange" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
+[node name="BtnEnemy" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery"]
 custom_minimum_size = Vector2(1000, 175)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 theme_override_font_sizes/font_size = 96
 text = "Enemy Gallery"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRange"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("10_vkcbo")
-region_rect = Rect2(0, 0, 511.953, 140)
-patch_margin_left = 60
-patch_margin_top = 55
-patch_margin_right = 62
-patch_margin_bottom = 50
-metadata/_edit_lock_ = true
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRange"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 8.0
-offset_bottom = -17.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_right = 25
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRange/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRange/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("8_rjiop")
-
-[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRange/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("3_04p6d")
-theme_override_font_sizes/font_size = 96
-text = "Shooting Range"
-vertical_alignment = 1
-
-[node name="BtnEnemy" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
-custom_minimum_size = Vector2(1000, 175)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 96
-text = "Enemy Gallery"
-
-[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy"]
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnEnemy"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -323,7 +195,7 @@ patch_margin_right = 62
 patch_margin_bottom = 50
 metadata/_edit_lock_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnEnemy"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -335,16 +207,16 @@ grow_vertical = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 25
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnEnemy/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnEnemy/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("13_bpcjf")
 
-[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnEnemy/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("3_04p6d")
@@ -352,21 +224,133 @@ theme_override_font_sizes/font_size = 96
 text = "Enemy Gallery"
 vertical_alignment = 1
 
-[node name="LabelTitle2" type="Label" parent="CanvasLayer/MainContainer"]
+[node name="HBoxRange" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 50
+
+[node name="BtnRange" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange"]
+custom_minimum_size = Vector2(1000, 175)
+layout_mode = 2
+theme_override_font_sizes/font_size = 96
+text = "Enemy Gallery"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnRange"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_vkcbo")
+region_rect = Rect2(0, 0, 511.953, 140)
+patch_margin_left = 60
+patch_margin_top = 55
+patch_margin_right = 62
+patch_margin_bottom = 50
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnRange"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 8.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnRange/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnRange/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("12_bpcjf")
+
+[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnRange/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_04p6d")
+theme_override_font_sizes/font_size = 96
+text = "Shooting Range"
+vertical_alignment = 1
+
+[node name="BtnCover" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange"]
+custom_minimum_size = Vector2(1000, 175)
+layout_mode = 2
+theme_override_font_sizes/font_size = 96
+text = "Enemy Gallery"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnCover"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_vkcbo")
+region_rect = Rect2(0, 0, 511.953, 140)
+patch_margin_left = 60
+patch_margin_top = 55
+patch_margin_right = 62
+patch_margin_bottom = 50
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnCover"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 8.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnCover/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnCover/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("13_vor8i")
+
+[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnCover/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_04p6d")
+theme_override_font_sizes/font_size = 96
+text = "Cover Range"
+vertical_alignment = 1
+
+[node name="LabelFooter" type="Label" parent="CanvasLayer/MainContainer"]
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
-size_flags_vertical = 1
+size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.515208, 0.515208, 0.515208, 1)
 theme_override_fonts/font = ExtResource("14_bpcjf")
 theme_override_font_sizes/font_size = 48
-text = "godot engine 4.x | rel v0.1"
+text = "godot engine 4.x | rel vX.X"
 horizontal_alignment = 1
 vertical_alignment = 2
 justification_flags = 162
 
-[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/ButtonStart" to="." method="_on_button_start_pressed"]
-[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/ButtonGallery" to="." method="_on_button_gallery_pressed"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/LabelFooter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnStart" to="." method="_on_button_start_pressed"]
-[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnGallery" to="." method="_on_button_gallery_pressed"]
-[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnRange" to="." method="_on_button_range_pressed"]
-[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnEnemy" to="." method="_on_button_enemy_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnGallery" to="." method="_on_button_gallery_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnEnemy" to="." method="_on_button_enemy_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnRange" to="." method="_on_button_range_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnCover" to="." method="_on_btn_cover_pressed"]

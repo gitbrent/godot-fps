@@ -31,31 +31,31 @@ sky = SubResource("Sky_e5ond")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qgarv"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8nprj"]
 albedo_texture = ExtResource("1_he0oh")
 uv1_triplanar = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_oq0ww"]
-material = SubResource("StandardMaterial3D_qgarv")
+material = SubResource("StandardMaterial3D_8nprj")
 size = Vector2(20, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_u8n4j"]
 size = Vector3(100, 0.1, 100)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ds8mj"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_meotx"]
 albedo_texture = ExtResource("10_x5web")
 uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_xhcyi"]
-material = SubResource("StandardMaterial3D_ds8mj")
+material = SubResource("StandardMaterial3D_meotx")
 size = Vector3(10, 3, 0.25)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p6dwm"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mioke"]
 albedo_texture = ExtResource("10_x5web")
 uv1_triplanar = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_45v1t"]
-material = SubResource("StandardMaterial3D_p6dwm")
+material = SubResource("StandardMaterial3D_mioke")
 size = Vector2(3, 6)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ycnku"]

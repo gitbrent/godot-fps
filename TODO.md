@@ -17,16 +17,13 @@
 [x] - FIXED: blood spurt on hit should be attached to enemy, not bullet_projectile!
 [x] - ADDED: enemy gallery (with state menu buttons)
 [x] - ADDED: ui:main_menu:options with "Invert Look" option; save/read player settings
+[WIP] - ADDED: create `CoverPoint` scene - work on enemy AI cover
 [ ] - UPDATED: player damage flash to use high-quality png with strong edges (e.g., Doom or CoD)
-[ ] - ADDED: create `CoverPoint` scene - work on enemy AI cover
 
 ## FIXME
 
-[ ] - 
-
-## Questions
-
-[ ] - 
+[ ] - give enemies their own bullet Layer (so they dont shoot themselves) (same for player)
+[ ] - fix laser sight
 
 ## New Features: Future
 

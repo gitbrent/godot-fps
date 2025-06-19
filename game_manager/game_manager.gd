@@ -188,18 +188,14 @@ func _set_game_pause_state(pause: bool) -> void:
 	game_paused_state_changed.emit(pause)
 	# 3: level-specific
 	if _current_level_instance and is_instance_valid(_current_level_instance):
-		# set HUD visibility
+		# 1: level - set HUD visibility
 		for node in _current_level_instance.get_children():
 			if node is CanvasLayer:
 				node.visible = not pause
-				print("curr_level Canvas visibility set to: ", not pause)
-			#else:
-			#	printerr("CanvasLayer not found or is not a CanvasLayer child of _current_level_instance!")
-	if _current_level_instance and is_instance_valid(_current_level_instance):
+		# 2: player HUD
 		var hud_canvas_layer = _current_level_instance.find_child("HUD_CanvasLayer", true, false)
 		if hud_canvas_layer is CanvasLayer:
 			hud_canvas_layer.visible = not pause
-			print("`HUD_CanvasLayer` visibility set to: ", not pause)
 
 # --- PUBLIC FUNCS ----------------------------------------
 

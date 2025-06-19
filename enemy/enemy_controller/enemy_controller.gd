@@ -20,41 +20,62 @@ class_name EnemyController
 signal died
 
 #region vars
-@onready var state_machine = $StateMachine
+# EXPORTS
+@export_group("Props")
+@export var max_health: int = 100
+@export var rotation_speed := 15.0
+@export var fade_out_duration = 1.5 # (seconds)
+@export_group("Behavior")
+@export var can_patrol: bool = true
+@export var can_change_state: bool = true
+@export var melee_attack_range: float = 0.1 # TODO: FUTURE:
+@export_group("DEBUG")
+@export var debug_show_state: bool = false:
+	set(value):
+		debug_show_state = value
+		# Update the label visibility immediately
+		if debug_label_state:
+			debug_label_state.visible = value
+@export var debug_show_detect_area: bool = false:
+	set(value):
+		debug_show_detect_area = value
+		# Update the mesh visibility immediately
+		if debug_area_mesh:
+			debug_area_mesh.visible = value
+# ONREADY
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var debug_label_state: Label3D = $DEBUG/LabelState
-@onready var debug_label_dist: Label3D = $DEBUG/LabelDist
-@onready var debug_label_gun: Label3D = $DEBUG/LabelGun
-@onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
+@onready var m16_rifle: Node3D = $Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed
+# ONREADY: state-machine
+@onready var state_machine = $StateMachine
 @onready var state_node_idle: EnemyState = null # Get a reference to the Idle state node so we can access its detection_range. Initialize to null
 @onready var state_node_patrol: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_follow: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
 @onready var state_node_attack: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
-@onready var m16_rifle: Node3D = $Armature/Skeleton3D/BoneAttachment3D/m16_assault_rifle_fixed
-@onready var audio_projectile_strike: AudioStreamPlayer = $"Audio/Projectile-strike"
+@onready var state_node_cover: EnemyState = null # Get a reference to the Follow state node so we can access its follow_range. Initialize to null
+# ONREADY: audio
+@onready var audio_projectile_strike: AudioStreamPlayer = $Audio/ProjectileStrike
+@onready var audio_death_yell: AudioStreamPlayer = $Audio/DeathYell
+@onready var audio_taking_cover: AudioStreamPlayer = $Audio/TakingCover
+# ONREADY: FX
 @onready var blood_particles_3d: GPUParticles3D = $BloodParticles3D
 @onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
-#
-@export_group("Props")
-@export var health: int = 100
-@export var rotation_speed := 15.0
-@export var fade_out_duration = 1.5 # (seconds)
-@export_group("Behavior")
-@export var can_patrol: bool = false
-@export_group("DEBUG")
-@export var show_state_debug: bool = false:
-	set(value):
-		show_state_debug = value
-		# Update the label visibility immediately
-		if debug_label_state:
-			debug_label_state.visible = value
-@export var show_detection_area_debug: bool = false:
-	set(value):
-		show_detection_area_debug = value
-		# Update the mesh visibility immediately
-		if debug_area_mesh:
-			debug_area_mesh.visible = value
-#
+# WIP:
+# New properties for cover management
+var _current_cover_point: CoverPoint = null
+var _current_cover_spot_transform: Transform3D = Transform3D()
+var _is_in_cover: bool = false
+# vars-debug
+@onready var debug_label_state: Label3D = $DEBUG/LabelState
+@onready var debug_label_dist: Label3D = $DEBUG/LabelDist
+@onready var debug_label_gun: Label3D = $DEBUG/LabelGun
+@onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
+# VARS
+var _current_target_node: Node3D = null # (can be Player, Marker3D, another enemy, etc.)
+var _automatic_target_detection_interval: float = 2.5
+var _automatic_target_detection_timer: float = 0.0
+var _player_detection_interval: float = 0.5 # (in seconds)
+var _player_detection_timer: float = 0.0
+var current_health: int = 100
 var is_dead := false
 var is_initialized = false
 var last_known_threat_direction: Vector3 = Vector3.INF
@@ -63,6 +84,9 @@ var total_shots_fired = 0
 #endregion
 
 func _ready() -> void:
+	# init vars
+	current_health = max_health
+
 	# Connect the StateMachine's 'state_changed' signal
 	state_machine.state_changed.connect(_on_state_transitioned)
 	
@@ -82,25 +106,27 @@ func _ready() -> void:
 		state_node_follow = state_machine.get_node("Follow") as EnemyState
 	elif state_machine.has_node("Attack"):
 		state_node_attack = state_machine.get_node("Attack") as EnemyState
+	elif state_machine.has_node("Cover"):
+		state_node_cover = state_machine.get_node("Cover") as EnemyState
 
 	# Trigger the initial state transition to set the label text and run enter()
 	if state_machine.current_state:
 		_on_state_transitioned(state_machine.current_state, state_machine.current_state.name)
 	
 	# Set initial visibility for debugs
-	if debug_label_state:
-		debug_label_state.visible = show_state_debug
-		debug_label_dist.visible = show_state_debug
-		debug_label_gun.visible = show_state_debug
+	debug_label_state.visible = debug_show_state
+	debug_label_dist.visible = debug_show_state
+	debug_label_gun.visible = debug_show_state
+	debug_label_dist.text = ""
+	debug_label_gun.text = ""
 		
-	if debug_area_mesh:
-		debug_area_mesh.visible = show_detection_area_debug
-		# make material unique or the prior enemy who faded_out, set the shared resource albedo.a to 0.0!
-		var original_material = debug_area_mesh.get_active_material(0)
-		if original_material:
-			debug_area_mesh.set_material_override(original_material.duplicate())
-		# Set the initial scale of the mesh based on the detection range
-		draw_idle_detection_area_mesh()
+	debug_area_mesh.visible = debug_show_detect_area
+	# make material unique or the prior enemy who faded_out, set the shared resource albedo.a to 0.0!
+	var original_material = debug_area_mesh.get_active_material(0)
+	if original_material:
+		debug_area_mesh.set_material_override(original_material.duplicate())
+	# Set the initial scale of the mesh based on the detection range
+	_draw_idle_detection_area_mesh()
 	
 	if not Engine.is_editor_hint():
 		await get_tree().physics_frame
@@ -126,7 +152,7 @@ func _physics_process(delta: float) -> void:
 	# STEP 1: Add the gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
+	
 	# STEP 2:
 	var desired_horizontal_velocity = Vector3.ZERO
 	if is_initialized and state_machine.current_state:
@@ -135,7 +161,7 @@ func _physics_process(delta: float) -> void:
 	# STEP 3:
 	velocity.x = desired_horizontal_velocity.x
 	velocity.z = desired_horizontal_velocity.z
-
+	
 	# STEP 4: Handle Rotation
 	var current_move_direction_horizontal = Vector3(velocity.x, 0, velocity.z)
 	var direction_to_face = current_move_direction_horizontal # Default to using movement direction
@@ -164,8 +190,16 @@ func _physics_process(delta: float) -> void:
 		rotation.y = new_angle
 	
 	# STEP 5:
-	draw_idle_detection_area_mesh()
-	
+	_draw_idle_detection_area_mesh()
+
+	# STEP 6: Update player target periodically
+	# Only update target automatically if no external target is set OR if the external target is no longer valid
+	if _current_target_node == null or not is_instance_valid(_current_target_node):
+		_automatic_target_detection_timer += delta
+		if _automatic_target_detection_timer >= _automatic_target_detection_interval:
+			_automatic_target_detection_timer = 0.0
+			_update_automatic_target() # New function for automatic detection
+		
 	# LAST: Perform the final move and slide calculation once
 	move_and_slide()
 
@@ -173,13 +207,14 @@ func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
 	#print("[enemy_cont] on_state_tr: ", new_state_name)
 	#
 	# 1: Update the text of the Label3D node to show the new state name
-	if debug_label_state and show_state_debug:
+	if debug_label_state and debug_show_state:
 		debug_label_state.text = new_state_name
 	# 2:
 	state_node_idle = null
 	state_node_follow = null
 	state_node_patrol = null
 	state_node_attack = null
+	state_node_cover = null
 	if new_state_name.to_lower() == "idle":
 		state_node_idle = state
 	elif new_state_name.to_lower() == "patrol":
@@ -188,6 +223,8 @@ func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
 		state_node_follow = state
 	elif new_state_name.to_lower() == "attack":
 		state_node_attack = state
+	elif new_state_name.to_lower() == "cover":
+		state_node_cover = state
 
 # STANDARD GAME FUNCS ==========================================
 
@@ -197,11 +234,11 @@ func take_damage(amount:int, direction_of_impact: Vector3) -> void:
 	if is_dead:
 		return
 	# 2:
-	health -= amount
-	spawn_damage_popup(amount)
+	current_health -= amount
+	_spawn_damage_popup(amount)
 	# 3:
-	if health <= 0:
-		handle_died()
+	if current_health <= 0:
+		_handle_died()
 	else:
 		animation_player.play("HIT_REACTION")
 	# 4:
@@ -224,6 +261,27 @@ func show_hit(impact_point: Vector3) -> void:
 		blood_particles_3d.global_position = impact_point
 		blood_particles_3d.emitting = true
 
+# Getter for states to retrieve the current target
+func get_current_target() -> Node3D:
+	return _current_target_node
+
+## Function to allow external scripts to set the enemy's target
+# Call this from a spawner, an AI manager, or a mission script.
+func set_external_target(target: Node3D) -> void:
+	if not is_instance_valid(target):
+		printerr(name, ": Attempted to set an invalid target. Clearing external target.")
+		_current_target_node = null # Clear if invalid
+		return
+	_current_target_node = target
+	print(name, ": Target set externally to: ", target.name)
+
+# Call this if you want the enemy to stop focusing on an external target
+# and revert to its default target acquisition (e.g., finding the nearest player).
+func clear_external_target() -> void:
+	if _current_target_node != null:
+		print(name, ": External target cleared. Reverting to automatic target detection.")
+	_current_target_node = null
+
 # CLASS-SPECIFIC FUNCS ============================================
 
 # Public method for states to request an attack
@@ -239,8 +297,6 @@ func fire_weapon(target_position: Vector3) -> void:
 	# 3: debug
 	#debug_label_gun.text = "FIRE AT\n"+str(target_position)
 	debug_label_gun.text = "shots\n"+str(total_shots_fired)
-
-# Private funcs
 
 func can_see(target: Node3D, eye_offset := Vector3.UP * 1.5) -> bool:
 	if not is_instance_valid(target):
@@ -258,13 +314,22 @@ func can_see(target: Node3D, eye_offset := Vector3.UP * 1.5) -> bool:
 	var result = space_state.intersect_ray(query)
 	return result and result.collider == target
 
-func spawn_damage_popup(amount: int) -> void:
+## Method to play animations from states
+func play_animation(anim_name: String, blend_time: float = -1.0, custom_speed: float = 1.0) -> void:
+	if animation_player and animation_player.has_animation(anim_name):
+		animation_player.play(anim_name, blend_time, custom_speed)
+	else:
+		printerr(name, ": Animation '", anim_name, "' not found or AnimationPlayer not valid.")
+
+# PRIVATE FUNCS ==================================================
+
+func _spawn_damage_popup(amount: int) -> void:
 	var popup_scene = preload("res://ui/damage_popup.tscn")
 	var popup = popup_scene.instantiate()
 	popup.set_popup_data(amount, global_transform.origin + Vector3.UP * 2.0)
 	get_tree().root.add_child(popup)
 
-func handle_died():
+func _handle_died():
 	# 1: flag & stop
 	is_dead = true
 	velocity = Vector3.ZERO
@@ -273,6 +338,7 @@ func handle_died():
 	self.set_collision_layer(0)
 	# 3: update state & signal
 	state_machine.request_state_change("dead")
+	audio_death_yell.play()
 	emit_signal("died")
 	# LAST: free
 	m16_rifle.queue_free()
@@ -292,7 +358,7 @@ func _on_fade_out_requested() -> void:
 	# if $CollisionShape3D: $CollisionShape3D.disabled = true # Adjust path if needed
 
 	# Find all MeshInstance3D nodes that are children (recursive search needed)
-	var mesh_nodes = find_meshes_in_children(self) # Use the helper function below
+	var mesh_nodes = _find_meshes_in_children(self) # Use the helper function below
 
 	var tween = create_tween()
 	var meshes_found = false # Flag to track if we found meshes to fade
@@ -332,19 +398,20 @@ func _on_fade_out_requested() -> void:
 
 # --- Add the helper function to recursively find meshes ---
 # This function helps find MeshInstance3D nodes nested within the enemy's children (e.g., inside the imported model scene)
-func find_meshes_in_children(node: Node) -> Array[MeshInstance3D]:
+func _find_meshes_in_children(node: Node) -> Array[MeshInstance3D]:
 	var meshes: Array[MeshInstance3D] = []
 	for child in node.get_children():
 		if child is MeshInstance3D:
 			meshes.append(child)
 		# Recursively search in children
-		meshes.append_array(find_meshes_in_children(child))
+		meshes.append_array(_find_meshes_in_children(child))
 	return meshes
 
 # DEBUG/FYI FUNCS ==================================================
 
-func draw_idle_detection_area_mesh() -> void:
+func _draw_idle_detection_area_mesh() -> void:
 	var mat := debug_area_mesh.material_override as StandardMaterial3D
+	var target = get_current_target()
 	
 	if is_dead:
 		debug_label_dist.visible = false
@@ -352,14 +419,11 @@ func draw_idle_detection_area_mesh() -> void:
 		debug_area_mesh.visible = false
 		return
 	
-	if show_detection_area_debug:
-		var players = get_tree().get_nodes_in_group("player")
-		for player in players:
-			if player is CharacterBody3D:
-				var distance = global_position.distance_to(player.global_position)
-				debug_label_dist.text = "dist\n"+str(snapped(distance, 0.1))+"m"
+	if debug_show_detect_area and target:
+		var distance = global_position.distance_to(target.global_position)
+		debug_label_dist.text = "dist\n"+str(snapped(distance, 0.1))+"m"
 
-	if show_detection_area_debug and state_node_idle:
+	if debug_show_detect_area and state_node_idle:
 		var detection_range = state_node_idle.detection_range
 		# The CylinderMesh by default has a radius of 1.0 and height of 1.0.
 		# We need to scale it by the desired radius on the X and Z axes.
@@ -369,22 +433,86 @@ func draw_idle_detection_area_mesh() -> void:
 		# We usually don't need to change the Y scale here.
 		debug_area_mesh.visible = true
 		mat.albedo_color = Color(0.0, 0.0, 1.0, 0.1)  # blue
-	elif show_detection_area_debug and state_node_patrol:
+	elif debug_show_detect_area and state_node_patrol:
 		var detection_range = state_node_patrol.detection_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
 		mat.albedo_color = Color(1.0, 1.0, 0.0, 0.1)  # yellow
-	elif show_detection_area_debug and state_node_follow:
+	elif debug_show_detect_area and state_node_follow:
 		var detection_range = state_node_follow.follow_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
-	elif show_detection_area_debug and state_node_attack:
+	elif debug_show_detect_area and state_node_attack:
 		var detection_range = state_node_attack.attack_range
 		debug_area_mesh.scale.x = detection_range * 2
 		debug_area_mesh.scale.z = detection_range * 2
 		debug_area_mesh.visible = true
 		mat.albedo_color = Color(1.0, 0.0, 0.0, 0.1)  # red
+	elif debug_show_detect_area and state_node_cover:
+		var detection_range = 1 # state_node_cover.attack_range
+		debug_area_mesh.scale.x = detection_range * 2
+		debug_area_mesh.scale.z = detection_range * 2
+		debug_area_mesh.visible = true
+		mat.albedo_color = Color(0.0, 0.0, 1.0, 0.1)  # green
 	else:
 		debug_area_mesh.visible = false
+
+# NEW!!! @@@@@@@@@@@@@@@!!!!!!!!!!!!!!!~~~~~~~~~~~~~~~~~~~
+
+# Call this from your states (e.g., Patrol, Chase) when enemy needs cover
+func find_and_go_to_cover(requester_id: String, search_radius: float = 30.0) -> bool:
+	var potential_cover_points = get_tree().get_nodes_in_group("cover_points")
+	var nearest_cover_point: CoverPoint = null
+	var nearest_cover_transform: Transform3D = Transform3D()
+	var shortest_distance_to_cover_spot = INF
+	print("FYI: potential_cover_points: ", potential_cover_points)
+	
+	for cp_node in potential_cover_points:
+		if cp_node is CoverPoint and cp_node.is_available_for_use:
+			var potential_spot_transform = cp_node.get_nearest_available_spot_transform(global_position)
+			if potential_spot_transform != Transform3D():
+				var dist = global_position.distance_to(potential_spot_transform.origin)
+				if dist < shortest_distance_to_cover_spot and dist <= search_radius:
+					shortest_distance_to_cover_spot = dist
+					nearest_cover_point = cp_node
+					nearest_cover_transform = potential_spot_transform
+	
+	if nearest_cover_point:
+		print("FYI: nearest_cover_point: ", nearest_cover_point)
+		# Request and reserve the spot from the actual CoverPoint instance
+		_current_cover_point = nearest_cover_point
+		_current_cover_spot_transform = _current_cover_point.request_nearest_cover_position(requester_id, global_position)
+		if _current_cover_spot_transform != Transform3D():
+			state_machine.request_state_change("cover")
+			return true
+	
+	# LAST:
+	return false
+
+func leave_cover(requester_id: String) -> void:
+	if _current_cover_point and is_instance_valid(_current_cover_point):
+		_current_cover_point.release_cover_position(requester_id)
+		_current_cover_point = null
+		_current_cover_spot_transform = Transform3D()
+		_is_in_cover = false # Update flag
+
+func get_current_cover_spot_transform() -> Transform3D:
+	return _current_cover_spot_transform
+
+# Function to find and set the target automatically (e.g., nearest player in the "player" group)
+func _update_automatic_target() -> void:
+	var players = get_tree().get_nodes_in_group("player")
+	var nearest_distance = INF
+	var nearest_found_target: CharacterBody3D = null
+
+	for potential_target in players:
+		if potential_target is CharacterBody3D:
+			var distance = global_position.distance_to(potential_target.global_position)
+			if distance < nearest_distance:
+				nearest_distance = distance
+				nearest_found_target = potential_target
+	
+	_current_target_node = nearest_found_target
+	# print(name, ": Automatically updated target to: ", _current_target_node.name if _current_target_node else "None")

@@ -77,8 +77,8 @@ func load_enemy(enemy_model_path: String) -> void:
 	
 	# 2. Add the instantiated enemy to the scene
 	enemy_model_container.add_child(_current_enemy_instance)
-	_current_enemy_instance.show_detection_area_debug = false
-	_current_enemy_instance.show_state_debug = false
+	_current_enemy_instance.debug_show_detect_area = false
+	_current_enemy_instance.debug_show_state = false
 	
 	# 3. Find the AnimationPlayer within the enemy model
 	# We need to recursively search for the AnimationPlayer as it might not be a direct child

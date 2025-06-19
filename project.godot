@@ -24,8 +24,8 @@ SettingsManager="*res://game_manager/settings_manager.gd"
 
 [display]
 
-window/size/viewport_width=2160
-window/size/viewport_height=1398
+window/size/viewport_width=2400
+window/size/viewport_height=1500
 window/stretch/mode="canvas_items"
 
 [global_group]
@@ -34,6 +34,7 @@ damageable=""
 player=""
 enemies=""
 ui_damage_popup=""
+cover_points=""
 
 [input]
 
@@ -138,6 +139,16 @@ joypad_right_stick_down={
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":3,"axis_value":1.0,"script":null)
 ]
 }
+joypad_l2={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":4,"axis_value":1.0,"script":null)
+]
+}
+joypad_r2={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":5,"axis_value":1.0,"script":null)
+]
+}
 
 [layer_names]
 
@@ -149,3 +160,4 @@ joypad_right_stick_down={
 3d_physics/layer_3="enemies"
 3d_physics/layer_4="ejected_shells"
 3d_physics/layer_5="player"
+3d_physics/layer_8="cover_points"

@@ -30,13 +30,13 @@ var total_shots = 0
 @onready var head: Node3D = $Head # AKA: camera pivot
 @onready var collider: CollisionShape3D = $Collider
 @onready var camera: Camera3D = $Head/Camera3D
-@onready var damage_flash: ColorRect = $HUD_CanvasLayer/DamageFlash
-@onready var health_bar: ProgressBar = $HUD_CanvasLayer/HealthBar
 @onready var death_message: Label = $HUD_CanvasLayer/DeathMessage
+#@onready var damage_flash: ColorRect = $HUD_CanvasLayer/DamageFlash
+@onready var damage_flash: TextureRect = $HUD_CanvasLayer/TextureRect
 @onready var gun_instance: Node3D
+@onready var health_bar: ProgressBar = $HUD_CanvasLayer/MarginContainer/HBoxContainer/HealthBar
 @onready var sound_argh: AudioStreamPlayer = $"Audio/Sound-argh"
-@onready var label_2: Label = $HUD_CanvasLayer/VBoxContainer/Label2
-@onready var hud_canvas_layer: CanvasLayer = $HUD_CanvasLayer
+@onready var label_2: Label = $HUD_CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/Label2
 #endregion
 
 # ---------------------------------------------------------
@@ -46,8 +46,9 @@ func _ready() -> void:
 	# 1: canmera
 	look_rotation.y = rotation.y
 	look_rotation.x = head.rotation.x
-	# 2: messages
+	# 2: ux
 	death_message.visible = false
+	damage_flash.visible = false
 	# SETUP
 	health_bar.max_value = HEALTH
 	health_bar.value = HEALTH
@@ -147,9 +148,9 @@ func rotate_look(rot_input: Vector2):
 	## Base of controller rotates around y (left/right). Head rotates around x (up/down).
 	## Modifies look_rotation based on rot_input, then resets basis and rotates by look_rotation.
 	if SettingsManager.invert_look:
-		look_rotation.x += rot_input.y * LOOK_SPEED
-	else:
 		look_rotation.x -= rot_input.y * LOOK_SPEED
+	else:
+		look_rotation.x += rot_input.y * LOOK_SPEED
 	look_rotation.x = clamp(look_rotation.x, deg_to_rad(-85), deg_to_rad(85))
 	look_rotation.y -= rot_input.x * LOOK_SPEED
 	transform.basis = Basis()

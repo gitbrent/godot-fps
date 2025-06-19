@@ -13,6 +13,7 @@ var wander_time: float
 #endregion
 
 func enter() -> void:
+	print("[EnemyPatrol] enter")
 	animation_player.play("WALKING_WITH_RIFLE")
 	randomize_wander()
 
