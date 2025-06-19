@@ -21,6 +21,7 @@ func _spawn_enemy() -> EnemyController:
 	# IMPORTANT: these props are used in `_ready()`, so set before add_child!
 	new_enemy.debug_show_state = true
 	new_enemy.debug_show_detect_area = true
+	new_enemy.debug_show_position = true
 	new_enemy.name = "Enemy"+str(active_enemies.size())
 	add_child(new_enemy)
 	new_enemy.global_position = marker_enemy_spawn.global_position
