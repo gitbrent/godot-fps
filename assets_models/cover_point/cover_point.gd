@@ -111,5 +111,5 @@ func request_nearest_cover_position(requester_id: String, query_position: Vector
 
 	best_spot.is_occupied = true
 	best_spot.occupying_enemy_id = requester_id
-	print("CoverPoint '", name, "' nearest spot occupied by enemy '", requester_id, "'")
+	print("CoverPoint '", name, "' nearest spot is now occupied by enemy '", requester_id, "'")
 	return best_spot.marker.global_transform

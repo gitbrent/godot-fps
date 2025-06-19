@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://w07wnlucu3st"]
+
+[ext_resource type="Script" uid="uid://d22vhhuanhshk" path="res://levels/cover_range/enemy_target_poster/enemy_target_poster.gd" id="1_qjvou"]
+[ext_resource type="PackedScene" uid="uid://cpmnh18b7xkwc" path="res://levels/cover_range/enemy_target_poster/standard_firing_target/standard_firing_target.glb" id="2_i4ite"]
+[ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="2_tptj8"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_70vph"]
+size = Vector3(0.1, 2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vjq2j"]
+size = Vector3(0.2, 1.5, 1)
+
+[node name="EnemyTargetPoster" type="Node3D"]
+script = ExtResource("1_qjvou")
+
+[node name="MeshFiringTarget" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_70vph")
+skeleton = NodePath("../..")
+
+[node name="LabelTitle" type="Label3D" parent="MeshFiringTarget"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0.85, 0)
+text = "TARGET"
+font = ExtResource("2_tptj8")
+font_size = 48
+outline_size = 8
+metadata/_edit_lock_ = true
+
+[node name="LabelHitsTop" type="Label3D" parent="MeshFiringTarget"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0.6, 0.2)
+text = "Hits = "
+font = ExtResource("2_tptj8")
+font_size = 36
+outline_size = 4
+
+[node name="LabelHits" type="Label3D" parent="MeshFiringTarget"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0.6, -0.25)
+modulate = Color(0, 0.74902, 0.00784314, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "000"
+font_size = 48
+outline_size = 4
+
+[node name="FiringTarget" parent="MeshFiringTarget" groups=["damageable"] instance=ExtResource("2_i4ite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, -0.95, 0)
+metadata/_edit_lock_ = true
+
+[node name="TargetMarker3D" type="Marker3D" parent="MeshFiringTarget/FiringTarget"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+metadata/_edit_lock_ = true
+
+[node name="Area3D" type="Area3D" parent="MeshFiringTarget"]
+collision_mask = 2
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshFiringTarget/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_vjq2j")
+metadata/_edit_lock_ = true
+
+[connection signal="body_entered" from="MeshFiringTarget/Area3D" to="." method="_on_area_3d_body_entered"]

@@ -10,6 +10,7 @@ func enter() -> void:
 	animation_player.play("IDLE_RIFLE")
 
 func physics_update(_delta: float) -> Vector3:
+	# TODO: replace below with new enemy_controller.get_player()
 	var players = get_tree().get_nodes_in_group("player")
 	var nearest_player_distance = INF
 	var nearest_player: CharacterBody3D = null

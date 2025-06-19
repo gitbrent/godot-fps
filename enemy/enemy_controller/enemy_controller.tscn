@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://d4bx7rm4wb2ax"]
+[gd_scene load_steps=49 format=4 uid="uid://d4bx7rm4wb2ax"]
 
 [ext_resource type="Script" uid="uid://bfgdoh0wqbpwu" path="res://enemy/enemy_controller/enemy_controller.gd" id="1_wilww"]
 [ext_resource type="Texture2D" uid="uid://dvcivjkfrehtp" path="res://enemy/enemy_controller/test3/Test03_vanguard_diffuse1.png" id="2_0jppv"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://6mbl8mtrfbde" path="res://enemy/enemy_rifle/enemy_rifle.tscn" id="13_iwtpe"]
 [ext_resource type="Script" uid="uid://dcmxw1247ny4s" path="res://enemy/enemy_controller/state_patrol.gd" id="14_oeory"]
 [ext_resource type="Script" uid="uid://kk3g1m85urgx" path="res://enemy/enemy_controller/state_yelling.gd" id="15_50015"]
+[ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="22_mc36b"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_08ms7"]
 size = Vector3(1, 2.06885, 1)
@@ -9191,30 +9192,33 @@ metadata/_custom_type_script = "uid://bk4bnnvg75snr"
 [node name="LabelState" type="Label3D" parent="DEBUG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.39514, 0)
 visible = false
-outline_modulate = Color(0.17147, 0.228082, 0.67884, 1)
+outline_modulate = Color(0.330444, 0.307112, 0.0287016, 1)
 text = "STATE"
-font_size = 96
-outline_size = 24
-metadata/_edit_lock_ = true
-
-[node name="LabelDist" type="Label3D" parent="DEBUG"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0468, 1.64489, 0.0896553)
-visible = false
-modulate = Color(0.358422, 0.551433, 1, 1)
-outline_modulate = Color(0.019658, 0, 0.736169, 1)
-text = "DIST"
-font_size = 64
-outline_size = 6
+font = ExtResource("22_mc36b")
+font_size = 72
+outline_size = 18
 metadata/_edit_lock_ = true
 
 [node name="LabelGun" type="Label3D" parent="DEBUG"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.23824, 1.64489, 0.0896553)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.8, 0.09)
 visible = false
 modulate = Color(0.700887, 0.0316858, 0.0176256, 1)
 outline_modulate = Color(0.999999, 0.997091, 0.996634, 1)
-text = "GUN"
-font_size = 64
-outline_size = 6
+text = "shots
+99"
+font_size = 48
+outline_size = 4
+metadata/_edit_lock_ = true
+
+[node name="LabelDist" type="Label3D" parent="DEBUG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.8, 0.09)
+visible = false
+modulate = Color(0.358422, 0.551433, 1, 1)
+outline_modulate = Color(0.019658, 0, 0.736169, 1)
+text = "dist
+9.9m"
+font_size = 48
+outline_size = 4
 metadata/_edit_lock_ = true
 
 [node name="DetectionAreaMesh" type="MeshInstance3D" parent="DEBUG"]

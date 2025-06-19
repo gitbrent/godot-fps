@@ -40,10 +40,10 @@ func enter() -> void:
 	await animation_player.animation_finished
 	animation_player.play("FIRING_RIFLE")
 	audio_enemy_spotted.play()
-	# 2: When entering, try to find a target player immediately
-	var player = enemy_controller.get_target_player()
-	if player == null:
-		# If no player found on entering, transition back to idle
+	# 2: When entering, try to find a target immediately
+	var target = enemy_controller.get_current_target()
+	if target == null:
+		# If no target found on entering, transition back to idle
 		transitioned.emit(self, "idle")
 
 func update(delta: float) -> void:
@@ -54,9 +54,10 @@ func update(delta: float) -> void:
 		# 2-1: Reset cooldown
 		time_since_last_attack = 0.0
 		# 2-2: Call the fire_weapon method on the enemy_controller, passing target position
-		var player = enemy_controller.get_target_player()
-		var player_target = player.global_transform.origin + Vector3.UP * 1.5  # player chest
-		enemy_controller.fire_weapon(player_target)
+		var target = enemy_controller.get_current_target()
+		# FIXME: below hard-coded target
+		var target_pos = target.global_transform.origin + Vector3.UP * 1.5  # player chest
+		enemy_controller.fire_weapon(target_pos)
 	# 3: check for cover periodically
 	_cover_check_timer += delta
 	if _cover_check_timer >= cover_check_interval:
@@ -65,7 +66,7 @@ func update(delta: float) -> void:
 
 func physics_update(_delta: float) -> Vector3:
 	var desired_horizontal_velocity = Vector3.ZERO
-	var player = enemy_controller.get_target_player()
+	var target = enemy_controller.get_current_target()
 	
 	## 1: Check for nearest player and transition to chase if found within range
 	#if player and is_instance_valid(player):
@@ -78,12 +79,12 @@ func physics_update(_delta: float) -> Vector3:
 			#return desired_horizontal_velocity # Return current velocity before state change
 	
 	# 2:
-	if player and is_instance_valid(player):
-		distance_to_player = enemy_controller.global_position.distance_to(player.global_position)
-		has_line_of_sight = enemy_controller.can_see(player)
+	if target and is_instance_valid(target):
+		distance_to_player = enemy_controller.global_position.distance_to(target.global_position)
+		has_line_of_sight = enemy_controller.can_see(target)
 		# --- Determine Desired Facing Direction ---
-		# Set the desired rotation direction towards the target player
-		var direction_to_player = player.global_position - enemy_controller.global_position
+		# Set the desired rotation direction towards the target target
+		var direction_to_player = target.global_position - enemy_controller.global_position
 		direction_to_player.y = 0 # Ignore vertical difference for horizontal facing
 		if direction_to_player.length_squared() > 0.001:
 			desired_rotation_direction = direction_to_player.normalized()
@@ -91,14 +92,14 @@ func physics_update(_delta: float) -> Vector3:
 	else: # Player is null or invalid (target lost)
 		distance_to_player = INF # Player not found, set distance to infinity
 		has_line_of_sight = false
-		# If player is lost, the rotation direction might revert to a default or last known,
+		# If target is lost, the rotation direction might revert to a default or last known,
 		# or you might handle a "lost target" rotation behavior here.
 
 	# --- State Transition Logic (Consolidated Here) ---
 	var next_state_name = "" # Variable to hold the name of the state to transition to
 
 	# Condition 1: Player is lost (null or invalid instance)
-	if player == null or !is_instance_valid(player):
+	if target == null or !is_instance_valid(target):
 		next_state_name = "patrol" # Default transition if target is lost
 
 	# Condition 2: Player moved out of attack range
@@ -141,7 +142,7 @@ func exit() -> void:
 # CLASS CUSTOM FUNCS -----------------------------------------------
 
 func _check_and_seek_cover() -> void:
-	var player = enemy_controller.get_target_player()
+	var player = enemy_controller.get_current_target()
 	
 	if not player or not is_instance_valid(player):
 		return # No player to interact with

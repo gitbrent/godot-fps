@@ -2,6 +2,7 @@ extends Node3D
 
 #region
 @onready var marker_enemy_spawn: Marker3D = $MeshSpawnArea/MarkerEnemySpawn
+@onready var target_marker_3d: Marker3D = $EnemyTargetPoster/MeshFiringTarget/FiringTarget/TargetMarker3D
 @export var enemy_scene: PackedScene
 var active_enemies: Array[EnemyController] = []
 #endregion
@@ -18,14 +19,18 @@ func _spawn_enemy() -> EnemyController:
 	# 2:
 	var new_enemy:EnemyController = enemy_scene.instantiate() as EnemyController
 	# IMPORTANT: these props are used in `_ready()`, so set before add_child!
-	new_enemy.can_patrol = false
 	new_enemy.debug_show_state = true
-	new_enemy.debug_show_detect_area = false
+	new_enemy.debug_show_detect_area = true
+	new_enemy.name = "Enemy"+str(active_enemies.size())
 	add_child(new_enemy)
 	new_enemy.global_position = marker_enemy_spawn.global_position
-	new_enemy.state_machine.request_state_change("cover")
+	new_enemy.find_and_go_to_cover(new_enemy.name) # use in lieu of request_state_change()
+	new_enemy.can_patrol = false
 	new_enemy.can_change_state = false
-	new_enemy.name = "Enemy"+str(active_enemies.size())
+	# ^^^ lock state after all above
+	
+	# TODO: send target
+	new_enemy.set_external_target(target_marker_3d)
 	
 	# 3: Add the new enemy to your tracking array
 	active_enemies.append(new_enemy)
@@ -48,6 +53,6 @@ func _on_enemy_died(enemy_instance: EnemyController) -> void:
 	print("Enemy died! Active enemies remaining: ", active_enemies.size())
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
-	print("WANTED POSTER hit!")
+	#print("WANTED POSTER (spawn enemy) hit!")
 	var new_enemy = _spawn_enemy()
 	print("SPANWED ENEMY: ", new_enemy.name)

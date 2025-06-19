@@ -43,8 +43,11 @@ func _on_child_transitioned(state:EnemyState, new_state_name:String):
 
 ## Public method to request a state change by name
 func request_state_change(state_name: String) -> void:
-	if not enemy_controller_ref.can_change_state and state_name.to_lower() != "dead":
-		return
+	#print("[request_state_change]: state_name: ", state_name)
+	#print("enemy_controller_ref.can_change_state: ", enemy_controller_ref.can_change_state)
+	if enemy_controller_ref.can_change_state == false:
+		if state_name.to_lower() != "dead":
+			return
 	
 	var new_state = states.get(state_name.to_lower())
 	if !new_state:

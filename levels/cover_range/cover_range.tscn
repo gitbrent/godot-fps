@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cj3mt62j1q2aq"]
+[gd_scene load_steps=27 format=3 uid="uid://cj3mt62j1q2aq"]
 
 [ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://assets_models/KENNEY_PNG/Dark/texture_01.png" id="1_xk5ea"]
 [ext_resource type="Script" uid="uid://cycgeg57dbvev" path="res://levels/cover_range/cover_range.gd" id="1_xta38"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://spo1ccdf5fp7" path="res://assets_models/fence_barrier/fence_barrier.tscn" id="7_yi52m"]
 [ext_resource type="Texture2D" uid="uid://c6ph0p6042kkb" path="res://assets_models/KENNEY_PNG/Red/texture_01.png" id="9_adlp7"]
 [ext_resource type="Texture2D" uid="uid://ch51dmhahotid" path="res://levels/cover_range/assets/wanted_poster.jpg" id="12_vjq2j"]
+[ext_resource type="PackedScene" uid="uid://w07wnlucu3st" path="res://levels/cover_range/enemy_target_poster/enemy_target_poster.tscn" id="13_ak7qu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xk5ea"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -63,7 +64,7 @@ material = SubResource("StandardMaterial3D_ak7qu")
 size = Vector3(0.1, 2, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vjq2j"]
-size = Vector3(0.2, 2, 2)
+size = Vector3(0.2, 2, 1)
 
 [node name="CoverRange" type="Node3D"]
 script = ExtResource("1_xta38")
@@ -176,7 +177,7 @@ metadata/_edit_lock_ = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.8)
 
 [node name="MeshSpawnArea" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -2)
 mesh = SubResource("BoxMesh_iw10q")
 
 [node name="Label3D" type="Label3D" parent="MeshSpawnArea"]
@@ -197,11 +198,12 @@ font_size = 48
 outline_size = 8
 
 [node name="Area3D" type="Area3D" parent="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -1.5, -6)
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.5, 6)
 shape = SubResource("BoxShape3D_vjq2j")
+
+[node name="EnemyTargetPoster" parent="." instance=ExtResource("13_ak7qu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.75, -3)
 
 [connection signal="body_entered" from="MeshInstance3D/Area3D" to="." method="_on_area_3d_body_entered"]

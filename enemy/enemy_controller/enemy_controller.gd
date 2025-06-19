@@ -70,8 +70,10 @@ var _is_in_cover: bool = false
 @onready var debug_label_gun: Label3D = $DEBUG/LabelGun
 @onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
 # VARS
+var _current_target_node: Node3D = null # (can be Player, Marker3D, another enemy, etc.)
+var _automatic_target_detection_interval: float = 2.5
+var _automatic_target_detection_timer: float = 0.0
 var _player_detection_interval: float = 0.5 # (in seconds)
-var _target_player: CharacterBody3D = null
 var _player_detection_timer: float = 0.0
 var current_health: int = 100
 var is_dead := false
@@ -115,6 +117,8 @@ func _ready() -> void:
 	debug_label_state.visible = debug_show_state
 	debug_label_dist.visible = debug_show_state
 	debug_label_gun.visible = debug_show_state
+	debug_label_dist.text = ""
+	debug_label_gun.text = ""
 		
 	debug_area_mesh.visible = debug_show_detect_area
 	# make material unique or the prior enemy who faded_out, set the shared resource albedo.a to 0.0!
@@ -189,10 +193,12 @@ func _physics_process(delta: float) -> void:
 	_draw_idle_detection_area_mesh()
 
 	# STEP 6: Update player target periodically
-	_player_detection_timer += delta
-	if _player_detection_timer >= _player_detection_interval:
-		_player_detection_timer = 0.0
-		_update_target_player()
+	# Only update target automatically if no external target is set OR if the external target is no longer valid
+	if _current_target_node == null or not is_instance_valid(_current_target_node):
+		_automatic_target_detection_timer += delta
+		if _automatic_target_detection_timer >= _automatic_target_detection_interval:
+			_automatic_target_detection_timer = 0.0
+			_update_automatic_target() # New function for automatic detection
 		
 	# LAST: Perform the final move and slide calculation once
 	move_and_slide()
@@ -255,9 +261,26 @@ func show_hit(impact_point: Vector3) -> void:
 		blood_particles_3d.global_position = impact_point
 		blood_particles_3d.emitting = true
 
-# Property to get the player from any state (read-only)
-func get_target_player() -> CharacterBody3D:
-	return _target_player
+# Getter for states to retrieve the current target
+func get_current_target() -> Node3D:
+	return _current_target_node
+
+## Function to allow external scripts to set the enemy's target
+# Call this from a spawner, an AI manager, or a mission script.
+func set_external_target(target: Node3D) -> void:
+	if not is_instance_valid(target):
+		printerr(name, ": Attempted to set an invalid target. Clearing external target.")
+		_current_target_node = null # Clear if invalid
+		return
+	_current_target_node = target
+	print(name, ": Target set externally to: ", target.name)
+
+# Call this if you want the enemy to stop focusing on an external target
+# and revert to its default target acquisition (e.g., finding the nearest player).
+func clear_external_target() -> void:
+	if _current_target_node != null:
+		print(name, ": External target cleared. Reverting to automatic target detection.")
+	_current_target_node = null
 
 # CLASS-SPECIFIC FUNCS ============================================
 
@@ -381,7 +404,7 @@ func _find_meshes_in_children(node: Node) -> Array[MeshInstance3D]:
 
 func _draw_idle_detection_area_mesh() -> void:
 	var mat := debug_area_mesh.material_override as StandardMaterial3D
-	var player = get_target_player()
+	var target = get_current_target()
 	
 	if is_dead:
 		debug_label_dist.visible = false
@@ -389,8 +412,8 @@ func _draw_idle_detection_area_mesh() -> void:
 		debug_area_mesh.visible = false
 		return
 	
-	if debug_show_detect_area and player:
-		var distance = global_position.distance_to(player.global_position)
+	if debug_show_detect_area and target:
+		var distance = global_position.distance_to(target.global_position)
 		debug_label_dist.text = "dist\n"+str(snapped(distance, 0.1))+"m"
 
 	if debug_show_detect_area and state_node_idle:
@@ -437,6 +460,7 @@ func find_and_go_to_cover(requester_id: String, search_radius: float = 30.0) -> 
 	var nearest_cover_point: CoverPoint = null
 	var nearest_cover_transform: Transform3D = Transform3D()
 	var shortest_distance_to_cover_spot = INF
+	print("FYI: potential_cover_points: ", potential_cover_points)
 	
 	for cp_node in potential_cover_points:
 		if cp_node is CoverPoint and cp_node.is_available_for_use:
@@ -470,17 +494,18 @@ func leave_cover(requester_id: String) -> void:
 func get_current_cover_spot_transform() -> Transform3D:
 	return _current_cover_spot_transform
 
-func _update_target_player() -> void:
+# Function to find and set the target automatically (e.g., nearest player in the "player" group)
+func _update_automatic_target() -> void:
 	var players = get_tree().get_nodes_in_group("player")
-	var nearest_player_distance = INF
-	var nearest_found_player: CharacterBody3D = null
+	var nearest_distance = INF
+	var nearest_found_target: CharacterBody3D = null
 
-	for player_node in players:
-		if player_node is CharacterBody3D:
-			var distance = global_position.distance_to(player_node.global_position)
-			if distance < nearest_player_distance:
-				nearest_player_distance = distance
-				nearest_found_player = player_node
+	for potential_target in players:
+		if potential_target is CharacterBody3D:
+			var distance = global_position.distance_to(potential_target.global_position)
+			if distance < nearest_distance:
+				nearest_distance = distance
+				nearest_found_target = potential_target
 	
-	_target_player = nearest_found_player
-	#print(name, " updated target player: ", _target_player.name if _target_player else "None")
+	_current_target_node = nearest_found_target
+	# print(name, ": Automatically updated target to: ", _current_target_node.name if _current_target_node else "None")
