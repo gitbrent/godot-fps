@@ -1,11 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://w07wnlucu3st"]
+[gd_scene load_steps=7 format=3 uid="uid://w07wnlucu3st"]
 
 [ext_resource type="Script" uid="uid://d22vhhuanhshk" path="res://levels/cover_range/enemy_target_poster/enemy_target_poster.gd" id="1_qjvou"]
 [ext_resource type="PackedScene" uid="uid://cpmnh18b7xkwc" path="res://levels/cover_range/enemy_target_poster/standard_firing_target/standard_firing_target.glb" id="2_i4ite"]
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="2_tptj8"]
+[ext_resource type="FontFile" uid="uid://c8rynjlvhun2s" path="res://assets/fonts/Xolonium-Regular.ttf" id="3_tptj8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_70vph"]
-size = Vector3(0.1, 2, 1)
+size = Vector3(0.1, 2.4, 1.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vjq2j"]
 size = Vector3(0.2, 1.5, 1)
@@ -18,30 +19,30 @@ mesh = SubResource("BoxMesh_70vph")
 skeleton = NodePath("../..")
 
 [node name="LabelTitle" type="Label3D" parent="MeshFiringTarget"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0.85, 0)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 1, 0)
 text = "TARGET"
 font = ExtResource("2_tptj8")
-font_size = 48
+font_size = 60
 outline_size = 8
 metadata/_edit_lock_ = true
 
-[node name="LabelHitsTop" type="Label3D" parent="MeshFiringTarget"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0.6, 0.2)
-text = "Hits = "
+[node name="LabelHitsLbl" type="Label3D" parent="MeshFiringTarget"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0.35, -0.35)
+text = "Hits"
 font = ExtResource("2_tptj8")
-font_size = 36
 outline_size = 4
 
 [node name="LabelHits" type="Label3D" parent="MeshFiringTarget"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0.6, -0.25)
-modulate = Color(0, 0.74902, 0.00784314, 1)
-outline_modulate = Color(1, 1, 1, 1)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0.65, 0)
+modulate = Color(0.742289, 0.00424359, 0.0158688, 1)
+outline_modulate = Color(1, 0.0392157, 0.0509804, 1)
 text = "000"
-font_size = 48
+font = ExtResource("3_tptj8")
+font_size = 96
 outline_size = 4
 
 [node name="FiringTarget" parent="MeshFiringTarget" groups=["damageable"] instance=ExtResource("2_i4ite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, -0.95, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, -1, 0)
 metadata/_edit_lock_ = true
 
 [node name="TargetMarker3D" type="Marker3D" parent="MeshFiringTarget/FiringTarget"]
@@ -49,6 +50,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 metadata/_edit_lock_ = true
 
 [node name="Area3D" type="Area3D" parent="MeshFiringTarget"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 collision_mask = 2
 metadata/_edit_lock_ = true
 
