@@ -60,7 +60,6 @@ func _process(delta: float):
 		# Crucially, we only change the Z component; X and Y remain fixed.
 		enemy_model_container.position.z = new_camera_z
 
-# Function to load an enemy model from a path
 func load_enemy(enemy_model_path: String) -> void:
 	_clear_enemy_display()
 	
