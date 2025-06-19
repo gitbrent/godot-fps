@@ -1,5 +1,6 @@
 # enemy_controller.gd
-# The controller script should act as the central hub for the enemy character's physical presence and actions. Its responsibilities include:
+# The controller script acts as the central hub for the enemy character's physical presence and actions.
+# Its responsibilities include:
 # - Character Core: 
 #     Handling fundamental character properties (health, movement, physics, death).
 # - Node References: 
@@ -25,6 +26,11 @@ signal died
 @export var max_health: int = 100
 @export var rotation_speed := 15.0
 @export var fade_out_duration = 1.5 # (seconds)
+@export_group("Props-Crouch")
+@export var standing_box_size_y: float = 2.0  # Target height of the BoxShape3D when standing
+@export var standing_shape_pos_y: float = 1.0 # Target Y-offset for center of standing collider from CharacterBody3D's origin (feet)
+@export var crouch_box_size_y: float = 1.25   # Target height of the BoxShape3D when crouching
+@export var crouch_shape_pos_y: float = 0.7   # Target Y-offset for center of crouched collider from CharacterBody3D's origin (feet)
 @export_group("Behavior")
 @export var can_patrol: bool = true
 @export var can_change_state: bool = true
@@ -33,14 +39,20 @@ signal died
 @export var debug_show_state: bool = false:
 	set(value):
 		debug_show_state = value
-		# Update the label visibility immediately
 		if debug_label_state:
+			# Update the label visibility immediately
 			debug_label_state.visible = value
+@export var debug_show_position: bool = false:
+	set(value):
+		debug_show_position = value
+		if debug_label_pos:
+			# Update the label visibility immediately
+			debug_label_pos.visible = value
 @export var debug_show_detect_area: bool = false:
 	set(value):
 		debug_show_detect_area = value
-		# Update the mesh visibility immediately
 		if debug_area_mesh:
+			# Update the mesh visibility immediately
 			debug_area_mesh.visible = value
 # ONREADY
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -66,8 +78,9 @@ var _current_cover_spot_transform: Transform3D = Transform3D()
 var _is_in_cover: bool = false
 # vars-debug
 @onready var debug_label_state: Label3D = $DEBUG/LabelState
+@onready var debug_label_shots: Label3D = $DEBUG/LabelShots
 @onready var debug_label_dist: Label3D = $DEBUG/LabelDist
-@onready var debug_label_gun: Label3D = $DEBUG/LabelGun
+@onready var debug_label_pos: Label3D = $DEBUG/LabelPosition
 @onready var debug_area_mesh: MeshInstance3D = $DEBUG/DetectionAreaMesh
 # VARS
 var _current_target_node: Node3D = null # (can be Player, Marker3D, another enemy, etc.)
@@ -83,21 +96,23 @@ var desired_rotation_direction: Vector3 = Vector3(0, 0, 1)
 var total_shots_fired = 0
 #endregion
 
+# NODE BUILT-IN FUNCS ============================================
+
 func _ready() -> void:
-	# init vars
+	# 1: init vars
 	current_health = max_health
 
-	# Connect the StateMachine's 'state_changed' signal
+	# 2: onnect the StateMachine's 'state_changed' signal
 	state_machine.state_changed.connect(_on_state_transitioned)
 	
-	# Iterate through the StateMachine's children (your individual state nodes)
+	# 3: iterate through the StateMachine's children (your individual state nodes)
 	if state_machine: # Ensure state_machine exists
 		for child in state_machine.get_children():
 			if child is EnemyState: # Check if the child is one of your state scripts
 				# Connect the fade_out_requested signal to the new function in this script
 				child.fade_out_requested.connect(_on_fade_out_requested)
 	
-	# Find the Idle state node by name from the state machine's children
+	# 4: find the Idle state node by name from the state machine's children
 	if state_machine.has_node("Idle"):
 		state_node_idle = state_machine.get_node("Idle") as EnemyState
 	elif state_machine.has_node("Patrol"):
@@ -109,30 +124,35 @@ func _ready() -> void:
 	elif state_machine.has_node("Cover"):
 		state_node_cover = state_machine.get_node("Cover") as EnemyState
 
-	# Trigger the initial state transition to set the label text and run enter()
+	# 5: rigger the initial state transition to set the label text and run enter()
 	if state_machine.current_state:
 		_on_state_transitioned(state_machine.current_state, state_machine.current_state.name)
 	
-	# Set initial visibility for debugs
+	# 6: debug inits
+	debug_area_mesh.visible = debug_show_detect_area
 	debug_label_state.visible = debug_show_state
 	debug_label_dist.visible = debug_show_state
-	debug_label_gun.visible = debug_show_state
+	debug_label_shots.visible = debug_show_state
+	debug_label_pos.visible = debug_show_position
+	debug_label_state.text = ""
 	debug_label_dist.text = ""
-	debug_label_gun.text = ""
-		
-	debug_area_mesh.visible = debug_show_detect_area
-	# make material unique or the prior enemy who faded_out, set the shared resource albedo.a to 0.0!
+	debug_label_shots.text = ""
+	debug_label_pos.text = ""
+	# NOTE: make material unique or the prior enemy who faded_out, set the shared resource albedo.a to 0.0!
 	var original_material = debug_area_mesh.get_active_material(0)
 	if original_material:
 		debug_area_mesh.set_material_override(original_material.duplicate())
-	# Set the initial scale of the mesh based on the detection range
 	_draw_idle_detection_area_mesh()
 	
+	# 7: set is_init
 	if not Engine.is_editor_hint():
 		await get_tree().physics_frame
 		is_initialized = true
 	else:
 		is_initialized = true
+	
+	# 8:
+	set_collision_to_standing()
 
 func _process(_delta: float) -> void:
 	# --- Make the State Display Label Face Camera ---
@@ -144,9 +164,14 @@ func _process(_delta: float) -> void:
 			debug_label_state.rotation_degrees.y += 180
 			debug_label_dist.look_at(camera.global_transform.origin, Vector3.UP)
 			debug_label_dist.rotation_degrees.y += 180
-			debug_label_gun.look_at(camera.global_transform.origin, Vector3.UP)
-			debug_label_gun.rotation_degrees.y += 180
+			debug_label_shots.look_at(camera.global_transform.origin, Vector3.UP)
+			debug_label_shots.rotation_degrees.y += 180
+			debug_label_pos.look_at(camera.global_transform.origin, Vector3.UP)
+			debug_label_pos.rotation_degrees.y += 180
 	# --- End Camera Facing ---
+	if debug_label_pos and !Engine.is_editor_hint():
+		var pos := global_position
+		debug_label_pos.text = "(%.2f, %.2f, %.2f)" % [pos.x, pos.y, pos.z]
 
 func _physics_process(delta: float) -> void:
 	# STEP 1: Add the gravity
@@ -203,6 +228,8 @@ func _physics_process(delta: float) -> void:
 	# LAST: Perform the final move and slide calculation once
 	move_and_slide()
 
+# CLASS FUNCS =============================================
+
 func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
 	#print("[enemy_cont] on_state_tr: ", new_state_name)
 	#
@@ -226,7 +253,7 @@ func _on_state_transitioned(state: EnemyState, new_state_name: String) -> void:
 	elif new_state_name.to_lower() == "cover":
 		state_node_cover = state
 
-# STANDARD GAME FUNCS ==========================================
+# STANDARD ENEMY GAME FUNCS ===============================
 
 ## `take_damage` is called by projectiles if implemented (**DONT RENAME**)
 func take_damage(amount:int, direction_of_impact: Vector3) -> void:
@@ -261,7 +288,7 @@ func show_hit(impact_point: Vector3) -> void:
 		blood_particles_3d.global_position = impact_point
 		blood_particles_3d.emitting = true
 
-# Getter for states to retrieve the current target
+## Getter for states to retrieve the current target
 func get_current_target() -> Node3D:
 	return _current_target_node
 
@@ -275,16 +302,16 @@ func set_external_target(target: Node3D) -> void:
 	_current_target_node = target
 	print(name, ": Target set externally to: ", target.name)
 
-# Call this if you want the enemy to stop focusing on an external target
-# and revert to its default target acquisition (e.g., finding the nearest player).
+## Call this if you want the enemy to stop focusing on an external target
+## and revert to its default target acquisition (e.g., finding the nearest player).
 func clear_external_target() -> void:
 	if _current_target_node != null:
 		print(name, ": External target cleared. Reverting to automatic target detection.")
 	_current_target_node = null
 
-# CLASS-SPECIFIC FUNCS ============================================
+# CLASS-SPECIFIC FUNCS ====================================
 
-# Public method for states to request an attack
+## Public method for states to request an attack
 func fire_weapon(target_position: Vector3) -> void:
 	# 1: cannot fire if dead
 	if is_dead:
@@ -295,8 +322,8 @@ func fire_weapon(target_position: Vector3) -> void:
 		total_shots_fired += 1
 	#print("Enemy fired at position: ", target_position) # Placeholder print
 	# 3: debug
-	#debug_label_gun.text = "FIRE AT\n"+str(target_position)
-	debug_label_gun.text = "shots\n"+str(total_shots_fired)
+	#debug_label_shots.text = "FIRE AT\n"+str(target_position)
+	debug_label_shots.text = "shots\n"+str(total_shots_fired)
 
 func can_see(target: Node3D, eye_offset := Vector3.UP * 1.5) -> bool:
 	if not is_instance_valid(target):
@@ -321,7 +348,7 @@ func play_animation(anim_name: String, blend_time: float = -1.0, custom_speed: f
 	else:
 		printerr(name, ": Animation '", anim_name, "' not found or AnimationPlayer not valid.")
 
-# PRIVATE FUNCS ==================================================
+# PRIVATE FUNCS ===========================================
 
 func _spawn_damage_popup(amount: int) -> void:
 	var popup_scene = preload("res://ui/damage_popup.tscn")
@@ -329,7 +356,7 @@ func _spawn_damage_popup(amount: int) -> void:
 	popup.set_popup_data(amount, global_transform.origin + Vector3.UP * 2.0)
 	get_tree().root.add_child(popup)
 
-func _handle_died():
+func _handle_died() -> void:
 	# 1: flag & stop
 	is_dead = true
 	velocity = Vector3.ZERO
@@ -396,8 +423,8 @@ func _on_fade_out_requested() -> void:
 		print("No meshes found to fade, queue_freeing immediately.")
 		queue_free()
 
-# --- Add the helper function to recursively find meshes ---
-# This function helps find MeshInstance3D nodes nested within the enemy's children (e.g., inside the imported model scene)
+## Helper function to recursively find meshes
+## This function helps find MeshInstance3D nodes nested within the enemy's children (e.g., inside the imported model scene)
 func _find_meshes_in_children(node: Node) -> Array[MeshInstance3D]:
 	var meshes: Array[MeshInstance3D] = []
 	for child in node.get_children():
@@ -407,7 +434,7 @@ func _find_meshes_in_children(node: Node) -> Array[MeshInstance3D]:
 		meshes.append_array(_find_meshes_in_children(child))
 	return meshes
 
-# DEBUG/FYI FUNCS ==================================================
+# DEBUG/DEV FUNCS =========================================
 
 func _draw_idle_detection_area_mesh() -> void:
 	var mat := debug_area_mesh.material_override as StandardMaterial3D
@@ -415,7 +442,7 @@ func _draw_idle_detection_area_mesh() -> void:
 	
 	if is_dead:
 		debug_label_dist.visible = false
-		debug_label_gun.visible = false
+		debug_label_shots.visible = false
 		debug_area_mesh.visible = false
 		return
 	
@@ -459,7 +486,7 @@ func _draw_idle_detection_area_mesh() -> void:
 	else:
 		debug_area_mesh.visible = false
 
-# NEW!!! @@@@@@@@@@@@@@@!!!!!!!!!!!!!!!~~~~~~~~~~~~~~~~~~~
+# WIP: NEW: @@@@@@@@@@@@@@@!!!!!!!!!!!!!!!~~~~~~~~~~~~~~~~~~~
 
 # Call this from your states (e.g., Patrol, Chase) when enemy needs cover
 func find_and_go_to_cover(requester_id: String, search_radius: float = 30.0) -> bool:
@@ -516,3 +543,21 @@ func _update_automatic_target() -> void:
 	
 	_current_target_node = nearest_found_target
 	# print(name, ": Automatically updated target to: ", _current_target_node.name if _current_target_node else "None")
+
+# Public Function for states to adjust collision shape to standing dimensions
+func set_collision_to_standing():
+	if collision_shape_3d and collision_shape_3d.shape is BoxShape3D:
+		var box_shape: BoxShape3D = collision_shape_3d.shape as BoxShape3D
+		box_shape.size.y = standing_box_size_y
+		collision_shape_3d.position.y = standing_shape_pos_y
+	else:
+		printerr(name, ": CollisionShape3D not found or not a BoxShape3D for standing setup.")
+
+# Public Function for states to adjust collision shape to crouching dimensions
+func set_collision_to_crouch():
+	if collision_shape_3d and collision_shape_3d.shape is BoxShape3D:
+		var box_shape: BoxShape3D = collision_shape_3d.shape as BoxShape3D
+		box_shape.size.y = crouch_box_size_y
+		collision_shape_3d.position.y = crouch_shape_pos_y
+	else:
+		printerr(name, ": CollisionShape3D not found or not a BoxShape3D for crouch setup.")

@@ -90,6 +90,11 @@ func enter() -> void:
 func update(delta: float) -> void:
 	var target = enemy_controller.get_current_target()
 	
+	# FIXME: we need to find the best place to always set Y to zero
+	if enemy_controller and enemy_controller.position.y != 0:
+		#print("FIXME: ", enemy_controller.position.y)
+		pass
+
 	_time_since_last_shot_from_cover += delta
 	
 	# NOTE: stay fixed by design (we want to "fix" certain enemies in place on future maps)
@@ -106,9 +111,11 @@ func update(delta: float) -> void:
 		if not _is_approximately_equal_float(enemy_controller.global_position.y, stand_y, 0.01):
 			# FIXME: ^^^ WTF does this do?
 			enemy_controller.play_animation(anim_stand_up)
+			enemy_controller.set_collision_to_standing()
 		else:
 			# If already at stand height, play aiming animation
 			enemy_controller.play_animation(anim_aim_down_rifle)
+			enemy_controller.set_collision_to_standing()
 		
 		# Face target while peeking
 		if target and is_instance_valid(target):
@@ -130,6 +137,7 @@ func update(delta: float) -> void:
 			# Face the cover point's forward direction when hiding
 			enemy_controller.look_at(_target_cover_transform.origin + _target_cover_transform.basis.z, Vector3.UP)
 			enemy_controller.play_animation(anim_taking_cover)
+			enemy_controller.set_collision_to_crouch()
 	
 	else: # Hiding behind cover
 		_current_hide_timer += delta
@@ -177,10 +185,10 @@ func exit() -> void:
 	# Ensure enemy stands up when leaving cover
 	if _crouch_tween and _crouch_tween.is_running():
 		_crouch_tween.kill()
-	if not _is_approximately_equal_float(enemy_controller.global_position.y, _target_cover_transform.origin.y, 0.01):
-		enemy_controller.play_animation(anim_stand_up)
-	else:
-		enemy_controller.play_animation(anim_stand_up) # Play stand up if already at stand height
+
+	# reset
+	enemy_controller.play_animation(anim_stand_up)
+	enemy_controller.set_collision_to_standing()
 
 # CLASS-SPECIFIC =========================================
 
@@ -191,3 +199,4 @@ func _is_approximately_equal_float(a: float, b: float, tolerance: float) -> bool
 func _start_crouch_animation() -> void:
 	# Ensure the Y position is based on the target cover transform for consistency
 	enemy_controller.play_animation(anim_taking_cover)
+	enemy_controller.set_collision_to_crouch()

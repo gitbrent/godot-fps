@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://d4bx7rm4wb2ax"]
+[gd_scene load_steps=38 format=4 uid="uid://d4bx7rm4wb2ax"]
 
 [ext_resource type="Script" uid="uid://bfgdoh0wqbpwu" path="res://enemy/enemy_controller/enemy_controller.gd" id="1_wilww"]
 [ext_resource type="Texture2D" uid="uid://dvcivjkfrehtp" path="res://enemy/enemy_controller/test3/Test03_vanguard_diffuse1.png" id="2_0jppv"]
@@ -23,9 +23,10 @@
 [ext_resource type="Script" uid="uid://dcmxw1247ny4s" path="res://enemy/enemy_controller/state_patrol.gd" id="14_oeory"]
 [ext_resource type="Script" uid="uid://kk3g1m85urgx" path="res://enemy/enemy_controller/state_yelling.gd" id="15_50015"]
 [ext_resource type="FontFile" uid="uid://dgnhojd17ti3" path="res://assets/fonts/Quicksand-Regular.ttf" id="22_mc36b"]
+[ext_resource type="FontFile" uid="uid://c8rynjlvhun2s" path="res://assets/fonts/Xolonium-Regular.ttf" id="24_1aqk6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_08ms7"]
-size = Vector3(1, 2.06885, 1)
+size = Vector3(1, 2, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1e4we"]
 resource_name = "VanguardBodyMat"
@@ -320,9 +321,9 @@ collision_mask = 149
 script = ExtResource("1_wilww")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03442, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_08ms7")
-metadata/_edit_lock_ = true
+debug_color = Color(0, 0.6, 0.701961, 0.780392)
 
 [node name="Armature" type="Node3D" parent="."]
 transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0)
@@ -797,7 +798,7 @@ skin = SubResource("Skin_7hmpb")
 metadata/_edit_lock_ = true
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
-transform = Transform3D(-0.0774761, 0.0530862, 0.99558, -0.0974528, 0.993396, -0.0605534, -0.99222, -0.101714, -0.0717911, -24.9148, 26.1512, -77.3327)
+transform = Transform3D(-0.0774754, 0.0530865, 0.99558, -0.0974519, 0.993397, -0.0605538, -0.99222, -0.101713, -0.0717905, -24.9148, 26.1512, -77.3327)
 bone_name = "mixamorig_RightHand"
 bone_idx = 34
 metadata/_edit_lock_ = true
@@ -880,7 +881,7 @@ metadata/_custom_type_script = "uid://bk4bnnvg75snr"
 [node name="DEBUG" type="Node3D" parent="."]
 
 [node name="LabelState" type="Label3D" parent="DEBUG"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.39514, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
 visible = false
 outline_modulate = Color(0.330444, 0.307112, 0.0287016, 1)
 text = "STATE"
@@ -889,7 +890,18 @@ font_size = 72
 outline_size = 18
 metadata/_edit_lock_ = true
 
-[node name="LabelGun" type="Label3D" parent="DEBUG"]
+[node name="LabelPosition" type="Label3D" parent="DEBUG"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+visible = false
+modulate = Color(0.0156863, 0.0156863, 0.0235294, 1)
+outline_modulate = Color(0.980139, 0.980139, 0.980139, 1)
+text = "99, 99, 99"
+font = ExtResource("24_1aqk6")
+font_size = 60
+outline_size = 2
+metadata/_edit_lock_ = true
+
+[node name="LabelShots" type="Label3D" parent="DEBUG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.8, 0.09)
 visible = false
 modulate = Color(0.700887, 0.0316858, 0.0176256, 1)
