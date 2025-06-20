@@ -57,3 +57,13 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 	#print("WANTED POSTER (spawn enemy) hit!")
 	var new_enemy = _spawn_enemy()
 	print("SPANWED ENEMY: ", new_enemy.name)
+
+func _on_player_controller_player_died() -> void:
+	# TODO:
+	# When player dies, clear all active enemies
+	#for enemy in active_enemies:
+		#if is_instance_valid(enemy): # Always check if the instance is still valid before interacting
+			#enemy.queue_free()
+	#active_enemies.clear() # Clear the array after freeing them
+	GameManager.player_died.emit()
+	# FIXME: doesnt do anything ^^

@@ -227,4 +227,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.01, -5)
 mesh = SubResource("PlaneMesh_yytuu")
 metadata/_edit_lock_ = true
 
+[connection signal="player_died" from="PlayerController" to="." method="_on_player_controller_player_died"]
 [connection signal="body_entered" from="MeshWantedPoster/Area3D" to="." method="_on_area_3d_body_entered"]

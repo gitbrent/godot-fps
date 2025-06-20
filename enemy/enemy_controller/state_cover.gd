@@ -14,7 +14,7 @@ class_name EnemyCover
 
 #region vars
 # EXPORT
-@export var shoot_from_cover_cooldown: float = 1.0
+@export var shoot_from_cover_cooldown: float = 0.25
 @export var crouch_tween_duration: float = 0.5 # How long it takes to crouch/stand up
 @export var cover_move_duration: float = 2.0 # How long it takes to move to the cover spot
 @export var cover_peek_duration: float = 1.5 # How long to peek out
@@ -36,7 +36,6 @@ var _current_hide_timer: float = 0.0
 var _is_peeking: bool = false
 var _time_since_last_shot_from_cover: float = 0.0
 var _movement_tween: Tween = null
-var _crouch_tween: Tween = null
 # ENUM
 enum CoverInternalState {
 	MOVING_TO_SPOT,
@@ -70,8 +69,6 @@ func enter() -> void:
 	# 4: Stop any existing tweens
 	if _movement_tween and _movement_tween.is_running():
 		_movement_tween.kill()
-	if _crouch_tween and _crouch_tween.is_running():
-		_crouch_tween.kill()
 	
 	# 5: 
 	_current_cover_state = CoverInternalState.MOVING_TO_SPOT
@@ -159,20 +156,10 @@ func exit() -> void:
 	# Stop all tweens
 	if _movement_tween and _movement_tween.is_running():
 		_movement_tween.kill()
-	if _crouch_tween and _crouch_tween.is_running():
-		_crouch_tween.kill()
 	
-	# Ensure enemy stands up and collision is standing when leaving cover
-	# Play stand up animation
+	# Crucial: Always set back to standing on exit
 	enemy_controller.play_animation(anim_stand_up)
-	# Tween global_position.y back to the base height (0 if on ground, or whatever your standing height is)
-	var stand_up_tween = create_tween()
-	stand_up_tween.set_trans(Tween.TRANS_SINE)
-	stand_up_tween.set_ease(Tween.EASE_OUT)
-	# Tween to the default standing Y (often 0 if character origin is at feet)
-	stand_up_tween.tween_property(enemy_controller, "global_position:y", _target_cover_transform.origin.y, crouch_tween_duration)
-	
-	enemy_controller.set_collision_to_standing() # Crucial: Always set back to standing on exit
+	enemy_controller.set_collision_to_standing()
 
 # CLASS-SPECIFIC =========================================
 

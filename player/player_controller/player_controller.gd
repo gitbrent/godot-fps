@@ -178,7 +178,7 @@ func flash_damage_screen():
 	damage_flash.modulate.a = 0.5  # full flash
 	#
 	var tween := create_tween()
-	tween.tween_property(damage_flash, "modulate:a", 0.0, 0.4)
+	tween.tween_property(damage_flash, "modulate:a", 0.0, 0.35)
 	tween.tween_callback(func(): damage_flash.visible = false)
 
 func die():
