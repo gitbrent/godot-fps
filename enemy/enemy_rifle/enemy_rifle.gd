@@ -4,10 +4,11 @@ extends Node3D
 @export_group("Scene Children")
 @export var bullet_scene: PackedScene
 @export_group("Props")
-@export var fire_rate: float = 2.0 # Bullets per second
+@export var fire_rate: float = 4.0 # Bullets per second
 #
 @onready var muzzle_point: Node3D = $MuzzlePoint
 @onready var muzzle_flash: MeshInstance3D = $MuzzlePoint/MuzzleFlash
+@onready var audio_gunshot: AudioStreamPlayer3D = $AudioGunshot
 #
 var fire_cooldown: float = 0.0 # Cooldown starts at 0, ready to fire immediately
 #endregion
@@ -30,6 +31,9 @@ func _shoot_proj(target_position:Vector3) -> void:
 	# 1: FX (Call your FX function if you have one)
 	# shoot_fx() # Call your effects function
 	# TODO: Add flash, etc.
+
+	# 1: audio
+	audio_gunshot.play()
 
 	# 2: projectile
 	var bullet = bullet_scene.instantiate()

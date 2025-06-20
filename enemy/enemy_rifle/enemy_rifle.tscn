@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://6mbl8mtrfbde"]
+[gd_scene load_steps=11 format=3 uid="uid://6mbl8mtrfbde"]
 
 [ext_resource type="Script" uid="uid://cfl1wy0u1eq5t" path="res://enemy/enemy_rifle/enemy_rifle.gd" id="1_ohxoj"]
 [ext_resource type="PackedScene" uid="uid://7f8yov8g563i" path="res://player/player_gun/projectiles/bullet_projectile.tscn" id="2_chuus"]
 [ext_resource type="Texture2D" uid="uid://bug8csdyy0l5b" path="res://player/player_gun/textures/spiral_12.png" id="5_imu0b"]
+[ext_resource type="AudioStream" uid="uid://csfdcaofnhtuj" path="res://enemy/enemy_rifle/assets/762x39 Single Isolated MP3.mp3" id="5_y6tqn"]
 [ext_resource type="PackedScene" uid="uid://be85ilnmh3re7" path="res://enemy/enemy_rifle/m16_scaled/M16_Rifle_1meter.glb" id="7_fur1n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_og67c"]
@@ -84,5 +85,9 @@ explosiveness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_x2fnv")
 draw_pass_1 = SubResource("QuadMesh_xaer6")
+
+[node name="AudioGunshot" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, -7.45058e-09, 0, 7.45058e-09, 1, 0, 0, 0)
+stream = ExtResource("5_y6tqn")
 
 [editable path="M16_Rifle_1meter"]

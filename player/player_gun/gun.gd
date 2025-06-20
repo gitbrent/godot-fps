@@ -18,6 +18,9 @@ extends Node3D
 @onready var muzzle_flash: MeshInstance3D = $Node3D/MuzzlePoint/MuzzleFlash
 @onready var muzzle_point: Node3D = $Node3D/MuzzlePoint
 @onready var laser_sight: MeshInstance3D = $LaserSight
+@onready var audio_gunshot: AudioStreamPlayer3D = $AudioGunshot
+@onready var muzzle_particles: GPUParticles3D = $Node3D/MuzzlePoint/MuzzleParticles
+@onready var animation_player = $AnimationPlayer
 #
 # TODO: make these ARGS - These are physics layers, keep them for collision setup
 const LAYER_WORLD = 1 << 0    # Layer 1
@@ -86,17 +89,17 @@ func _shoot_proj() -> void:
 
 func _shoot_show_fx():
 	# 4: muzzle-flash
-	$Node3D/MuzzlePoint/MuzzleParticles.restart()
+	muzzle_particles.restart()
 	# 1: audio
-	$AudioGunshot.play()
+	audio_gunshot.play()
 	# 2: eject spent shell casing
 	gun_bullet_ejector.eject_shell()
 	# 3: recoil animation
 	# IMPORTANT: apply tranform to the underlying model so we can use 0,0.2,04 etc. - otherwise, position will require tyaking ARG values and updating those!
 	if is_ads:
-		$AnimationPlayer.play("fire_ads")
+		animation_player.play("fire_ads")
 	else:
-		$AnimationPlayer.play("fire_normal")
+		animation_player.play("fire_normal")
 
 func _shoot_bullet_proj():
 	#Engine.time_scale = 0.1
