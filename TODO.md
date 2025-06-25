@@ -5,6 +5,8 @@
 [x] - UPDATED: player damage flash to use high-quality png with strong edges (e.g., Doom or CoD)
 [x] - ADDED: adjusted position/size of enemy CollisionShape for crouch/stand
 [WIP] - ADDED: create `CoverPoint` scene - work on enemy AI cover
+[ ] - ^^^ ADD: AnimationTree with real transitions
+[ ] - continue AI by having it effectively switch staes like patrol/attack/idle
 
 ## FIXME
 

@@ -553,6 +553,10 @@ func _update_automatic_target() -> void:
 				nearest_distance = distance
 				nearest_found_target = potential_target
 	
+	# FIXME: TODO:
+	# If player, find Marker3D as target!
+	#_current_target_node = nearest_found_target.find_child("Head/AimTarget")
+	
 	_current_target_node = nearest_found_target
 	# print(name, ": Automatically updated target to: ", _current_target_node.name if _current_target_node else "None")
 
