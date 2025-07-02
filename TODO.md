@@ -6,12 +6,17 @@
 [x] - ADDED: adjusted position/size of enemy CollisionShape for crouch/stand
 [WIP] - ADDED: create `CoverPoint` scene - work on enemy AI cover
 [ ] - ^^^ ADD: AnimationTree with real transitions
+[ ] - ^^^ first thing: reload animation (https://www.youtube.com/watch?v=WY2cN9uG6W8)
 [ ] - continue AI by having it effectively switch staes like patrol/attack/idle
+
+## SIDE-TRACKS
+
+[ ] - vehicle-on-rails level (vehicle on Path3D)
 
 ## FIXME
 
 [ ] - give enemies their own bullet Layer (so they dont shoot themselves) (same for player)
-[ ] - fix laser sight
+[ ] - fix/enable laser sight
 
 ## New Features: Future
 
