@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://gkhdbx4bfw4n"]
+
+[ext_resource type="PackedScene" uid="uid://c8dkbia4frx78" path="res://levels/vehicle_on_rails/assets/env_city/full_gameready_city_buildings.glb" id="1_7d707"]
+[ext_resource type="PackedScene" uid="uid://blcn3581u4vml" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/oshkosh_mtvr.tscn" id="2_4h00g"]
+[ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player/player_controller/player_controller.tscn" id="3_4h00g"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vunhy"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_4h00g"]
+sky_material = SubResource("ProceduralSkyMaterial_vunhy")
+
+[sub_resource type="Environment" id="Environment_mqu11"]
+background_mode = 2
+sky = SubResource("Sky_4h00g")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="RailsLevel1" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mqu11")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="City_Block" parent="." instance=ExtResource("1_7d707")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="Oshkosh_MTVR" parent="." instance=ExtResource("2_4h00g")]
+
+[node name="PlayerController" parent="Oshkosh_MTVR" instance=ExtResource("3_4h00g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 2.7, -2.7)
+JUMP_VELOCITY = 0.0

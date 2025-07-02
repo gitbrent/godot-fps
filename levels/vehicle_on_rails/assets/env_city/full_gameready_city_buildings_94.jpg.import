@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://byus6x8mt4bud"
+path.s3tc="res://.godot/imported/full_gameready_city_buildings_94.jpg-2f43d3e3616ac52ee5f723b09c9d4635.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "afb7d862b34bf5def22d25f7d48e2e33"
+}
+
+[deps]
+
+source_file="res://levels/vehicle_on_rails/assets/env_city/full_gameready_city_buildings_94.jpg"
+dest_files=["res://.godot/imported/full_gameready_city_buildings_94.jpg-2f43d3e3616ac52ee5f723b09c9d4635.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0
