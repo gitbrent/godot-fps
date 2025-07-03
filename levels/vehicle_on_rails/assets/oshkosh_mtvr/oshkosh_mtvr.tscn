@@ -1,10 +1,10 @@
-[gd_scene load_steps=31 format=4 uid="uid://blcn3581u4vml"]
+[gd_scene load_steps=35 format=4 uid="uid://blcn3581u4vml"]
 
-[ext_resource type="Texture2D" uid="uid://dgap4h6aj2jbg" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/oshkosh_mtvr_scaled_Image_4.png" id="1_1x4uw"]
-[ext_resource type="Texture2D" uid="uid://df3w7541tfcmq" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/oshkosh_mtvr_scaled_Image_2.png" id="2_k85xw"]
-[ext_resource type="Texture2D" uid="uid://cwqof8l8ydxn2" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/oshkosh_mtvr_scaled_Image_3.png" id="3_r8r40"]
-[ext_resource type="Texture2D" uid="uid://dthpxy80iggil" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/oshkosh_mtvr_scaled_Image_0.png" id="4_5gg6h"]
-[ext_resource type="Texture2D" uid="uid://b2tnal42h76e8" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/oshkosh_mtvr_scaled_Image_1.png" id="5_u7r1w"]
+[ext_resource type="Texture2D" uid="uid://dgap4h6aj2jbg" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/model/oshkosh_mtvr_scaled_Image_4.png" id="1_1x4uw"]
+[ext_resource type="Texture2D" uid="uid://df3w7541tfcmq" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/model/oshkosh_mtvr_scaled_Image_2.png" id="2_k85xw"]
+[ext_resource type="Texture2D" uid="uid://cwqof8l8ydxn2" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/model/oshkosh_mtvr_scaled_Image_3.png" id="3_r8r40"]
+[ext_resource type="Texture2D" uid="uid://dthpxy80iggil" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/model/oshkosh_mtvr_scaled_Image_0.png" id="4_5gg6h"]
+[ext_resource type="Texture2D" uid="uid://b2tnal42h76e8" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/model/oshkosh_mtvr_scaled_Image_1.png" id="5_u7r1w"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ebtrh"]
 resource_name = "mtl_iveco_lynx_turret"
@@ -326,7 +326,19 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_rgf81")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1x4uw"]
-size = Vector3(5, 0.25, 5)
+size = Vector3(3.5, 0.25, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k85xw"]
+size = Vector3(0.2, 0.8, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r8r40"]
+size = Vector3(0.2, 0.8, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5gg6h"]
+size = Vector3(3.5, 0.8, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u7r1w"]
+size = Vector3(3.5, 0.8, 0.2)
 
 [node name="Oshkosh_MTVR" type="Node3D"]
 
@@ -371,9 +383,31 @@ skeleton = NodePath("")
 mesh = SubResource("ArrayMesh_rqv4h")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="." groups=["damageable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, -3.8)
 collision_mask = 16
+metadata/_edit_lock_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3DBtm" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("BoxShape3D_1x4uw")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3DL" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.475, 0)
+shape = SubResource("BoxShape3D_k85xw")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3DR" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.475, 0)
+shape = SubResource("BoxShape3D_r8r40")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3DF" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, 2.4)
+shape = SubResource("BoxShape3D_5gg6h")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3DB" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, -2.6)
+shape = SubResource("BoxShape3D_u7r1w")
+metadata/_edit_lock_ = true

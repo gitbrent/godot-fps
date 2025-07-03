@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://co3b16rpwjaqd"
-path="res://.godot/imported/oshkosh_mtvr_scaled.glb-fc0ffa15f4628e1f153302a1e7b75da1.scn"
+path="res://.godot/imported/oshkosh_mtvr_scaled.glb-1847e3284eeb8ec648b389f9d01f6bd5.scn"
 
 [deps]
 
-source_file="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/oshkosh_mtvr_scaled.glb"
-dest_files=["res://.godot/imported/oshkosh_mtvr_scaled.glb-fc0ffa15f4628e1f153302a1e7b75da1.scn"]
+source_file="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/model/oshkosh_mtvr_scaled.glb"
+dest_files=["res://.godot/imported/oshkosh_mtvr_scaled.glb-1847e3284eeb8ec648b389f9d01f6bd5.scn"]
 
 [params]
 

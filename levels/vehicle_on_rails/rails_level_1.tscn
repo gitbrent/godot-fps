@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://gkhdbx4bfw4n"]
+[gd_scene load_steps=10 format=3 uid="uid://gkhdbx4bfw4n"]
 
 [ext_resource type="PackedScene" uid="uid://c8dkbia4frx78" path="res://levels/vehicle_on_rails/assets/env_city/full_gameready_city_buildings.glb" id="1_7d707"]
 [ext_resource type="PackedScene" uid="uid://blcn3581u4vml" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/oshkosh_mtvr.tscn" id="2_4h00g"]
+[ext_resource type="Script" uid="uid://2nj0j7uqvmo7" path="res://levels/vehicle_on_rails/path_follow_3d.gd" id="2_mqu11"]
 [ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player/player_controller/player_controller.tscn" id="3_4h00g"]
+[ext_resource type="AudioStream" uid="uid://c04n7k6asmshw" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/assets/Diesel_Transport_Driving.mp3" id="5_nd8hy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vunhy"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -17,20 +19,44 @@ sky = SubResource("Sky_4h00g")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="Curve3D" id="Curve3D_nd8hy"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 8.3028, 0, 0.0634165, 0, 0, 0, 0, 0, 0, 47.1739, 0, 0.101916, 0, 0, 0, 0, 0, 0, 84.162, -2.28882e-05, 0.131777, 0, 0, 0, 0, 0, 0, 114.94, 0, 0.64, 0.08, 0, 9.89, -0.08, 0, -9.89, 124.5, 0, -7.9, 0, 0, 0, 0, 0, 0, 114.786, 0, -15.59, 0, 0, 0, 0, 0, 0, 84.478, 0, -14.959, 0, 0, 0, 0, 0, 0, 46.846, 0, -14.959, 0, 0, 0, 0, 0, 0, 8.853, 0, -15.553, 0.2, 0, -8.5, -0.2, 0, 8.5, -0.1, 0, -7.3),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 10
+
 [node name="RailsLevel1" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_mqu11")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 14.7, 0)
 shadow_enabled = true
 
 [node name="City_Block" parent="." instance=ExtResource("1_7d707")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+metadata/_edit_lock_ = true
 
-[node name="Oshkosh_MTVR" parent="." instance=ExtResource("2_4h00g")]
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.3)
+curve = SubResource("Curve3D_nd8hy")
 
-[node name="PlayerController" parent="Oshkosh_MTVR" instance=ExtResource("3_4h00g")]
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(-0.000990375, 0, -0.999942, 0, 0.999996, 0, 0.99994, 0, -0.000990378, 8.3028, 0, 0.0634165)
+script = ExtResource("2_mqu11")
+metadata/_edit_lock_ = true
+
+[node name="Oshkosh_MTVR" parent="Path3D/PathFollow3D" instance=ExtResource("2_4h00g")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="PlayerController" parent="Path3D/PathFollow3D/Oshkosh_MTVR" instance=ExtResource("3_4h00g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 2.7, -2.7)
 JUMP_VELOCITY = 0.0
+metadata/_edit_lock_ = true
+
+[node name="Driving" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_nd8hy")

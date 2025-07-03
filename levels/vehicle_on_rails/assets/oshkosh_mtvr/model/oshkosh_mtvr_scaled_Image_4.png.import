@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://df3w7541tfcmq"
-path.s3tc="res://.godot/imported/oshkosh_mtvr_scaled_Image_2.png-774c6565b20535072dc2d3c1727994f2.s3tc.ctex"
+uid="uid://dgap4h6aj2jbg"
+path.s3tc="res://.godot/imported/oshkosh_mtvr_scaled_Image_4.png-698fa0707d0e04894f3cd68bd16a7dcb.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "130b61edec75bfb8bae717be2979a035"
+"md5": "641dbeb93a8d01bed29e416200b01846"
 }
 
 [deps]
 
-source_file="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/oshkosh_mtvr_scaled_Image_2.png"
-dest_files=["res://.godot/imported/oshkosh_mtvr_scaled_Image_2.png-774c6565b20535072dc2d3c1727994f2.s3tc.ctex"]
+source_file="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/model/oshkosh_mtvr_scaled_Image_4.png"
+dest_files=["res://.godot/imported/oshkosh_mtvr_scaled_Image_4.png-698fa0707d0e04894f3cd68bd16a7dcb.s3tc.ctex"]
 
 [params]
 
