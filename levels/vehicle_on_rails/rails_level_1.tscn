@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://gkhdbx4bfw4n"]
+[gd_scene load_steps=12 format=3 uid="uid://gkhdbx4bfw4n"]
 
-[ext_resource type="PackedScene" uid="uid://c8dkbia4frx78" path="res://levels/vehicle_on_rails/assets/env_city/full_gameready_city_buildings.glb" id="1_7d707"]
+[ext_resource type="Script" uid="uid://8jyxu5ve1vfl" path="res://levels/vehicle_on_rails/rails_level_1.gd" id="1_irx06"]
 [ext_resource type="PackedScene" uid="uid://blcn3581u4vml" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/oshkosh_mtvr.tscn" id="2_4h00g"]
 [ext_resource type="Script" uid="uid://2nj0j7uqvmo7" path="res://levels/vehicle_on_rails/path_follow_3d.gd" id="2_mqu11"]
 [ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player/player_controller/player_controller.tscn" id="3_4h00g"]
 [ext_resource type="AudioStream" uid="uid://c04n7k6asmshw" path="res://levels/vehicle_on_rails/assets/oshkosh_mtvr/assets/Diesel_Transport_Driving.mp3" id="5_nd8hy"]
+[ext_resource type="PackedScene" uid="uid://cyflfd7jsoboh" path="res://levels/vehicle_on_rails/assets/env_city/city_block.tscn" id="7_w2rhc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vunhy"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -27,7 +28,11 @@ _data = {
 }
 point_count = 10
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_w2rhc"]
+size = Vector3(8, 5.4, 8)
+
 [node name="RailsLevel1" type="Node3D"]
+script = ExtResource("1_irx06")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_mqu11")
@@ -36,13 +41,13 @@ environment = SubResource("Environment_mqu11")
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 14.7, 0)
 shadow_enabled = true
 
-[node name="City_Block" parent="." instance=ExtResource("1_7d707")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+[node name="City_Block" parent="." instance=ExtResource("7_w2rhc")]
 metadata/_edit_lock_ = true
 
 [node name="Path3D" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.3)
 curve = SubResource("Curve3D_nd8hy")
+metadata/_edit_lock_ = true
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
 transform = Transform3D(-0.000990375, 0, -0.999942, 0, 0.999996, 0, 0.99994, 0, -0.000990378, 8.3028, 0, 0.0634165)
@@ -51,12 +56,30 @@ metadata/_edit_lock_ = true
 
 [node name="Oshkosh_MTVR" parent="Path3D/PathFollow3D" instance=ExtResource("2_4h00g")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-metadata/_edit_lock_ = true
 
 [node name="PlayerController" parent="Path3D/PathFollow3D/Oshkosh_MTVR" instance=ExtResource("3_4h00g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 2.7, -2.7)
 JUMP_VELOCITY = 0.0
 metadata/_edit_lock_ = true
 
-[node name="Driving" type="AudioStreamPlayer" parent="."]
+[node name="Audio" type="Node" parent="."]
+
+[node name="Driving" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("5_nd8hy")
+
+[node name="TriggerAreas" type="Node" parent="."]
+
+[node name="TriggerArea1" type="Area3D" parent="TriggerAreas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.6, 4.4, 6.2)
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerAreas/TriggerArea1"]
+shape = SubResource("BoxShape3D_w2rhc")
+metadata/_edit_lock_ = true
+
+[node name="SpawnAreas" type="Node" parent="."]
+
+[node name="SpawnPoint1" type="Marker3D" parent="SpawnAreas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6, 0.1, 7.5)
+
+[connection signal="body_entered" from="TriggerAreas/TriggerArea1" to="." method="_on_trigger_area_1_body_entered"]

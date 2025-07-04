@@ -35,6 +35,7 @@ player=""
 enemies=""
 ui_damage_popup=""
 cover_points=""
+player_vehicle=""
 
 [input]
 
