@@ -16,6 +16,7 @@ sky_material = SubResource("ProceduralSkyMaterial_vunhy")
 
 [sub_resource type="Environment" id="Environment_mqu11"]
 background_mode = 2
+background_color = Color(0.267968, 0.261995, 0.274832, 1)
 sky = SubResource("Sky_4h00g")
 tonemap_mode = 2
 glow_enabled = true
@@ -47,63 +48,71 @@ metadata/_edit_lock_ = true
 
 [node name="Streetlights" type="Node3D" parent="City_Block"]
 
+[node name="Node3D" type="Node3D" parent="City_Block/Streetlights"]
+
+[node name="SpotLight3D_1" type="SpotLight3D" parent="City_Block/Streetlights/Node3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.6, 6.4, 1.6)
+light_energy = 5.0
+spot_range = 25.0
+
+[node name="SpotLight3D_2" type="SpotLight3D" parent="City_Block/Streetlights/Node3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.6, 6.4, -1.9)
+light_energy = 5.0
+spot_range = 25.0
+
+[node name="OmniLight3D_1" type="OmniLight3D" parent="City_Block/Streetlights/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 6.2, 1.6)
+
+[node name="OmniLight3D_2" type="OmniLight3D" parent="City_Block/Streetlights/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 6.2, -2)
+
 [node name="SpotLight3D01" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 31.4, 6.4, 1.4)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 31.4, 6.8, 1.4)
 light_energy = 5.0
 spot_range = 25.0
 
 [node name="SpotLight3D02" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 31.4, 6.4, -2)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 31.4, 6.8, -2)
 light_energy = 5.0
 spot_range = 25.0
 
 [node name="SpotLight3D03" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 7.1, 6.4, 1.4)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 7.1, 6.8, 1.4)
 light_energy = 5.0
 spot_range = 25.0
 
 [node name="SpotLight3D04" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 7.1, 6.4, -2)
-light_energy = 5.0
-spot_range = 25.0
-
-[node name="SpotLight3D05" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.6, 6.4, 1.4)
-light_energy = 5.0
-spot_range = 25.0
-
-[node name="SpotLight3D06" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.6, 6.4, -2)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 7.1, 6.8, -2)
 light_energy = 5.0
 spot_range = 25.0
 
 [node name="SpotLight3D07" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 55.1, 6.4, 1.4)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 55.1, 6.8, 1.4)
 light_energy = 5.0
 spot_range = 25.0
 
 [node name="SpotLight3D08" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 55.1, 6.4, -2)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 55.1, 6.8, -2)
 light_energy = 5.0
 spot_range = 25.0
 
 [node name="SpotLight3D09" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 79.2, 6.4, 1.4)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 79.2, 6.8, 1.4)
 light_energy = 5.0
 spot_range = 25.0
 
 [node name="SpotLight3D10" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 79.2, 6.4, -2)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 79.2, 6.8, -2)
 light_energy = 5.0
 spot_range = 25.0
 
 [node name="SpotLight3D11" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 103.3, 6.4, 1.4)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 103.3, 6.8, 1.4)
 light_energy = 5.0
 spot_range = 25.0
 
 [node name="SpotLight3D12" type="SpotLight3D" parent="City_Block/Streetlights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 103.3, 6.4, -2)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 103.3, 6.8, -2)
 light_energy = 5.0
 spot_range = 25.0
 
@@ -143,6 +152,13 @@ spot_range = 25.0
 
 [node name="SignLight3D4" type="SpotLight3D" parent="City_Block/SignLights"]
 transform = Transform3D(0.5, 4.95676e-08, 0.866025, 0.866025, 2.18557e-08, -0.5, -4.37114e-08, 1, -3.1999e-08, 76.6, 7.9, 8.3)
+spot_range = 25.0
+
+[node name="Roof" type="Node3D" parent="City_Block"]
+
+[node name="SignLight3D1" type="SpotLight3D" parent="City_Block/Roof"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 6.2, 19.1, -16.8)
+light_energy = 2.0
 spot_range = 25.0
 
 [node name="Path3D" type="Path3D" parent="."]

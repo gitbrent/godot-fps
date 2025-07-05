@@ -1,10 +1,11 @@
-[gd_scene load_steps=57 format=4 uid="uid://bq82ptni5y5nj"]
+[gd_scene load_steps=58 format=4 uid="uid://bq82ptni5y5nj"]
 
 [ext_resource type="Script" uid="uid://cc0bufbdt2ypj" path="res://levels/vehicle_on_rails/assets/enemy_truck/enemy_truck.gd" id="1_l01tv"]
 [ext_resource type="Texture2D" uid="uid://pw7src85aclc" path="res://levels/vehicle_on_rails/assets/enemy_truck/model/toyota-truck-classic-scaled_Image_0.png" id="1_si5ka"]
 [ext_resource type="Texture2D" uid="uid://hs3vvbatbjnl" path="res://levels/vehicle_on_rails/assets/enemy_truck/model/toyota-truck-classic-scaled_Image_1.png" id="2_l01tv"]
 [ext_resource type="Texture2D" uid="uid://dsi3swct73ps3" path="res://levels/vehicle_on_rails/assets/enemy_truck/model/toyota-truck-classic-scaled_Image_2.jpg" id="3_3dv50"]
 [ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy/enemy_controller/enemy_controller.tscn" id="5_3dv50"]
+[ext_resource type="AudioStream" uid="uid://bdtlo8c7esilx" path="res://levels/vehicle_on_rails/assets/enemy_truck/assets/explosion_blowing_up.mp3" id="6_ut3ca"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l01tv"]
 size = Vector3(1.6, 0.4, 4.7)
@@ -733,6 +734,7 @@ size = Vector3(1.6, 1, 4.7)
 [node name="EnemyTruck" type="CharacterBody3D" groups=["damageable"]]
 collision_mask = 5
 script = ExtResource("1_l01tv")
+debug_show_health = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
@@ -856,6 +858,8 @@ metadata/_edit_lock_ = true
 
 [node name="EnemyController" parent="." instance=ExtResource("5_3dv50")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.6)
+can_patrol = false
+can_change_state = false
 metadata/_edit_lock_ = true
 
 [node name="PassengerMarker1" type="Marker3D" parent="."]
@@ -863,5 +867,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.6)
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="PassengerMarker1"]
 remote_path = NodePath("../../EnemyController")
+
+[node name="Explosion" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_ut3ca")
+
+[node name="DebugLabelHealth" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 1.2)
+text = "0"
+font_size = 64
 
 [connection signal="body_entered" from="BulletArea3D" to="." method="_on_area_3d_body_entered"]
