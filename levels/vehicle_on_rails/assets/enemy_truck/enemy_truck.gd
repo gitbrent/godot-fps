@@ -5,6 +5,9 @@ signal enemy_truck_hit
 #region vars
 @export_group("Props: Core")
 @export var vehicle_health = 100
+@export_group("Props: Explosion")
+@export var vfx_explosion: PackedScene = preload("res://levels/vehicle_on_rails/assets/enemy_truck/vfx_explosion/vfx_explosion.tscn")
+@export var explosion_strength: float = 30.0
 @export_group("Props: Movement")
 @export var speed = 10.0
 @export var turn_speed = 3.0 # How quickly the truck can turn towards its target. Higher is sharper.
@@ -22,9 +25,11 @@ signal enemy_truck_hit
 			# Update the label visibility immediately
 			debug_label_health.visible = value
 # ONREADY
-@onready var debug_label_health: Label3D = $DebugLabelHealth
+@onready var debug_label_health: Label3D = $Debug/DebugLabelHealth
 @onready var enemy_controller: EnemyController = $EnemyController
 @onready var sound_explosion: AudioStreamPlayer = $Explosion
+@onready var explosion_area_3d: Area3D = $ExplosionArea3D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 # PRIVATE VARS
 var player_vehicle: Node3D = null
 var rng = RandomNumberGenerator.new()
@@ -121,27 +126,79 @@ func _handle_damage(amount: int) -> void:
 		_handle_die()
 
 func _handle_die() -> void:
-	if is_dead: # Prevent calling die multiple times
+	# ----------------
+	# FIRST: Prevent calling die multiple times
+	# ----------------
+	if is_dead:
 		return
 	is_dead = true
-	
-	# Stop movement immediately
+	# ----------------
+	# 1: stop movement and collisions
+	# ----------------
+	# 1.a. Stop movement immediately
 	velocity = Vector3.ZERO
 	set_physics_process(false)
-	
-	# Make the truck non-collidable (optional, but good practice)
+	# 1.b. Make the truck non-collidable (prevents open "air" space from stopping other bodies)
 	set_collision_layer(0)
 	set_collision_mask(0)
-	
-	# If you have a MeshInstance3D, you might want to hide it or replace with debris
-	# $MeshInstance3D.visible = false 
-	
-	if sound_explosion:
-		sound_explosion.play()
-		# Await the 'finished' signal from the AudioStreamPlayer3D
-		await sound_explosion.finished
-	
-	# After the sound finishes (or immediately if no sound player), free the node
+	# ----------------
+	# 2: explosion VFX
+	# ----------------
+	var vfx1 = vfx_explosion.instantiate()
+	get_tree().root.add_child(vfx1)
+	vfx1.global_position = global_position
+	# (two explosions actually looks better than one!)
+	var vfx2 = vfx_explosion.instantiate()
+	get_tree().root.add_child(vfx2)
+	vfx2.global_position = Vector3(global_position.x, global_position.y+0.8, global_position.z)
+	# 2.b.: physics
+	do_explosion_radius()
+	# ----------------
+	# 3: audio, scale, and fade away
+	# ----------------
+	animation_player.play("explode")
+	await animation_player.animation_finished
+	# ----------------
+	# LAST: free node
+	# ----------------
+	queue_free()
+
+func do_explosion_radius() -> void:
+	for body in explosion_area_3d.get_overlapping_bodies():
+		#if body.is_in_group("barrels"):
+		# CRASH: Infinite recurrsion!!!
+		#if body.name.begins_with("BarrelScifi"):
+		#	body.explode()
+		
+		# WORKS!!
+		if body is RigidBody3D:
+			var direction = (body.global_transform.origin - global_transform.origin).normalized()
+			body.apply_central_impulse(direction * explosion_strength)
+
+func explode() -> void:
+	# ----------------
+	# 1: stop collisions (prevent "air" from stopping player movement)
+	# ----------------
+	collision_layer = 0
+	# ----------------
+	# 2: explosion VFX
+	# ----------------
+	var vfx = vfx_explosion.instantiate()
+	get_tree().root.add_child(vfx)
+	vfx.global_position = global_position
+	# Two explosions actually looks even better!
+	var vfx2 = vfx_explosion.instantiate()
+	get_tree().root.add_child(vfx2)
+	vfx2.global_position = Vector3(global_position.x, global_position.y+0.8, global_position.z)
+
+	# 0: NEW!
+	do_explosion_radius()
+
+	# ----------------
+	# 3: audio, scale, and fade away
+	# ----------------
+	$AnimationPlayer.play("explode")
+	await $AnimationPlayer.animation_finished
 	queue_free()
 
 # CLASS SIGNALS =============================================

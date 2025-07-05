@@ -2,20 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bt3u643u25pkb"
-path.s3tc="res://.godot/imported/sci-fi_barrel_1.png-cb68b3bfb86a2fd1e9a4e0da9bc57fd0.s3tc.ctex"
+uid="uid://vmi6x6ibgygg"
+path.s3tc="res://.godot/imported/T_MarbleNoise_tiled.png-7a7b31451c53974dfb17d35c00710194.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "bc43433958c2ff75d09302e1c84ad8a8"
-}
 
 [deps]
 
-source_file="res://assets_models/scifi_barrel/sci-fi_barrel_1.png"
-dest_files=["res://.godot/imported/sci-fi_barrel_1.png-cb68b3bfb86a2fd1e9a4e0da9bc57fd0.s3tc.ctex"]
+source_file="res://assets_models/scifi_barrel/VFX_Explosion/textures/T_MarbleNoise_tiled.png"
+dest_files=["res://.godot/imported/T_MarbleNoise_tiled.png-7a7b31451c53974dfb17d35c00710194.s3tc.ctex"]
 
 [params]
 
@@ -27,8 +24,8 @@ compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=8
-roughness/src_normal="res://models/sci-fi_barrel_3.png"
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

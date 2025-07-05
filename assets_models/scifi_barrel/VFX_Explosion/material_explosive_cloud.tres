@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cpxhw1ihcplgb"]
+
+[ext_resource type="Shader" uid="uid://bish56maup42q" path="res://models/scifi_barrel/VFX_Explosion/shader_explosion_cloud.tres" id="1_4pmi5"]
+[ext_resource type="Texture2D" uid="uid://dquci2s1ggy06" path="res://models/scifi_barrel/VFX_Explosion/textures/T_VFX_Noise_44xainv.png" id="2_0a4mu"]
+[ext_resource type="Texture2D" uid="uid://b0sauaycmtnxg" path="res://models/scifi_barrel/VFX_Explosion/textures/T_PerlinNoise_Tiled11_inv.png" id="3_cg74b"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_4pmi5")
+shader_parameter/Cloud_Speed = Vector2(0.1, 0.7)
+shader_parameter/Cloud_Intensity = 0.2
+shader_parameter/tex_frg_2 = ExtResource("3_cg74b")
+shader_parameter/tex_frg_14 = ExtResource("2_0a4mu")
+shader_parameter/Explosion_Color = Color(0.872368, 0.452541, 0.0852511, 1)
