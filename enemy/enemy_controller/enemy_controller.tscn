@@ -324,7 +324,7 @@ animation = &"IDLE_RIFLE"
 animation = &"WALKING_WITH_RIFLE"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_cd652"]
-graph_offset = Vector2(-252.48, 253.44)
+graph_offset = Vector2(-180.48, 64.32)
 nodes/IDLE_RIFLE/node = SubResource("AnimationNodeAnimation_cp7d5")
 nodes/IDLE_RIFLE/position = Vector2(-130, 150)
 nodes/Idle_Walk/node = SubResource("AnimationNodeBlend2_1aqk6")
@@ -950,4 +950,4 @@ metadata/_edit_lock_ = true
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeBlendTree_cd652")
 anim_player = NodePath("../AnimationPlayer")
-parameters/Idle_Walk/blend_amount = 0.0
+parameters/Idle_Walk/blend_amount = false

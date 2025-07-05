@@ -6,10 +6,11 @@ signal enemy_truck_hit
 @export var speed = 10.0
 ## How quickly the truck can turn towards its target. Higher is sharper.
 @export var turn_speed = 3.0
-@export var follow_distance = 15.0
+@export var follow_distance = 5.0
 @export var weave_amplitude = 4.0
 @export var weave_speed = 2.0
-@export var ahead_distance = 10.0 # NEW: How far ahead of the player the target point is
+@export var ahead_distance = 10.0 
+@export var stop_distance = 1.0 # NEW: Distance at which the truck fully stops and holds orientation
 
 # --- Private Variables ---
 var player_vehicle: Node3D = null
@@ -20,8 +21,6 @@ func _ready():
 	var player_nodes = get_tree().get_nodes_in_group("player_vehicle")
 	if not player_nodes.is_empty():
 		player_vehicle = player_nodes[0]
-	
-	# No longer need target_offset initialized here, as it's dynamic
 
 
 func _physics_process(delta):
@@ -29,46 +28,51 @@ func _physics_process(delta):
 		return
 
 	# --- 1. Calculate Target ---
-	# Calculate a target point ahead of the player vehicle.
-	# The player's forward direction is typically -Z.
 	var target_position = player_vehicle.global_position + (-player_vehicle.global_transform.basis.z * ahead_distance)
 	
-	# Add a weaving offset to the target position, relative to the player's right vector.
 	var time = Time.get_ticks_msec() / 1000.0
 	var weave_value = sin(time * weave_speed) * weave_amplitude
 	target_position += player_vehicle.global_transform.basis.x * weave_value
 	
-	# --- 2. Direction to Target ---
-	var direction_to_target = global_position.direction_to(target_position)
+	# --- 2. Calculate Desired Movement Direction ---
+	var current_distance_to_target = global_position.distance_to(target_position)
+	var desired_movement_direction = Vector3.ZERO # Initialize to zero, will be set if moving
 
-	# --- 3. Steering Logic ---
-	# Smoothly interpolate the truck's forward vector towards the target direction.
-	# Godot's forward is -Z.
-	var current_forward_vector = -transform.basis.z
-	var new_forward_vector = current_forward_vector.slerp(direction_to_target, turn_speed * delta)
+	if current_distance_to_target > stop_distance:
+		# Only calculate a movement direction if we're further than stop_distance
+		desired_movement_direction = global_position.direction_to(target_position)
 	
-	# Ensure the new_forward_vector has some length to avoid issues with zero vectors
-	if new_forward_vector.length_squared() < 0.0001: # Small epsilon
-		new_forward_vector = current_forward_vector # Stick with current if target is too close/same
-	else:
-		new_forward_vector = new_forward_vector.normalized()
-
-	# Apply the new rotation, ensuring the truck stays upright.
-	# Use look_at with an up vector to prevent tilting.
-	transform = transform.looking_at(global_position + new_forward_vector, Vector3.UP)
-
+	# --- 3. Steering/Rotation Logic ---
+	# Only rotate if there's a valid direction to move towards
+	if desired_movement_direction.length_squared() > 0.0001: # Check for non-zero direction
+		var current_truck_forward = transform.basis.z # Truck's visual +Z is forward
+		
+		# Smoothly interpolate the truck's current forward to the desired movement direction
+		var new_truck_forward = current_truck_forward.slerp(desired_movement_direction, turn_speed * delta)
+		
+		# Ensure the new_truck_forward has some length (should be handled by length_squared check above, but good practice)
+		if new_truck_forward.length_squared() < 0.0001:
+			new_truck_forward = current_truck_forward
+		else:
+			new_truck_forward = new_truck_forward.normalized()
+		
+		# Apply the rotation. 'looking_at' makes the node's +Z axis point at the target.
+		#transform = transform.looking_at(global_position + new_truck_forward, Vector3.UP)
+	
 	# --- 4. Movement Logic ---
-	# Calculate the desired velocity towards the target position
-	var desired_velocity = (target_position - global_position).normalized() * speed
-	
-	# Optionally, you can add a "stop" condition if within follow_distance,
-	# but for a pursuit, you might just want to slow down.
-	if global_position.distance_to(target_position) < follow_distance:
-		# If within follow_distance, reduce speed or just maintain position
-		desired_velocity = Vector3.ZERO # Or slow down: desired_velocity *= 0.5 
-		pass # Or just let it overshoot a bit and correct
+	# Set velocity based on desired movement direction and distance to target
+	if current_distance_to_target > follow_distance:
+		# If far away, move at full speed towards the target
+		velocity = desired_movement_direction * speed
+	elif current_distance_to_target > stop_distance:
+		# If within follow_distance but not yet at stop_distance, slow down
+		# Scale speed linearly or with a curve based on distance
+		var slowdown_factor = (current_distance_to_target - stop_distance) / (follow_distance - stop_distance)
+		velocity = desired_movement_direction * speed * slowdown_factor
+	else:
+		# If at or within stop_distance, stop completely
+		velocity = Vector3.ZERO
 
-	velocity = desired_velocity
 	move_and_slide()
 
 
