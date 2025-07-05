@@ -13,6 +13,7 @@
 
 [ ] - vehicle-on-rails level (vehicle on Path3D)
 [ ] --> enemy_truck has 3 particles: smoke at 33%, fire at 66%, explodes at 100%
+[ ] --> why dont enemies show death animation in truck?
 
 ## FIXME
 
