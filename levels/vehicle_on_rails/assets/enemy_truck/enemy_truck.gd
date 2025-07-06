@@ -1,14 +1,9 @@
 extends CharacterBody3D
 
-signal enemy_truck_hit
-
 #region vars
 @export_group("Props: Core")
 @export var vehicle_health = 100
-@export_group("Props: Explosion")
-@export var vfx_explosion: PackedScene = preload("res://levels/vehicle_on_rails/assets/enemy_truck/vfx_explosion/vfx_explosion.tscn")
 @export var broken_model: PackedScene = preload("res://levels/vehicle_on_rails/assets/enemy_truck/enemy_truck_exploded.tscn")
-@export var explosion_strength: float = 30.0
 @export_group("Props: Movement")
 @export var speed = 15.0
 @export var turn_speed = 3.0 # How quickly the truck can turn towards its target. Higher is sharper.
@@ -28,13 +23,9 @@ signal enemy_truck_hit
 # ONREADY
 @onready var sketchfab_model: Node3D = $Sketchfab_model
 @onready var enemy_controller: EnemyController = $EnemyController
-@onready var sound_explosion: AudioStreamPlayer = $Explosion
-@onready var explosion_area_3d: Area3D = $ExplosionArea3D
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var debug_label_health: Label3D = $Debug/DebugLabelHealth
 # PRIVATE VARS
 var player_vehicle: Node3D = null
-var broken_model_inst: Node3D = null
 var rng = RandomNumberGenerator.new()
 var is_dead = false
 #endregion
@@ -145,73 +136,23 @@ func _handle_die() -> void:
 	set_collision_layer(0)
 	set_collision_mask(0)
 	# ----------------
-	# 2: explosion VFX
+	# 2: Instantiate and position the broken model
 	# ----------------
-	var vfx1 = vfx_explosion.instantiate()
-	get_tree().root.add_child(vfx1)
-	vfx1.global_position = global_position
-	# (two explosions actually looks better than one!)
-	var vfx2 = vfx_explosion.instantiate()
-	get_tree().root.add_child(vfx2)
-	vfx2.global_position = Vector3(global_position.x, global_position.y+0.8, global_position.z)
-	# 2.b.: physics
-	_do_explosion_radius()
-	# NEW: WIP:
-	_do_explode_into_pieces()
-	# ----------------
-	# 3: audio, scale, and fade away
-	# ----------------
-	animation_player.play("explode")
-	await animation_player.animation_finished
+	if not broken_model:
+		printerr("Broken model scene not set!")
+	else:
+		var broken_model_inst = broken_model.instantiate()
+		get_parent().add_child(broken_model_inst)
+		# Ensure the exploded version appears exactly where the old one was
+		broken_model_inst.global_transform = self.global_transform
+		broken_model_inst.do_explode()
 	# ----------------
 	# LAST: free node
 	# ----------------
-	broken_model_inst.queue_free()
+	#sketchfab_model.visible = false
 	queue_free()
-
-func _do_explode_into_pieces():
-	# --- 1. Instantiate and position the broken model ---
-	if not broken_model:
-		printerr("Broken model scene not set!")
-		return
-	
-	broken_model_inst = broken_model.instantiate()
-	get_parent().add_child(broken_model_inst)
-	# Ensure the exploded version appears exactly where the old one was
-	broken_model_inst.global_transform = self.global_transform
-	sketchfab_model.visible = false
-	
-	# --- 2. Apply forces to each piece ---
-	var base_intensity = 7.5
-	var torque_intensity = 10.0
-
-	# The center of the explosion is this truck's position
-	var explosion_center = self.global_position
-	
-	for piece in broken_model_inst.get_children():
-		# Ensure we are only affecting RigidBody3D nodes
-		if piece is RigidBody3D:
-			# Calculate a unique intensity for this piece
-			var final_intensity = base_intensity + randf_range(-5.0, 5.0)
-			# Calculate the outward direction vector
-			var direction = (piece.global_position - explosion_center).normalized()
-			var final_direction = (direction + Vector3.UP * 0.5).normalized() # Mix in upward force
-			# Apply the push outwards
-			piece.apply_central_impulse(final_direction * final_intensity)
-			# Apply a random tumble/spin
-			var random_torque = Vector3(randf(), randf(), randf()).normalized() * torque_intensity
-			piece.apply_torque_impulse(random_torque)
-
-## Impact other nearby physics objects
-func _do_explosion_radius() -> void:
-	for body in explosion_area_3d.get_overlapping_bodies():
-		if body is RigidBody3D:
-			var direction = (body.global_transform.origin - global_transform.origin).normalized()
-			body.apply_central_impulse(direction * explosion_strength)
 
 # CLASS SIGNALS =============================================
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
-	print("ENEMY_TRUCK_AREA hit with a bullet!")
-	emit_signal("enemy_truck_hit")
-	_handle_damage(10) # TODO: hard-coded for now
+	_handle_damage(10) # TODO: hard-coded for now [gun should send]

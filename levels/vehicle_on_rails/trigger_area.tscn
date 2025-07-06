@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://bddrp1sp1qnnu"]
+
+[ext_resource type="Script" uid="uid://cnyp6133e7gup" path="res://levels/vehicle_on_rails/trigger_area.gd" id="1_osble"]
+[ext_resource type="Texture2D" uid="uid://c6ph0p6042kkb" path="res://assets_models/KENNEY_PNG/Red/texture_01.png" id="1_qu6g1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w2rhc"]
+size = Vector3(8, 3, 8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mioke"]
+albedo_texture = ExtResource("1_qu6g1")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2amdj"]
+material = SubResource("StandardMaterial3D_mioke")
+size = Vector2(8, 8)
+
+[node name="TriggerArea" type="Node3D"]
+script = ExtResource("1_osble")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_w2rhc")
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("PlaneMesh_2amdj")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

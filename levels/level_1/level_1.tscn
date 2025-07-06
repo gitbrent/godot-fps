@@ -1,11 +1,10 @@
-[gd_scene load_steps=30 format=4 uid="uid://brdt8fje6jpt1"]
+[gd_scene load_steps=29 format=4 uid="uid://brdt8fje6jpt1"]
 
 [ext_resource type="Script" uid="uid://cte556yo33bge" path="res://levels/level_1/level_1.gd" id="1_oqlok"]
 [ext_resource type="PackedScene" uid="uid://dbid026m80sb" path="res://player/player_controller/player_controller.tscn" id="2_7nvrk"]
 [ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy/enemy_controller/enemy_controller.tscn" id="3_jkxa6"]
 [ext_resource type="Texture2D" uid="uid://v8napxxvkfw0" path="res://assets_models/KENNEY_PNG/Dark/texture_01.png" id="5_udfhf"]
 [ext_resource type="PackedScene" uid="uid://wkv1txt18fhi" path="res://ui/countdown_label.tscn" id="6_i6od7"]
-[ext_resource type="PackedScene" uid="uid://c21axn1475ray" path="res://assets_models/scifi_barrel/sci-fi_barrel.glb" id="7_ryfpa"]
 [ext_resource type="Texture2D" uid="uid://cfyw3xb6oxvm1" path="res://assets_models/KENNEY_PNG/Red/texture_09.png" id="8_ntdhj"]
 [ext_resource type="Texture2D" uid="uid://37kwa6tpjmog" path="res://assets_models/KENNEY_PNG/Dark/texture_09.png" id="9_0fu15"]
 [ext_resource type="PackedScene" uid="uid://cshdqtk0uywr8" path="res://assets_models/kenney_cubes/kcube_2x2x2.tscn" id="10_4knja"]
@@ -137,12 +136,6 @@ font_size = 96
 
 [node name="Barrels" type="Node3D" parent="SHAPES"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
-
-[node name="Barrel1" parent="SHAPES/Barrels" groups=["damageable"] instance=ExtResource("7_ryfpa")]
-transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -9, 0, -8.30145)
-
-[node name="Barrel2" parent="SHAPES/Barrels" groups=["damageable"] instance=ExtResource("7_ryfpa")]
-transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -7, 0, -8.3015)
 
 [node name="Icosphere" type="Node3D" parent="SHAPES"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5, 8, -21)

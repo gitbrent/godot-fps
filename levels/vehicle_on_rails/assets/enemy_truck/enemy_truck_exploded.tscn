@@ -1,8 +1,10 @@
-[gd_scene load_steps=21 format=4 uid="uid://bt1mu7p53ntl0"]
+[gd_scene load_steps=27 format=4 uid="uid://bt1mu7p53ntl0"]
 
 [ext_resource type="Texture2D" uid="uid://dkrmdli6ml1vn" path="res://levels/vehicle_on_rails/assets/enemy_truck/model_exp/ToyotaTruckClassic_exploded_Image_0.png" id="1_dh7wv"]
+[ext_resource type="Script" uid="uid://btav4lxxvtb4h" path="res://levels/vehicle_on_rails/assets/enemy_truck/enemy_truck_exploded.gd" id="1_h6qsl"]
 [ext_resource type="Texture2D" uid="uid://d2aeglkeon4yp" path="res://levels/vehicle_on_rails/assets/enemy_truck/model_exp/ToyotaTruckClassic_exploded_Image_1.png" id="2_n0viv"]
 [ext_resource type="Texture2D" uid="uid://lelmeba60vsw" path="res://levels/vehicle_on_rails/assets/enemy_truck/model_exp/ToyotaTruckClassic_exploded_Image_2.jpg" id="3_h6qsl"]
+[ext_resource type="AudioStream" uid="uid://bdtlo8c7esilx" path="res://levels/vehicle_on_rails/assets/enemy_truck/assets/explosion_blowing_up.mp3" id="5_r83ty"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1i0r"]
 resource_name = "0-_0-.001"
@@ -213,7 +215,72 @@ shadow_mesh = SubResource("ArrayMesh_1l7gd")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_r83ty"]
 points = PackedVector3Array(0.82646, 0.0252771, -1.22462, 0.827245, 0.0372921, -1.16008, 0.641416, 0.0252771, -1.22232, 0.825651, 0.0258648, -1.29013, 0.850812, 0.0421895, -1.25751, 0.85231, 0.0649787, -1.13597, 0.828006, 0.0617137, -1.09915, 0.642201, 0.0372921, -1.15779, 0.619941, 0.0408835, -1.25462, 0.640607, 0.0258648, -1.28784, 0.639799, 0.0395775, -1.35205, 0.824843, 0.0395775, -1.35427, 0.849314, 0.0675906, -1.37839, 0.854379, 0.111928, -1.35958, 0.85564, 0.0904451, -1.25692, 0.856924, 0.109643, -1.15425, 0.858018, 0.166975, -1.06626, 0.853595, 0.132432, -1.03265, 0.828695, 0.0975626, -1.04411, 0.642962, 0.0617137, -1.09686, 0.621439, 0.0636727, -1.13276, 0.616326, 0.240305, -1.54631, 0.618443, 0.0666111, -1.37616, 0.639062, 0.0653051, -1.41265, 0.824106, 0.0653051, -1.41488, 0.82344, 0.102134, -1.469, 0.848054, 0.137329, -1.4804, 0.853309, 0.170893, -1.44593, 0.852643, 0.464214, -1.50097, 0.859017, 0.356014, -0.985804, 0.858731, 0.253365, -1.00729, 0.854451, 0.234428, -0.962939, 0.829266, 0.143533, -0.997139, 0.643651, 0.0975626, -1.04182, 0.622724, 0.131453, -1.02885, 0.620013, 0.676695, -1.24781, 0.61723, 0.586126, -1.47365, 0.616374, 0.483738, -1.54336, 0.616065, 0.362218, -1.56911, 0.636921, 0.329634, -1.58503, 0.637088, 0.265119, -1.57297, 0.637373, 0.20413, -1.54853, 0.637825, 0.149083, -1.51263, 0.617182, 0.13635, -1.4785, 0.638396, 0.102134, -1.4667, 0.822869, 0.149083, -1.51492, 0.847221, 0.240632, -1.54781, 0.852596, 0.258915, -1.50326, 0.852358, 0.361565, -1.52246, 0.846936, 0.362218, -1.57068, 0.847245, 0.483085, -1.54526, 0.848101, 0.585082, -1.47548, 0.853357, 0.550539, -1.442, 0.854451, 0.607936, -1.35401, 0.856995, 0.605651, -1.14875, 0.858066, 0.546686, -1.06239, 0.858755, 0.458664, -1.005, 0.854475, 0.476882, -0.960318, 0.85476, 0.355361, -0.937518, 0.830217, 0.322451, -0.920877, 0.830027, 0.258262, -0.93457, 0.829718, 0.197665, -0.960318, 0.644222, 0.143533, -0.994846, 0.623604, 0.233775, -0.959073, 0.623913, 0.355361, -0.933325, 0.623627, 0.477208, -0.95619, 0.622795, 0.581229, -1.02394, 0.621535, 0.650968, -1.12627, 0.641511, 0.691714, -1.21512, 0.640702, 0.692367, -1.28063, 0.639894, 0.680287, -1.34517, 0.618514, 0.653906, -1.36967, 0.638467, 0.619951, -1.4612, 0.637872, 0.574046, -1.50811, 0.637421, 0.519914, -1.54493, 0.637111, 0.459317, -1.57068, 0.636945, 0.395128, -1.58437, 0.821989, 0.395128, -1.58667, 0.821965, 0.329634, -1.58725, 0.822108, 0.265119, -1.57527, 0.822417, 0.20413, -1.55083, 0.822155, 0.459317, -1.57297, 0.822465, 0.519914, -1.54722, 0.822917, 0.574046, -1.5104, 0.823511, 0.619951, -1.46349, 0.849385, 0.6526, -1.37223, 0.850884, 0.675389, -1.25063, 0.855711, 0.627134, -1.25135, 0.852382, 0.649988, -1.12975, 0.853642, 0.580249, -1.02774, 0.829766, 0.513384, -0.95678, 0.830075, 0.45246, -0.932342, 0.829314, 0.568496, -0.992618, 0.830217, 0.387945, -0.920287, 0.645173, 0.387945, -0.917928, 0.645173, 0.322451, -0.918583, 0.645007, 0.258262, -0.932277, 0.644674, 0.197665, -0.958025, 0.645031, 0.45246, -0.930049, 0.644722, 0.513384, -0.954487, 0.644293, 0.568496, -0.990325, 0.643723, 0.615445, -1.03625, 0.643057, 0.652274, -1.09037, 0.642296, 0.678001, -1.15097, 0.826531, 0.691714, -1.21741, 0.82734, 0.678001, -1.15327, 0.825723, 0.692302, -1.28293, 0.824938, 0.680287, -1.34746, 0.639133, 0.6558, -1.4061, 0.824177, 0.6558, -1.40839, 0.828077, 0.652274, -1.09266, 0.828743, 0.615445, -1.03855)
 
-[node name="ToyotaTruckClassic_exploded" type="Node3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_jj00b"]
+radius = 2.0
+
+[sub_resource type="Animation" id="Animation_d8wpt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TruckBody/truck_body_001:transparency")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_f0hge"]
+resource_name = "explode"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TruckBody/truck_body_001:transparency")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 0.406126),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_78mx3"]
+_data = {
+&"RESET": SubResource("Animation_d8wpt"),
+&"explode": SubResource("Animation_f0hge")
+}
+
+[node name="EnemyTruckExpl" type="Node3D"]
+script = ExtResource("1_h6qsl")
 
 [node name="TruckBody" type="RigidBody3D" parent="."]
 
@@ -260,3 +327,17 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WheelRD"]
 shape = SubResource("ConvexPolygonShape3D_r83ty")
+
+[node name="ExplosionArea3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+
+[node name="CollisionExplosion" type="CollisionShape3D" parent="ExplosionArea3D"]
+shape = SubResource("SphereShape3D_jj00b")
+
+[node name="Explosion" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_r83ty")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_78mx3")
+}

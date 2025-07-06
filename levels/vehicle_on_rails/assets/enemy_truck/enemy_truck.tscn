@@ -1,11 +1,10 @@
-[gd_scene load_steps=62 format=4 uid="uid://bq82ptni5y5nj"]
+[gd_scene load_steps=57 format=4 uid="uid://bq82ptni5y5nj"]
 
 [ext_resource type="Script" uid="uid://cc0bufbdt2ypj" path="res://levels/vehicle_on_rails/assets/enemy_truck/enemy_truck.gd" id="1_l01tv"]
 [ext_resource type="Texture2D" uid="uid://pw7src85aclc" path="res://levels/vehicle_on_rails/assets/enemy_truck/model/toyota-truck-classic-scaled_Image_0.png" id="1_si5ka"]
 [ext_resource type="Texture2D" uid="uid://hs3vvbatbjnl" path="res://levels/vehicle_on_rails/assets/enemy_truck/model/toyota-truck-classic-scaled_Image_1.png" id="2_l01tv"]
 [ext_resource type="Texture2D" uid="uid://dsi3swct73ps3" path="res://levels/vehicle_on_rails/assets/enemy_truck/model/toyota-truck-classic-scaled_Image_2.jpg" id="3_3dv50"]
 [ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy/enemy_controller/enemy_controller.tscn" id="5_3dv50"]
-[ext_resource type="AudioStream" uid="uid://bdtlo8c7esilx" path="res://levels/vehicle_on_rails/assets/enemy_truck/assets/explosion_blowing_up.mp3" id="6_ut3ca"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l01tv"]
 size = Vector3(1.6, 0.4, 4.7)
@@ -731,69 +730,6 @@ shadow_mesh = SubResource("ArrayMesh_o8csi")
 [sub_resource type="BoxShape3D" id="BoxShape3D_si5ka"]
 size = Vector3(1.6, 1, 4.7)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_ut3ca"]
-radius = 2.0
-
-[sub_resource type="Animation" id="Animation_ut3ca"]
-resource_name = "explode"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Explosion:playing")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sketchfab_model:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(1, 1, 1), Vector3(1.05, 1.05, 1.05), Vector3(1.1, 1.1, 1.1)]
-}
-
-[sub_resource type="Animation" id="Animation_vnwhh"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Explosion:playing")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sketchfab_model:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_vnwhh"]
-_data = {
-&"RESET": SubResource("Animation_vnwhh"),
-&"explode": SubResource("Animation_ut3ca")
-}
-
 [node name="EnemyTruck" type="CharacterBody3D" groups=["damageable"]]
 collision_mask = 5
 script = ExtResource("1_l01tv")
@@ -931,25 +867,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.6)
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="PassengerMarker1"]
 remote_path = NodePath("../../EnemyController")
 
-[node name="Explosion" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_ut3ca")
-
 [node name="Debug" type="Node3D" parent="."]
 
 [node name="DebugLabelHealth" type="Label3D" parent="Debug"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 1.2)
 text = "0"
 font_size = 64
-
-[node name="ExplosionArea3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
-
-[node name="CollisionExplosion" type="CollisionShape3D" parent="ExplosionArea3D"]
-shape = SubResource("SphereShape3D_ut3ca")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_vnwhh")
-}
 
 [connection signal="body_entered" from="BulletArea3D" to="." method="_on_area_3d_body_entered"]

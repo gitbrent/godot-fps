@@ -29,7 +29,7 @@ func _input(_event):
 # HANDLERS ================================================
 
 func _on_button_start_pressed() -> void:
-	GameManager.load_level("res://levels/level_1.tscn")
+	GameManager.load_level("res://levels/level_1/level_1.tscn")
 
 func _on_button_gallery_pressed() -> void:
 	GameManager.load_weapon_gallery()
