@@ -1,6 +1,6 @@
 extends PathFollow3D
 
-@export var speed = 0 #25.0 # WIP: FAST for dev phase only
+@export var speed = 10 #25.0 # WIP: FAST for dev phase only
 @onready var driving: AudioStreamPlayer = $"../../Audio/Driving"
 
 func _process(delta):

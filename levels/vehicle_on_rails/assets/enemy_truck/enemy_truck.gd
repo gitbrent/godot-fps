@@ -7,9 +7,10 @@ signal enemy_truck_hit
 @export var vehicle_health = 100
 @export_group("Props: Explosion")
 @export var vfx_explosion: PackedScene = preload("res://levels/vehicle_on_rails/assets/enemy_truck/vfx_explosion/vfx_explosion.tscn")
+@export var broken_model: PackedScene = preload("res://levels/vehicle_on_rails/assets/enemy_truck/enemy_truck_exploded.tscn")
 @export var explosion_strength: float = 30.0
 @export_group("Props: Movement")
-@export var speed = 10.0
+@export var speed = 15.0
 @export var turn_speed = 3.0 # How quickly the truck can turn towards its target. Higher is sharper.
 @export var follow_distance = 8.0
 @export var weave_amplitude = 3.0
@@ -25,13 +26,15 @@ signal enemy_truck_hit
 			# Update the label visibility immediately
 			debug_label_health.visible = value
 # ONREADY
-@onready var debug_label_health: Label3D = $Debug/DebugLabelHealth
+@onready var sketchfab_model: Node3D = $Sketchfab_model
 @onready var enemy_controller: EnemyController = $EnemyController
 @onready var sound_explosion: AudioStreamPlayer = $Explosion
 @onready var explosion_area_3d: Area3D = $ExplosionArea3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var debug_label_health: Label3D = $Debug/DebugLabelHealth
 # PRIVATE VARS
 var player_vehicle: Node3D = null
+var broken_model_inst: Node3D = null
 var rng = RandomNumberGenerator.new()
 var is_dead = false
 #endregion
@@ -152,7 +155,9 @@ func _handle_die() -> void:
 	get_tree().root.add_child(vfx2)
 	vfx2.global_position = Vector3(global_position.x, global_position.y+0.8, global_position.z)
 	# 2.b.: physics
-	do_explosion_radius()
+	_do_explosion_radius()
+	# NEW: WIP:
+	_do_explode_into_pieces()
 	# ----------------
 	# 3: audio, scale, and fade away
 	# ----------------
@@ -161,45 +166,48 @@ func _handle_die() -> void:
 	# ----------------
 	# LAST: free node
 	# ----------------
+	broken_model_inst.queue_free()
 	queue_free()
 
-func do_explosion_radius() -> void:
+func _do_explode_into_pieces():
+	# --- 1. Instantiate and position the broken model ---
+	if not broken_model:
+		printerr("Broken model scene not set!")
+		return
+	
+	broken_model_inst = broken_model.instantiate()
+	get_parent().add_child(broken_model_inst)
+	# Ensure the exploded version appears exactly where the old one was
+	broken_model_inst.global_transform = self.global_transform
+	sketchfab_model.visible = false
+	
+	# --- 2. Apply forces to each piece ---
+	var base_intensity = 7.5
+	var torque_intensity = 10.0
+
+	# The center of the explosion is this truck's position
+	var explosion_center = self.global_position
+	
+	for piece in broken_model_inst.get_children():
+		# Ensure we are only affecting RigidBody3D nodes
+		if piece is RigidBody3D:
+			# Calculate a unique intensity for this piece
+			var final_intensity = base_intensity + randf_range(-5.0, 5.0)
+			# Calculate the outward direction vector
+			var direction = (piece.global_position - explosion_center).normalized()
+			var final_direction = (direction + Vector3.UP * 0.5).normalized() # Mix in upward force
+			# Apply the push outwards
+			piece.apply_central_impulse(final_direction * final_intensity)
+			# Apply a random tumble/spin
+			var random_torque = Vector3(randf(), randf(), randf()).normalized() * torque_intensity
+			piece.apply_torque_impulse(random_torque)
+
+## Impact other nearby physics objects
+func _do_explosion_radius() -> void:
 	for body in explosion_area_3d.get_overlapping_bodies():
-		#if body.is_in_group("barrels"):
-		# CRASH: Infinite recurrsion!!!
-		#if body.name.begins_with("BarrelScifi"):
-		#	body.explode()
-		
-		# WORKS!!
 		if body is RigidBody3D:
 			var direction = (body.global_transform.origin - global_transform.origin).normalized()
 			body.apply_central_impulse(direction * explosion_strength)
-
-func explode() -> void:
-	# ----------------
-	# 1: stop collisions (prevent "air" from stopping player movement)
-	# ----------------
-	collision_layer = 0
-	# ----------------
-	# 2: explosion VFX
-	# ----------------
-	var vfx = vfx_explosion.instantiate()
-	get_tree().root.add_child(vfx)
-	vfx.global_position = global_position
-	# Two explosions actually looks even better!
-	var vfx2 = vfx_explosion.instantiate()
-	get_tree().root.add_child(vfx2)
-	vfx2.global_position = Vector3(global_position.x, global_position.y+0.8, global_position.z)
-
-	# 0: NEW!
-	do_explosion_radius()
-
-	# ----------------
-	# 3: audio, scale, and fade away
-	# ----------------
-	$AnimationPlayer.play("explode")
-	await $AnimationPlayer.animation_finished
-	queue_free()
 
 # CLASS SIGNALS =============================================
 
