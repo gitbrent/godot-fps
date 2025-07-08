@@ -18,13 +18,13 @@ linked_parent_graph_frame = 13
 texture = SubResource("NoiseTexture2D_0hu00")
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_pqbf5"]
-size = Vector2(1036, 223)
+size = Vector2(1036, 759)
 title = "Dark Base Color"
 tint_color_enabled = true
 attached_nodes = PackedInt32Array(2, 3)
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_cncvx"]
-size = Vector2(2036, 1443)
+size = Vector2(2036, 2262)
 title = "Emmisive Bright color"
 tint_color_enabled = true
 tint_color = Color(0.953125, 0.29599, 0.29599, 0.75)
@@ -39,7 +39,7 @@ texture_type = 1
 linked_parent_graph_frame = 17
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_0pke8"]
-size = Vector2(1716, 1083)
+size = Vector2(1716, 1259)
 title = "Transparency"
 tint_color_enabled = true
 attached_nodes = PackedInt32Array(14, 15, 18, 20, 21)

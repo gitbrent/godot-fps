@@ -1,8 +1,8 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cpxhw1ihcplgb"]
 
-[ext_resource type="Shader" uid="uid://bish56maup42q" path="res://models/scifi_barrel/VFX_Explosion/shader_explosion_cloud.tres" id="1_4pmi5"]
-[ext_resource type="Texture2D" uid="uid://dquci2s1ggy06" path="res://models/scifi_barrel/VFX_Explosion/textures/T_VFX_Noise_44xainv.png" id="2_0a4mu"]
-[ext_resource type="Texture2D" uid="uid://b0sauaycmtnxg" path="res://models/scifi_barrel/VFX_Explosion/textures/T_PerlinNoise_Tiled11_inv.png" id="3_cg74b"]
+[ext_resource type="Shader" uid="uid://bish56maup42q" path="res://assets_models/scifi_barrel/VFX_Explosion/shader_explosion_cloud.tres" id="1_4pmi5"]
+[ext_resource type="Texture2D" uid="uid://dquci2s1ggy06" path="res://assets_models/scifi_barrel/VFX_Explosion/textures/T_VFX_Noise_44xainv.png" id="2_0a4mu"]
+[ext_resource type="Texture2D" uid="uid://b0sauaycmtnxg" path="res://assets_models/scifi_barrel/VFX_Explosion/textures/T_PerlinNoise_Tiled11_inv.png" id="3_cg74b"]
 
 [resource]
 render_priority = 0

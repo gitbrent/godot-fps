@@ -8,9 +8,11 @@ signal enemy_truck_exploded
 @export var broken_model: PackedScene = preload("res://levels/vehicle_on_rails/assets/enemy_truck/enemy_truck_exploded.tscn")
 @export var explosion_strength: float = 30.0
 # ONREADY
-@onready var sound_explosion: AudioStreamPlayer = $Explosion
-@onready var explosion_area_3d: Area3D = $ExplosionArea3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var explosion_area_3d: Area3D = $ExplosionArea3D
+@onready var sound_explosion: AudioStreamPlayer = $Explosion
+@onready var marker_3d_1: Marker3D = $TruckBody/Marker3D1
+@onready var marker_3d_2: Marker3D = $TruckBody/Marker3D2
 #endregion
 
 func do_explode() -> void:
@@ -23,16 +25,18 @@ func do_explode() -> void:
 
 func _handle_explode() -> void:
 	# ----------------
-	# 2: explosion VFX
+	# 1: explosion VFX
 	# ----------------
 	var vfx1 = vfx_explosion.instantiate()
-	get_tree().root.add_child(vfx1)
-	vfx1.global_position = global_position
+	marker_3d_1.add_child(vfx1)
+	vfx1.position = Vector3.ZERO
 	# (two explosions actually looks better than one!)
 	var vfx2 = vfx_explosion.instantiate()
-	get_tree().root.add_child(vfx2)
-	vfx2.global_position = Vector3(global_position.x, global_position.y+0.8, global_position.z)
-	# 3:
+	marker_3d_2.add_child(vfx2)
+	vfx2.position = Vector3.ZERO
+	# ----------------
+	# 2: rapid disassembly
+	# ----------------
 	_do_explode_into_pieces()
 	# ----------------
 	# 3: audio, scale, and fade away
@@ -44,10 +48,9 @@ func _handle_explode() -> void:
 	# ----------------
 	queue_free()
 
-
 func _do_explode_into_pieces():
-	# --- 2. Apply forces to each piece ---
-	var base_intensity = 7.5
+	# 2. Apply forces to each piece
+	var base_intensity = 7.5 # NOTE: This is just enough to propel the truck into the air ~10m
 	var torque_intensity = 10.0
 
 	# The center of the explosion is this truck's position
@@ -66,6 +69,8 @@ func _do_explode_into_pieces():
 			# Apply a random tumble/spin
 			var random_torque = Vector3(randf(), randf(), randf()).normalized() * torque_intensity
 			piece.apply_torque_impulse(random_torque)
+			#piece.set_collision_layer(0)
+			piece.set_collision_mask(1) # only, env, not other trucks so wrecjage doesnt block/collide
 
 ## Impact other nearby physics objects
 func _do_explosion_radius() -> void:

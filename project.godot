@@ -162,4 +162,5 @@ joypad_r2={
 3d_physics/layer_3="enemies"
 3d_physics/layer_4="ejected_shells"
 3d_physics/layer_5="player"
+3d_physics/layer_6="enemy_truck"
 3d_physics/layer_8="cover_points"

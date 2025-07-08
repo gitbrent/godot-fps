@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnomm4r7dymgr"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g12vp"]
+gravity = Vector3(0, 9, 0)
+scale_min = 0.5
+scale_max = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cqe1b"]
+transparency = 1
+
+[sub_resource type="SphereMesh" id="SphereMesh_af2sl"]
+material = SubResource("StandardMaterial3D_cqe1b")
+
+[node name="VfxSmoke" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+visible = false
+process_material = SubResource("ParticleProcessMaterial_g12vp")
+draw_pass_1 = SubResource("SphereMesh_af2sl")

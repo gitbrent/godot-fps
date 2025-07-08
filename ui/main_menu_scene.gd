@@ -42,3 +42,6 @@ func _on_button_enemy_pressed() -> void:
 
 func _on_btn_cover_pressed() -> void:
 	GameManager.load_level("res://levels/cover_range/cover_range.tscn")
+
+func _on_btn_rails_pressed() -> void:
+	GameManager.load_level("res://levels/vehicle_on_rails/rails_level_1.tscn")

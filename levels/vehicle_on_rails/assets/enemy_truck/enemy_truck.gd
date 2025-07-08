@@ -24,15 +24,22 @@ extends CharacterBody3D
 @onready var sketchfab_model: Node3D = $Sketchfab_model
 @onready var enemy_controller: EnemyController = $EnemyController
 @onready var debug_label_health: Label3D = $Debug/DebugLabelHealth
+@onready var smoke_effect_1: Node3D = $SmokeEffect1
+@onready var smoke_effect_2: Node3D = $SmokeEffect2
 # PRIVATE VARS
 var player_vehicle: Node3D = null
 var rng = RandomNumberGenerator.new()
 var is_dead = false
+var curr_vehicle_health = 0
 #endregion
 
 # NODE BUILT-IN FUNCS ============================================
 
 func _ready() -> void:
+	# 1: UI defaults
+	curr_vehicle_health = vehicle_health
+	smoke_effect_1.visible = false
+	smoke_effect_2.visible = false
 	# 1:
 	var player_nodes = get_tree().get_nodes_in_group("player_vehicle")
 	if not player_nodes.is_empty():
@@ -110,14 +117,21 @@ func _handle_damage(amount: int) -> void:
 		return
 	
 	# 1: take damage
-	vehicle_health -= amount
+	curr_vehicle_health -= amount
 	
 	# 2: debug
-	debug_label_health.text = str(vehicle_health)
+	debug_label_health.text = str(curr_vehicle_health)
 	
 	# 3:
-	if vehicle_health <= 0:
+	if curr_vehicle_health <= 0:
 		_handle_die()
+	elif curr_vehicle_health < (vehicle_health * 0.75):
+		smoke_effect_1.visible = true
+		smoke_effect_2.visible = true
+	elif curr_vehicle_health < (vehicle_health * 0.55):
+		pass
+		# TODO: show FIRE
+
 
 func _handle_die() -> void:
 	# ----------------

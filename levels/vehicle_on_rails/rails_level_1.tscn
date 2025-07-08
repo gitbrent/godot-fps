@@ -67,12 +67,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 6.2, -2)
 [node name="Sidewalk" type="Node3D" parent="City_Block/Streetlights"]
 
 [node name="SpotLight3D_1" type="SpotLight3D" parent="City_Block/Streetlights/Sidewalk"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 11.8, 5, 14.8)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 14, 6.5, 11.9)
+light_energy = 5.0
+spot_range = 25.0
+
+[node name="SpotLight3D_3" type="SpotLight3D" parent="City_Block/Streetlights/Sidewalk"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.3, 6.5, 11.7)
 light_energy = 5.0
 spot_range = 25.0
 
 [node name="SpotLight3D_2" type="SpotLight3D" parent="City_Block/Streetlights/Sidewalk"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 24.8, 5, 14.8)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 35.7, 6.5, 11.9)
 light_energy = 5.0
 spot_range = 25.0
 
@@ -125,6 +130,11 @@ spot_range = 25.0
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 103.3, 6.8, -2)
 light_energy = 5.0
 spot_range = 25.0
+
+[node name="OmniLightsL" type="Node3D" parent="City_Block"]
+
+[node name="OmniLight3D1" type="OmniLight3D" parent="City_Block/OmniLightsL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.8, 1.6, -18.4)
 
 [node name="OmniLightsR" type="Node3D" parent="City_Block"]
 
@@ -196,20 +206,45 @@ stream = ExtResource("5_nd8hy")
 
 [node name="Tiggers" type="Node3D" parent="."]
 
-[node name="TriggerArea1" parent="Tiggers" instance=ExtResource("7_elknu")]
+[node name="Side1" type="Node3D" parent="Tiggers"]
+
+[node name="TriggerArea1" parent="Tiggers/Side1" instance=ExtResource("7_elknu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9, 0, 7.4)
 
-[node name="TriggerArea2" parent="Tiggers" instance=ExtResource("7_elknu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.9, 0, 7.4)
+[node name="TriggerArea2" parent="Tiggers/Side1" instance=ExtResource("7_elknu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.8, 0, 7.4)
 
-[node name="TriggerArea3" parent="Tiggers" instance=ExtResource("7_elknu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.9, 0, 7.4)
+[node name="TriggerArea3" parent="Tiggers/Side1" instance=ExtResource("7_elknu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 77.7, 0, 7.4)
+
+[node name="TriggerArea4" parent="Tiggers/Side1" instance=ExtResource("7_elknu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 102.7, 0, 7.4)
+
+[node name="Side2" type="Node3D" parent="Tiggers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14.6)
+
+[node name="TriggerArea1" parent="Tiggers/Side2" instance=ExtResource("7_elknu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9, 0, 7.4)
+
+[node name="TriggerArea2" parent="Tiggers/Side2" instance=ExtResource("7_elknu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.8, 0, 7.4)
+
+[node name="TriggerArea3" parent="Tiggers/Side2" instance=ExtResource("7_elknu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 77.7, 0, 7.4)
+
+[node name="TriggerArea4" parent="Tiggers/Side2" instance=ExtResource("7_elknu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 102.7, 0, 7.4)
 
 [node name="SpawnAreas" type="Node" parent="."]
 
 [node name="SpawnPoint1" type="Marker3D" parent="SpawnAreas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6, 0.1, 7.5)
 
-[connection signal="enemy_truck_triggered" from="Tiggers/TriggerArea1" to="." method="_spawn_enemy_truck_1"]
-[connection signal="enemy_truck_triggered" from="Tiggers/TriggerArea2" to="." method="_spawn_enemy_truck_1"]
-[connection signal="enemy_truck_triggered" from="Tiggers/TriggerArea3" to="." method="_spawn_enemy_truck_1"]
+[connection signal="enemy_truck_triggered" from="Tiggers/Side1/TriggerArea1" to="." method="_spawn_enemy_truck_1"]
+[connection signal="enemy_truck_triggered" from="Tiggers/Side1/TriggerArea2" to="." method="_spawn_enemy_truck_1"]
+[connection signal="enemy_truck_triggered" from="Tiggers/Side1/TriggerArea3" to="." method="_spawn_enemy_truck_1"]
+[connection signal="enemy_truck_triggered" from="Tiggers/Side1/TriggerArea4" to="." method="_spawn_enemy_truck_1"]
+[connection signal="enemy_truck_triggered" from="Tiggers/Side2/TriggerArea1" to="." method="_spawn_enemy_truck_1"]
+[connection signal="enemy_truck_triggered" from="Tiggers/Side2/TriggerArea2" to="." method="_spawn_enemy_truck_1"]
+[connection signal="enemy_truck_triggered" from="Tiggers/Side2/TriggerArea3" to="." method="_spawn_enemy_truck_1"]
+[connection signal="enemy_truck_triggered" from="Tiggers/Side2/TriggerArea4" to="." method="_spawn_enemy_truck_1"]

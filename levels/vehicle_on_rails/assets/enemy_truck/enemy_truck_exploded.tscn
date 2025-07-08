@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=4 uid="uid://bt1mu7p53ntl0"]
+[gd_scene load_steps=28 format=4 uid="uid://bt1mu7p53ntl0"]
 
 [ext_resource type="Texture2D" uid="uid://dkrmdli6ml1vn" path="res://levels/vehicle_on_rails/assets/enemy_truck/model_exp/ToyotaTruckClassic_exploded_Image_0.png" id="1_dh7wv"]
 [ext_resource type="Script" uid="uid://btav4lxxvtb4h" path="res://levels/vehicle_on_rails/assets/enemy_truck/enemy_truck_exploded.gd" id="1_h6qsl"]
 [ext_resource type="Texture2D" uid="uid://d2aeglkeon4yp" path="res://levels/vehicle_on_rails/assets/enemy_truck/model_exp/ToyotaTruckClassic_exploded_Image_1.png" id="2_n0viv"]
 [ext_resource type="Texture2D" uid="uid://lelmeba60vsw" path="res://levels/vehicle_on_rails/assets/enemy_truck/model_exp/ToyotaTruckClassic_exploded_Image_2.jpg" id="3_h6qsl"]
 [ext_resource type="AudioStream" uid="uid://bdtlo8c7esilx" path="res://levels/vehicle_on_rails/assets/enemy_truck/assets/explosion_blowing_up.mp3" id="5_r83ty"]
+[ext_resource type="PackedScene" uid="uid://bt0qqlaedkfko" path="res://vfx/realistic_smoke/smoke_effect.tscn" id="6_r83ty"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1i0r"]
 resource_name = "0-_0-.001"
@@ -244,10 +245,22 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WheelFP/MeshInst3D:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_f0hge"]
 resource_name = "explode"
-length = 5.0
+length = 6.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -255,10 +268,10 @@ tracks/0/path = NodePath("Explosion:playing")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(-0.0333333, 0, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [true, false]
+"values": [false, true, false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -267,8 +280,56 @@ tracks/1/path = NodePath("TruckBody/truck_body_001:transparency")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 3),
+"times": PackedFloat32Array(4, 6),
 "transitions": PackedFloat32Array(1, 0.406126),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WheelFP/MeshInst3D:transparency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(4, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WheelFD/MeshInst3D:transparency")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(4, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("WheelRP/MeshInst3D:transparency")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(4, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("WheelRD/MeshInst3D:transparency")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(4, 6),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.0, 1.0]
 }
@@ -283,6 +344,8 @@ _data = {
 script = ExtResource("1_h6qsl")
 
 [node name="TruckBody" type="RigidBody3D" parent="."]
+collision_layer = 32
+collision_mask = 33
 
 [node name="truck_body_001" type="MeshInstance3D" parent="TruckBody"]
 mesh = SubResource("ArrayMesh_l3qrx")
@@ -291,7 +354,18 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TruckBody"]
 shape = SubResource("ConvexPolygonShape3D_f0hge")
 
+[node name="SmokeEffect" parent="TruckBody" instance=ExtResource("6_r83ty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 1.6)
+
+[node name="Marker3D1" type="Marker3D" parent="TruckBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.9, 1.7)
+
+[node name="Marker3D2" type="Marker3D" parent="TruckBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.9, 1.7)
+
 [node name="WheelFP" type="RigidBody3D" parent="."]
+collision_layer = 32
+collision_mask = 33
 mass = 0.5
 
 [node name="MeshInst3D" type="MeshInstance3D" parent="WheelFP"]
@@ -302,6 +376,8 @@ skeleton = NodePath("")
 shape = SubResource("ConvexPolygonShape3D_dh7wv")
 
 [node name="WheelFD" type="RigidBody3D" parent="."]
+collision_layer = 32
+collision_mask = 33
 
 [node name="MeshInst3D" type="MeshInstance3D" parent="WheelFD"]
 mesh = SubResource("ArrayMesh_s5k3b")
@@ -311,6 +387,8 @@ skeleton = NodePath("")
 shape = SubResource("ConvexPolygonShape3D_n0viv")
 
 [node name="WheelRP" type="RigidBody3D" parent="."]
+collision_layer = 32
+collision_mask = 33
 
 [node name="MeshInst3D" type="MeshInstance3D" parent="WheelRP"]
 mesh = SubResource("ArrayMesh_dmhfp")
@@ -320,6 +398,8 @@ skeleton = NodePath("")
 shape = SubResource("ConvexPolygonShape3D_h6qsl")
 
 [node name="WheelRD" type="RigidBody3D" parent="."]
+collision_layer = 32
+collision_mask = 33
 
 [node name="MeshInst3D" type="MeshInstance3D" parent="WheelRD"]
 mesh = SubResource("ArrayMesh_tnt1h")
@@ -330,6 +410,7 @@ shape = SubResource("ConvexPolygonShape3D_r83ty")
 
 [node name="ExplosionArea3D" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+collision_mask = 37
 
 [node name="CollisionExplosion" type="CollisionShape3D" parent="ExplosionArea3D"]
 shape = SubResource("SphereShape3D_jj00b")

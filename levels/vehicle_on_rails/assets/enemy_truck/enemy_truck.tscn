@@ -1,10 +1,11 @@
-[gd_scene load_steps=57 format=4 uid="uid://bq82ptni5y5nj"]
+[gd_scene load_steps=58 format=4 uid="uid://bq82ptni5y5nj"]
 
 [ext_resource type="Script" uid="uid://cc0bufbdt2ypj" path="res://levels/vehicle_on_rails/assets/enemy_truck/enemy_truck.gd" id="1_l01tv"]
 [ext_resource type="Texture2D" uid="uid://pw7src85aclc" path="res://levels/vehicle_on_rails/assets/enemy_truck/model/toyota-truck-classic-scaled_Image_0.png" id="1_si5ka"]
 [ext_resource type="Texture2D" uid="uid://hs3vvbatbjnl" path="res://levels/vehicle_on_rails/assets/enemy_truck/model/toyota-truck-classic-scaled_Image_1.png" id="2_l01tv"]
 [ext_resource type="Texture2D" uid="uid://dsi3swct73ps3" path="res://levels/vehicle_on_rails/assets/enemy_truck/model/toyota-truck-classic-scaled_Image_2.jpg" id="3_3dv50"]
 [ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy/enemy_controller/enemy_controller.tscn" id="5_3dv50"]
+[ext_resource type="PackedScene" uid="uid://bt0qqlaedkfko" path="res://vfx/realistic_smoke/smoke_effect.tscn" id="6_ut3ca"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l01tv"]
 size = Vector3(1.6, 0.4, 4.7)
@@ -731,7 +732,8 @@ shadow_mesh = SubResource("ArrayMesh_o8csi")
 size = Vector3(1.6, 1, 4.7)
 
 [node name="EnemyTruck" type="CharacterBody3D" groups=["damageable"]]
-collision_mask = 5
+collision_layer = 32
+collision_mask = 37
 script = ExtResource("1_l01tv")
 debug_show_health = true
 
@@ -873,5 +875,13 @@ remote_path = NodePath("../../EnemyController")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 1.2)
 text = "0"
 font_size = 64
+
+[node name="SmokeEffect1" parent="." instance=ExtResource("6_ut3ca")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.8, 2.1)
+visible = false
+
+[node name="SmokeEffect2" parent="." instance=ExtResource("6_ut3ca")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.8, 2.1)
+visible = false
 
 [connection signal="body_entered" from="BulletArea3D" to="." method="_on_area_3d_body_entered"]

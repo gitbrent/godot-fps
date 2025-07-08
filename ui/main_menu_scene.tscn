@@ -329,6 +329,52 @@ theme_override_font_sizes/font_size = 96
 text = "Cover Range"
 vertical_alignment = 1
 
+[node name="BtnRails" type="Button" parent="CanvasLayer/MainContainer/VBoxContainer"]
+process_mode = 3
+custom_minimum_size = Vector2(1000, 175)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRails"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_t8xrk")
+patch_margin_left = 60
+patch_margin_top = 55
+patch_margin_right = 62
+patch_margin_bottom = 50
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRails"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 125
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRails/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRails/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="CanvasLayer/MainContainer/VBoxContainer/BtnRails/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_04p6d")
+theme_override_font_sizes/font_size = 96
+text = "Rails Level"
+vertical_alignment = 1
+
 [node name="LabelFooter" type="Label" parent="CanvasLayer/MainContainer"]
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
@@ -354,3 +400,4 @@ grow_vertical = 2
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/HBoxGallery/BtnEnemy" to="." method="_on_button_enemy_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnRange" to="." method="_on_button_range_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/HBoxRange/BtnCover" to="." method="_on_btn_cover_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainContainer/VBoxContainer/BtnRails" to="." method="_on_btn_rails_pressed"]
