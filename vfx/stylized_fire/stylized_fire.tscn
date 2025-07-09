@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwjkk7gq8tp4r"]
+
+[ext_resource type="Shader" uid="uid://bjffdojcgavao" path="res://vfx/stylized_fire/special_shader.tres" id="1_jbvs1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fla2y"]
+render_priority = 0
+shader = ExtResource("1_jbvs1")
+shader_parameter/Speed = Vector2(0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_tve76"]
+
+[node name="StylizedFire" type="Node3D"]
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.333004, 0)
+material_override = SubResource("ShaderMaterial_fla2y")
+amount = 2
+mesh = SubResource("QuadMesh_tve76")
+gravity = Vector3(0, 0, 0)
+color = Color(4, 0.8, 0, 1)

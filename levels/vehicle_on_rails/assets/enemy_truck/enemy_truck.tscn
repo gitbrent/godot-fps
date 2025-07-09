@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=4 uid="uid://bq82ptni5y5nj"]
+[gd_scene load_steps=59 format=4 uid="uid://bq82ptni5y5nj"]
 
 [ext_resource type="Script" uid="uid://cc0bufbdt2ypj" path="res://levels/vehicle_on_rails/assets/enemy_truck/enemy_truck.gd" id="1_l01tv"]
 [ext_resource type="Texture2D" uid="uid://pw7src85aclc" path="res://levels/vehicle_on_rails/assets/enemy_truck/model/toyota-truck-classic-scaled_Image_0.png" id="1_si5ka"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dsi3swct73ps3" path="res://levels/vehicle_on_rails/assets/enemy_truck/model/toyota-truck-classic-scaled_Image_2.jpg" id="3_3dv50"]
 [ext_resource type="PackedScene" uid="uid://d4bx7rm4wb2ax" path="res://enemy/enemy_controller/enemy_controller.tscn" id="5_3dv50"]
 [ext_resource type="PackedScene" uid="uid://bt0qqlaedkfko" path="res://vfx/realistic_smoke/smoke_effect.tscn" id="6_ut3ca"]
+[ext_resource type="PackedScene" uid="uid://dwjkk7gq8tp4r" path="res://vfx/stylized_fire/stylized_fire.tscn" id="7_vnwhh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l01tv"]
 size = Vector3(1.6, 0.4, 4.7)
@@ -882,6 +883,10 @@ visible = false
 
 [node name="SmokeEffect2" parent="." instance=ExtResource("6_ut3ca")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.8, 2.1)
+visible = false
+
+[node name="StylizedFire" parent="." instance=ExtResource("7_vnwhh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2.1)
 visible = false
 
 [connection signal="body_entered" from="BulletArea3D" to="." method="_on_area_3d_body_entered"]

@@ -26,6 +26,7 @@ extends CharacterBody3D
 @onready var debug_label_health: Label3D = $Debug/DebugLabelHealth
 @onready var smoke_effect_1: Node3D = $SmokeEffect1
 @onready var smoke_effect_2: Node3D = $SmokeEffect2
+@onready var stylized_fire: Node3D = $StylizedFire
 # PRIVATE VARS
 var player_vehicle: Node3D = null
 var rng = RandomNumberGenerator.new()
@@ -40,6 +41,7 @@ func _ready() -> void:
 	curr_vehicle_health = vehicle_health
 	smoke_effect_1.visible = false
 	smoke_effect_2.visible = false
+	stylized_fire.visible = false
 	# 1:
 	var player_nodes = get_tree().get_nodes_in_group("player_vehicle")
 	if not player_nodes.is_empty():
@@ -107,8 +109,15 @@ func _physics_process(delta) -> void:
 		velocity = desired_movement_direction * speed * slowdown_factor
 	else:
 		velocity = Vector3.ZERO
-
+	
+	# FIXME: why is truck rendered low into pavement?
+	#if global_position.y != 0:
+	#	global_position.y = 0
+	
+	# LAST:
 	move_and_slide()
+	
+	# FIXME: print("Y-axis: ", global_position.y)
 
 # CLASS FUNCS =============================================
 
@@ -125,12 +134,11 @@ func _handle_damage(amount: int) -> void:
 	# 3:
 	if curr_vehicle_health <= 0:
 		_handle_die()
-	elif curr_vehicle_health < (vehicle_health * 0.75):
+	if curr_vehicle_health < (vehicle_health * 0.75):
 		smoke_effect_1.visible = true
 		smoke_effect_2.visible = true
-	elif curr_vehicle_health < (vehicle_health * 0.55):
-		pass
-		# TODO: show FIRE
+	if curr_vehicle_health < (vehicle_health * 0.35):
+		stylized_fire.visible = true
 
 
 func _handle_die() -> void:

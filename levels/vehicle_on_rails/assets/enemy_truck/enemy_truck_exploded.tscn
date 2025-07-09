@@ -1,10 +1,11 @@
-[gd_scene load_steps=28 format=4 uid="uid://bt1mu7p53ntl0"]
+[gd_scene load_steps=29 format=4 uid="uid://bt1mu7p53ntl0"]
 
 [ext_resource type="Texture2D" uid="uid://dkrmdli6ml1vn" path="res://levels/vehicle_on_rails/assets/enemy_truck/model_exp/ToyotaTruckClassic_exploded_Image_0.png" id="1_dh7wv"]
 [ext_resource type="Script" uid="uid://btav4lxxvtb4h" path="res://levels/vehicle_on_rails/assets/enemy_truck/enemy_truck_exploded.gd" id="1_h6qsl"]
 [ext_resource type="Texture2D" uid="uid://d2aeglkeon4yp" path="res://levels/vehicle_on_rails/assets/enemy_truck/model_exp/ToyotaTruckClassic_exploded_Image_1.png" id="2_n0viv"]
 [ext_resource type="Texture2D" uid="uid://lelmeba60vsw" path="res://levels/vehicle_on_rails/assets/enemy_truck/model_exp/ToyotaTruckClassic_exploded_Image_2.jpg" id="3_h6qsl"]
 [ext_resource type="AudioStream" uid="uid://bdtlo8c7esilx" path="res://levels/vehicle_on_rails/assets/enemy_truck/assets/explosion_blowing_up.mp3" id="5_r83ty"]
+[ext_resource type="PackedScene" uid="uid://dwjkk7gq8tp4r" path="res://vfx/stylized_fire/stylized_fire.tscn" id="6_f0hge"]
 [ext_resource type="PackedScene" uid="uid://bt0qqlaedkfko" path="res://vfx/realistic_smoke/smoke_effect.tscn" id="6_r83ty"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1i0r"]
@@ -362,6 +363,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.9, 1.7)
 
 [node name="Marker3D2" type="Marker3D" parent="TruckBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.9, 1.7)
+
+[node name="StylizedFire" parent="TruckBody" instance=ExtResource("6_f0hge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 1, 1.8)
 
 [node name="WheelFP" type="RigidBody3D" parent="."]
 collision_layer = 32
