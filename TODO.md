@@ -2,6 +2,7 @@
 
 ## CHANGELOG: Version-0.2
 
+[ ] - vehicle-on-rails level (vehicle on Path3D)
 [x] - UPDATED: player damage flash to use high-quality png with strong edges (e.g., Doom or CoD)
 [x] - ADDED: adjusted position/size of enemy CollisionShape for crouch/stand
 [WIP] - ADDED: create `CoverPoint` scene - work on enemy AI cover
@@ -9,16 +10,11 @@
 [ ] - ^^^ first thing: reload animation (https://www.youtube.com/watch?v=WY2cN9uG6W8)
 [ ] - continue AI by having it effectively switch staes like patrol/attack/idle
 
-## SIDE-TRACKS
-
-[ ] - vehicle-on-rails level (vehicle on Path3D)
-[ ] --> enemy_truck has 3 particles: smoke at 33%, fire at 66%, explodes at 100%
-[ ] --> why dont enemies show death animation in truck?
-
 ## FIXME
 
 [ ] - give enemies their own bullet Layer (so they dont shoot themselves) (same for player)
 [ ] - fix/enable laser sight
+[ ] = StylizedFire only looks good when fixed (moving with Nodes is janky)
 
 ## New Features: Future
 
